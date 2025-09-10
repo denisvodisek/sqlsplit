@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+    <link rel="apple-touch-icon" href="./favicon.png" />
+
+    <!-- SEO Tags -->
+    <title>SQL Splitter - Split Large .sql & .gz Files Online | Free Tool</title>
+    <meta
+      name="description"
+      content="Frustrated by SQL import timeouts? Our free, secure online tool splits any large SQL file (.sql, .gz) into manageable chunks right in your browser. No uploads, 100% private."
+    />
+    <meta
+      name="keywords"
+      content="SQL splitter, database splitter, SQL file split, large SQL files, MySQL splitter, database import, phpMyAdmin timeout, SQL dump splitter, free SQL tool"
+    />
+    <meta name="google-adsense-account" content="ca-pub-4524750683541633" />
+    <meta name="author" content="SQLSplit.com" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://sqlsplit.com" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sqlsplit.com" />
+    <meta property="og:title" content="SQL Splitter - Split Large .sql & .gz Files Online" />
+    <meta
+      property="og:description"
+      content="Free, secure online tool to split large SQL files into manageable chunks. No uploads, 100% private processing in your browser."
+    />
+    <meta property="og:image" content="./og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://sqlsplit.com" />
+    <meta property="twitter:title" content="SQL Splitter - Split Large .sql & .gz Files Online" />
+    <meta
+      property="twitter:description"
+      content="Free, secure online tool to split large SQL files into manageable chunks. No uploads, 100% private processing in your browser."
+    />
+    <meta property="twitter:image" content="./og-image.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SQL Splitter",
+        "description": "Free online tool to split large SQL files into manageable chunks",
+        "url": "https://sqlsplit.com",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Split SQL files by line count or file size",
+          "Support for .sql and .gz files",
+          "100% private - no file uploads",
+          "Intelligent splitting logic",
+          "Download all chunks as ZIP"
+        ]
+      }
+    </script>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "t8fkonxuai");
+    </script>
+
+    <!-- Google AdSense -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4524750683541633"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+    <!-- Dependencies: pako for Gzip, jszip for Zipping, prism for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+      xintegrity="sha512-7Z9E0VsaA2wuiwDonad8dIal4QY9abL5w+torNaS7KnjIOGXFQ5EiM9a3Vb6lQ2LsfzEuO0i6bItrALEcgA7Ig=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"
+      xintegrity="sha512-qM3hKj5GuaSSfIKMfrO1G0sMAlK96rfpsGSAo9m1pG81i4KOFDDlcEeB90mS2s7NlbxScguLZe23No2b2w+FgA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      xintegrity="sha512-vswe+cgvic/XBoF1OcM/TeJ2UJCowEB2iE6AmmolAOiIpC-bP3OJLOPiKi5bURS28sswBBOIUuWDE8Iuat0+MA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8f9fa;
+        background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23d1d5db" fill-opacity="0.2"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+      }
+      html.dark body {
+        background-color: #111827;
+        background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        border: 1px solid rgba(209, 213, 219, 0.3);
+        transition: all 0.3s ease;
+      }
+      html.dark .glass-card {
+        background: rgba(31, 41, 55, 0.6);
+        border: 1px solid rgba(75, 85, 99, 0.3);
+      }
+      .loader {
+        border: 4px solid #9ca3af;
+        border-top: 4px solid #6366f1;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      pre[class*="language-"] {
+        @apply rounded-lg border border-gray-200 dark:border-gray-700 text-sm;
+      }
+    </style>
+  </head>
+  <body class="text-gray-800 dark:text-gray-200 flex flex-col items-center min-h-screen transition-colors duration-300">
+    <header class="w-full max-w-5xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-gray-800 dark:text-white">SQLSplit.com</h1>
+      <div class="flex items-center space-x-3">
+        <!-- Donate Button -->
+        <a
+          href="https://www.paypal.com/donate/?business=5BKF4C8E2L58W&no_recurring=0&currency_code=USD"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            />
+          </svg>
+          <span class="font-semibold">Support Me</span>
+        </a>
+        <!-- Theme Toggle -->
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-full bg-gray-200/50 dark:bg-gray-800/50 text-indigo-600 dark:text-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-300/50 dark:hover:bg-gray-700/50 transition-colors"
+        >
+          <svg id="theme-icon-light" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            ></path>
+          </svg>
+          <svg id="theme-icon-dark" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="w-full max-w-3xl mx-auto px-4 py-8">
+      <div class="glass-card rounded-2xl shadow-2xl p-6 sm:p-8 w-full" id="main-card">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl sm:text-4xl font-bold text-black dark:text-white mt-4 tracking-tight">
+            SQL File Splitter
+          </h2>
+          <p class="text-gray-600 dark:text-gray-400 mt-2">The secure, browser-based tool to slice large SQL files.</p>
+        </div>
+
+        <!-- Main Form -->
+        <div class="space-y-6">
+          <!-- File Upload -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >1. Choose your .sql or .gz file</label
+            >
+            <label
+              for="sql-file"
+              class="flex flex-col items-center justify-center w-full min-h-[8rem] border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-800/50 transition p-4"
+            >
+              <div id="upload-prompt" class="flex flex-col items-center justify-center text-center">
+                <svg
+                  class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span class="font-semibold">Click to upload</span> or drag and drop
+                </p>
+              </div>
+              <div id="file-info-container" class="hidden text-center">
+                <svg
+                  class="w-10 h-10 mx-auto mb-3 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <p class="font-semibold text-gray-800 dark:text-gray-200" id="file-info-name"></p>
+                <p class="text-sm text-gray-500 dark:text-gray-400" id="file-info-size"></p>
+              </div>
+              <input id="sql-file" type="file" class="hidden" accept=".sql,.gz" />
+            </label>
+          </div>
+          <!-- SQL Preview -->
+          <div id="preview-container" class="hidden">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 font-semibold"
+              >File Header Preview</label
+            >
+            <pre class="max-h-40 overflow-auto"><code id="preview-code" class="language-sql"></code></pre>
+          </div>
+          <!-- Split Options -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">2. Split by</label>
+            <div class="flex rounded-md shadow-sm">
+              <button
+                id="split-by-lines-btn"
+                class="relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-l-md text-white bg-indigo-600 z-10"
+              >
+                Lines
+              </button>
+              <button
+                id="split-by-size-btn"
+                class="relative inline-flex items-center space-x-2 px-4 py-2 border-t border-b border-r border-gray-300 dark:border-gray-600 text-sm font-medium rounded-r-md text-gray-800 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Size (MB)
+              </button>
+            </div>
+            <input
+              type="number"
+              id="chunk-value"
+              value="10000"
+              class="mt-2 block w-full px-4 py-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700/50 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="chunk-helper-text">Min 5,000 lines.</p>
+          </div>
+
+          <div>
+            <label for="base-filename" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >3. Output Filename Prefix</label
+            >
+            <input
+              type="text"
+              id="base-filename"
+              class="block w-full px-4 py-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700/50 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="e.g., my_database_dump"
+            />
+          </div>
+
+          <button
+            id="split-button"
+            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 px-4 rounded-lg hover:shadow-xl transform hover:scale-105 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:from-indigo-400 disabled:to-purple-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+          >
+            Split File
+          </button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-8">
+          <div id="loader" class="hidden mx-auto loader"></div>
+          <div id="download-links-container" class="space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- Google AdSense - Responsive Ad -->
+      <div class="mt-8 text-center">
+        <ins
+          class="adsbygoogle"
+          style="display: block"
+          data-ad-client="ca-pub-4524750683541633"
+          data-ad-slot="YOUR_AD_SLOT_ID"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <!-- Use Cases Section -->
+      <div class="mt-16">
+        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Common Use Cases</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Use Case 1 -->
+          <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white ml-3">Website Migration</h4>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Moving your WordPress, Drupal, or custom site to a new host? Split large database dumps to avoid import
+              timeouts and ensure successful migration.
+            </p>
+          </div>
+
+          <!-- Use Case 2 -->
+          <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-green-600 dark:text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white ml-3">Development Setup</h4>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Setting up local development environments with production data. Split large dumps to import incrementally
+              and avoid memory issues.
+            </p>
+          </div>
+
+          <!-- Use Case 3 -->
+          <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-purple-600 dark:text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white ml-3">Database Backup</h4>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Creating manageable backups of large databases. Split exports for easier storage, transfer, and selective
+              restoration of data.
+            </p>
+          </div>
+
+          <!-- Use Case 4 -->
+          <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-orange-600 dark:text-orange-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white ml-3">E-commerce Migration</h4>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Moving WooCommerce, Magento, or Shopify databases. Handle large product catalogs and customer data without
+              import failures.
+            </p>
+          </div>
+
+          <!-- Use Case 5 -->
+          <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-red-600 dark:text-red-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white ml-3">Staging Environment</h4>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Creating staging sites with production data. Split large databases to deploy realistic test environments
+              without overwhelming server resources.
+            </p>
+          </div>
+
+          <!-- Use Case 6 -->
+          <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+              </div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white ml-3">Data Analysis</h4>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Working with large datasets for analysis. Split massive SQL exports to process data in manageable chunks
+              for better performance.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google AdSense - Banner Ad -->
+      <div class="mt-12 text-center">
+        <ins
+          class="adsbygoogle"
+          style="display: block"
+          data-ad-client="ca-pub-4524750683541633"
+          data-ad-slot="YOUR_BANNER_AD_SLOT_ID"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <!-- SEO and Content Section -->
+      <div class="mt-16 space-y-12 text-gray-700 dark:text-gray-300">
+        <section>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Why Do You Need an SQL Splitter?</h3>
+          <p class="mb-4">
+            Working with large SQL database dumps is a common challenge for developers. Whether you're migrating a
+            website, setting up a local development environment, or just backing up data, you've likely encountered the
+            dreaded <b>import timeout error</b>. Web-based tools like phpMyAdmin or Adminer have strict limits on file
+            size and script execution time. Trying to upload a file that's hundreds of megabytes (or even gigabytes)
+            will almost always fail.
+          </p>
+          <p>
+            This tool solves that problem by breaking your massive SQL file into smaller, independent chunks that can be
+            uploaded one by one without hitting server limits.
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Our Tool Over Others?</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-green-500 mr-3 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+              </svg>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-100">100% Secure and Private</h4>
+                <p>
+                  Unlike other online tools, our splitter runs entirely in your browser. Your SQL file is
+                  <b>never uploaded to a server</b>. All processing happens locally on your computer, guaranteeing the
+                  privacy of your sensitive data.
+                </p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-green-500 mr-3 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-100">Intelligent Splitting Logic</h4>
+                <p>
+                  A simple split can break your SQL. Our tool is smart: it never splits in the middle of a multi-line
+                  `INSERT` statement and automatically copies the necessary header/footer statements to each chunk,
+                  preventing common session and character set errors.
+                </p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-green-500 mr-3 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
+              <div>
+                <h4 class="font-semibold text-gray-800 dark:text-gray-100">Feature-Packed for Developers</h4>
+                <p>
+                  We support `.sql` and compressed `.gz` files, offer splitting by line count or file size, and provide
+                  a "Download All as ZIP" feature to streamline your workflow. It's built for efficiency.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="w-full max-w-3xl mx-auto mt-16 mb-8 text-center text-gray-500 dark:text-gray-400 text-sm px-4">
+      <p>&copy; 2025 SQLSplit. All Rights Reserved.</p>
+      <p class="mt-1">A free tool for developers. Your files are processed securely in your browser.</p>
+    </footer>
+
+    <!-- Custom Error Modal -->
+    <div id="error-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md text-center">
+        <h3 class="text-lg font-medium text-red-600 dark:text-red-400">An Error Occurred</h3>
+        <p id="error-message" class="mt-2 text-sm text-gray-600 dark:text-gray-400"></p>
+        <button id="close-modal-btn" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+          Close
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // --- ELEMENTS ---
+      const fileInput = document.getElementById("sql-file");
+      const splitButton = document.getElementById("split-button");
+      const loader = document.getElementById("loader");
+      const downloadLinksContainer = document.getElementById("download-links-container");
+      const chunkValueInput = document.getElementById("chunk-value");
+      const chunkHelperText = document.getElementById("chunk-helper-text");
+      const splitByLinesBtn = document.getElementById("split-by-lines-btn");
+      const splitBySizeBtn = document.getElementById("split-by-size-btn");
+      const baseFilenameInput = document.getElementById("base-filename");
+      const uploadPrompt = document.getElementById("upload-prompt");
+      const fileInfoContainer = document.getElementById("file-info-container");
+      const fileInfoName = document.getElementById("file-info-name");
+      const fileInfoSize = document.getElementById("file-info-size");
+      const previewContainer = document.getElementById("preview-container");
+      const previewCode = document.getElementById("preview-code");
+      // Error Modal
+      const errorModal = document.getElementById("error-modal");
+      const errorMessage = document.getElementById("error-message");
+      const closeModalBtn = document.getElementById("close-modal-btn");
+      // Theme Toggle
+      const themeToggle = document.getElementById("theme-toggle");
+      const lightIcon = document.getElementById("theme-icon-light");
+      const darkIcon = document.getElementById("theme-icon-dark");
+
+      // --- STATE ---
+      let selectedFile = null;
+      let splitMode = "lines"; // 'lines' or 'size'
+
+      // --- INITIALIZATION ---
+      // Initialize dark mode from localStorage
+      function initializeTheme() {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add("dark");
+          lightIcon.classList.remove("hidden");
+          darkIcon.classList.add("hidden");
+        } else {
+          document.documentElement.classList.remove("dark");
+          lightIcon.classList.add("hidden");
+          darkIcon.classList.remove("hidden");
+        }
+      }
+
+      // Initialize theme on page load
+      initializeTheme();
+
+      // --- CONSTANTS ---
+      const MIN_LINES = 5000;
+      const MIN_SIZE_MB = 1;
+
+      // --- EVENT LISTENERS ---
+
+      // File Selection
+      fileInput.addEventListener("change", async (event) => {
+        selectedFile = event.target.files[0];
+        if (selectedFile) {
+          uploadPrompt.classList.add("hidden");
+          const fileSize = (selectedFile.size / 1024 / 1024).toFixed(2);
+          fileInfoName.textContent = selectedFile.name;
+          fileInfoSize.textContent = `(${fileSize} MB)`;
+          fileInfoContainer.classList.remove("hidden");
+          const originalFileName = selectedFile.name.replace(/\.(sql|gz)$/i, "");
+          baseFilenameInput.value = originalFileName;
+          await updatePreview(selectedFile);
+        } else {
+          uploadPrompt.classList.remove("hidden");
+          fileInfoContainer.classList.add("hidden");
+          previewContainer.classList.add("hidden");
+          baseFilenameInput.value = "";
+        }
+      });
+
+      // Main Split Button
+      splitButton.addEventListener("click", handleSplitFile);
+
+      // Split Mode Toggle
+      splitByLinesBtn.addEventListener("click", () => setSplitMode("lines"));
+      splitBySizeBtn.addEventListener("click", () => setSplitMode("size"));
+
+      // Theme Toggle
+      themeToggle.addEventListener("click", toggleTheme);
+
+      // Error Modal
+      closeModalBtn.addEventListener("click", () => errorModal.classList.add("hidden"));
+
+      // --- FUNCTIONS ---
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorModal.classList.remove("hidden");
+        errorModal.classList.add("flex");
+      }
+
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.contains("dark");
+
+        if (isDark) {
+          document.documentElement.classList.remove("dark");
+          lightIcon.classList.add("hidden");
+          darkIcon.classList.remove("hidden");
+          localStorage.setItem("theme", "light");
+        } else {
+          document.documentElement.classList.add("dark");
+          lightIcon.classList.remove("hidden");
+          darkIcon.classList.add("hidden");
+          localStorage.setItem("theme", "dark");
+        }
+      }
+
+      function setSplitMode(mode) {
+        splitMode = mode;
+        if (mode === "lines") {
+          splitByLinesBtn.classList.add("bg-indigo-600", "text-white", "z-10");
+          splitByLinesBtn.classList.remove("bg-gray-50", "dark:bg-gray-800", "text-gray-800", "dark:text-gray-300");
+          splitBySizeBtn.classList.remove("bg-indigo-600", "text-white", "z-10");
+          splitBySizeBtn.classList.add("bg-gray-50", "dark:bg-gray-800", "text-gray-800", "dark:text-gray-300");
+          chunkValueInput.value = MIN_LINES;
+          chunkHelperText.textContent = `Min ${MIN_LINES} lines.`;
+        } else {
+          splitBySizeBtn.classList.add("bg-indigo-600", "text-white", "z-10");
+          splitBySizeBtn.classList.remove("bg-gray-50", "dark:bg-gray-800", "text-gray-800", "dark:text-gray-300");
+          splitByLinesBtn.classList.remove("bg-indigo-600", "text-white", "z-10");
+          splitByLinesBtn.classList.add("bg-gray-50", "dark:bg-gray-800", "text-gray-800", "dark:text-gray-300");
+          chunkValueInput.value = 10; // Default to 10MB
+          chunkHelperText.textContent = `Min ${MIN_SIZE_MB} MB.`;
+        }
+      }
+
+      async function updatePreview(file) {
+        try {
+          const buffer = await file.slice(0, 5000).arrayBuffer(); // Read first 5KB for preview
+          let content;
+          if (file.name.toLowerCase().endsWith(".gz")) {
+            const decompressed = pako.inflate(new Uint8Array(buffer), { to: "string" });
+            content = decompressed;
+          } else {
+            content = new TextDecoder().decode(buffer);
+          }
+          previewCode.textContent = content.split("\n").slice(0, 50).join("\n"); // Show max 50 lines
+          Prism.highlightElement(previewCode);
+          previewContainer.classList.remove("hidden");
+        } catch (e) {
+          console.warn("Could not generate preview:", e);
+          previewContainer.classList.add("hidden");
+        }
+      }
+
+      async function handleSplitFile() {
+        if (!selectedFile) {
+          showError("Please select a file first.");
+          return;
+        }
+
+        const chunkValue = parseInt(chunkValueInput.value, 10);
+        if (
+          isNaN(chunkValue) ||
+          (splitMode === "lines" && chunkValue < MIN_LINES) ||
+          (splitMode === "size" && chunkValue < MIN_SIZE_MB)
+        ) {
+          const min = splitMode === "lines" ? MIN_LINES : MIN_SIZE_MB;
+          showError(`Please enter a valid number. Minimum is ${min}.`);
+          return;
+        }
+
+        const baseFileName = baseFilenameInput.value.trim();
+        if (!baseFileName) {
+          showError("Please provide an output filename prefix.");
+          return;
+        }
+
+        // --- UI Update: Start Processing ---
+        splitButton.disabled = true;
+        splitButton.textContent = "Processing...";
+        loader.classList.remove("hidden");
+        downloadLinksContainer.innerHTML = "";
+
+        try {
+          const buffer = await selectedFile.arrayBuffer();
+          let fileContent;
+          if (selectedFile.name.toLowerCase().endsWith(".gz")) {
+            fileContent = pako.inflate(new Uint8Array(buffer), { to: "string" });
+          } else {
+            fileContent = new TextDecoder().decode(buffer);
+          }
+
+          const lines = fileContent.split("\n");
+          const chunks =
+            splitMode === "lines"
+              ? splitByLineCount(lines, chunkValue)
+              : splitByByteSize(lines, chunkValue * 1024 * 1024); // Convert MB to Bytes
+
+          displayDownloadLinks(chunks, baseFileName);
+        } catch (error) {
+          console.error("Error processing file:", error);
+          showError("An error occurred. The file might be corrupted or in an unsupported format.");
+        } finally {
+          // --- UI Update: End Processing ---
+          splitButton.disabled = false;
+          splitButton.textContent = "Split File";
+          loader.classList.add("hidden");
+        }
+      }
+
+      // --- SPLITTING LOGIC ---
+
+      function getHeaderAndFooter(lines) {
+        const headerLines = [];
+        const footerLines = [];
+
+        // Collect header lines (SET statements, comments, etc.)
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (
+            trimmed.startsWith("SET") ||
+            trimmed.startsWith("/*!") ||
+            trimmed.startsWith("--") ||
+            trimmed.startsWith("/*") ||
+            trimmed === "" ||
+            trimmed.startsWith("CREATE DATABASE") ||
+            trimmed.startsWith("USE ")
+          ) {
+            headerLines.push(line);
+          } else break;
+        }
+
+        // Collect footer lines (comments, dump completion messages)
+        for (let i = lines.length - 1; i >= 0; i--) {
+          const trimmed = lines[i].trim();
+          if (
+            trimmed.startsWith("/*!") ||
+            trimmed.startsWith("--") ||
+            trimmed.startsWith("/*") ||
+            trimmed === "" ||
+            trimmed.toLowerCase().includes("dump completed") ||
+            trimmed.toLowerCase().includes("completed on")
+          ) {
+            footerLines.unshift(lines[i]);
+          } else break;
+        }
+
+        // Create safe header with proper character set handling
+        let safeHeader;
+        if (headerLines.length > 0) {
+          // Clean the original header of problematic statements
+          const cleanHeaderLines = headerLines.filter((line) => {
+            const trimmed = line.trim();
+            return (
+              !trimmed.includes("@OLD_CHARACTER_SET_CLIENT") &&
+              !trimmed.includes("@OLD_CHARACTER_SET_RESULTS") &&
+              !trimmed.includes("@OLD_COLLATION_CONNECTION") &&
+              !trimmed.includes("CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT") &&
+              !trimmed.includes("CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS") &&
+              !trimmed.includes("COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION")
+            );
+          });
+          safeHeader = cleanHeaderLines.join("\n");
+        } else {
+          safeHeader = `-- SQL Splitter Generated Header
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";`;
+        }
+
+        const safeFooter =
+          footerLines.length > 0
+            ? footerLines.join("\n")
+            : `-- SQL Splitter Generated Footer
+SET FOREIGN_KEY_CHECKS = 1;
+COMMIT;`;
+
+        return { header: safeHeader, footer: safeFooter };
+      }
+
+      function splitByLineCount(lines, maxLines) {
+        const chunks = [];
+        let currentChunk = [];
+        for (const line of lines) {
+          currentChunk.push(line);
+          if (currentChunk.length >= maxLines && line.trim().endsWith(";")) {
+            chunks.push(currentChunk.join("\n"));
+            currentChunk = [];
+          }
+        }
+        if (currentChunk.length) chunks.push(currentChunk.join("\n"));
+        return wrapChunks(chunks, lines);
+      }
+
+      function splitByByteSize(lines, maxBytes) {
+        const chunks = [];
+        let currentChunk = [];
+        let currentChunkSize = 0;
+        const encoder = new TextEncoder();
+
+        for (const line of lines) {
+          const lineBytes = encoder.encode(line).length;
+          if (
+            currentChunk.length > 0 &&
+            currentChunkSize + lineBytes > maxBytes &&
+            currentChunk[currentChunk.length - 1].trim().endsWith(";")
+          ) {
+            chunks.push(currentChunk.join("\n"));
+            currentChunk = [];
+            currentChunkSize = 0;
+          }
+          currentChunk.push(line);
+          currentChunkSize += lineBytes;
+        }
+        if (currentChunk.length) chunks.push(currentChunk.join("\n"));
+        return wrapChunks(chunks, lines);
+      }
+
+      function wrapChunks(chunks, originalLines) {
+        if (chunks.length <= 1) return chunks;
+        const { header, footer } = getHeaderAndFooter(originalLines);
+        const headerLines = header.split("\n");
+        const footerLines = footer.split("\n");
+
+        return chunks.map((chunk, index) => {
+          // Clean the chunk content by removing original header/footer lines and problematic SET statements
+          const contentLines = chunk.split("\n").filter((line) => {
+            const trimmed = line.trim();
+
+            // Skip if it's a header or footer line
+            if (
+              headerLines.some((headerLine) => headerLine.trim() === trimmed) ||
+              footerLines.some((footerLine) => footerLine.trim() === trimmed)
+            ) {
+              return false;
+            }
+
+            // Skip problematic character set and collation statements
+            if (
+              trimmed.startsWith("SET @OLD_CHARACTER_SET_CLIENT") ||
+              trimmed.startsWith("SET @OLD_CHARACTER_SET_RESULTS") ||
+              trimmed.startsWith("SET @OLD_COLLATION_CONNECTION") ||
+              trimmed.startsWith("SET CHARACTER_SET_CLIENT") ||
+              trimmed.startsWith("SET CHARACTER_SET_RESULTS") ||
+              trimmed.startsWith("SET COLLATION_CONNECTION") ||
+              trimmed.includes("@OLD_CHARACTER_SET_CLIENT") ||
+              trimmed.includes("@OLD_CHARACTER_SET_RESULTS") ||
+              trimmed.includes("@OLD_COLLATION_CONNECTION") ||
+              trimmed.includes("CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT") ||
+              trimmed.includes("CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS") ||
+              trimmed.includes("COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION")
+            ) {
+              return false;
+            }
+
+            return true;
+          });
+
+          // Create a clean chunk with safe header and footer
+          const cleanContent = contentLines.join("\n");
+          return `${header}\n\n${cleanContent}\n\n${footer}`;
+        });
+      }
+
+      // --- DISPLAY RESULTS ---
+
+      function displayDownloadLinks(chunks, baseFileName) {
+        if (chunks.length === 0) {
+          downloadLinksContainer.innerHTML =
+            '<p class="text-center text-gray-600 dark:text-gray-400">No content found to split.</p>';
+          return;
+        }
+
+        const header = document.createElement("h3");
+        header.className = "text-lg font-semibold text-center mb-4 text-gray-900 dark:text-white";
+        header.textContent = `Success! Created ${chunks.length} files.`;
+        downloadLinksContainer.appendChild(header);
+
+        // Download All Button
+        const downloadAllBtn = document.createElement("button");
+        downloadAllBtn.className =
+          "w-full mb-4 bg-gradient-to-r from-green-500 to-teal-500 text-white font-bold py-2 px-4 rounded-lg hover:shadow-xl transform hover:scale-105 transition";
+        downloadAllBtn.textContent = "Download All as .zip";
+        downloadAllBtn.onclick = () => downloadAllAsZip(chunks, baseFileName);
+        downloadLinksContainer.appendChild(downloadAllBtn);
+
+        chunks.forEach((chunk, index) => {
+          const blob = new Blob([chunk], { type: "application/sql" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${baseFileName}_part_${index + 1}.sql`;
+          link.className =
+            "block w-full bg-gray-100 dark:bg-gray-700 p-3 rounded-lg text-indigo-700 dark:text-indigo-400 font-medium text-center hover:bg-gray-200 dark:hover:bg-gray-600 transition";
+          link.textContent = `Download Part ${index + 1}`;
+          downloadLinksContainer.appendChild(link);
+        });
+      }
+
+      async function downloadAllAsZip(chunks, baseFileName) {
+        const zip = new JSZip();
+        chunks.forEach((chunk, index) => {
+          zip.file(`${baseFileName}_part_${index + 1}.sql`, chunk);
+        });
+
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(zipBlob);
+        link.download = `${baseFileName}_chunks.zip`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+    </script>
+  </body>
+</html>
