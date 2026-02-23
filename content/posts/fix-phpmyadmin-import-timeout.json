@@ -1,0 +1,317 @@
+{
+  "slug": "fix-phpmyadmin-import-timeout",
+  "title": "How to Fix phpMyAdmin Import Timeout (The Complete Guide)",
+  "description": "Learn why phpMyAdmin times out and 4 proven methods to fix it, including splitting large SQL files.",
+  "date": "2025-02-23",
+  "readTime": "12 min read",
+  "author": "SQLSplit Team",
+  "category": "Troubleshooting",
+  "tags": ["phpMyAdmin", "MySQL", "database", "import", "timeout"],
+  "featured": true,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "If you've ever tried importing a large SQL file into phpMyAdmin, you've probably hit the dreaded timeout error. This guide covers why it happens and 4 proven methods to fix it — from quick configuration tweaks to splitting your database into manageable chunks."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why phpMyAdmin Times Out (The Real Reasons)"
+    },
+    {
+      "type": "paragraph",
+      "text": "phpMyAdmin is a web application written in PHP, and like all PHP applications, it's constrained by server configuration limits. When you import a large SQL file, three specific limits come into play:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "**max_execution_time** — How long a PHP script can run (default: 30 seconds)",
+        "**upload_max_filesize** — Maximum file upload size (default: 2MB)",
+        "**memory_limit** — How much RAM PHP can use (default: 128MB)"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "When your import hits any of these limits, phpMyAdmin stops dead. The frustrating part? You might see different error messages depending on which limit you hit:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "\"Fatal error: Maximum execution time exceeded\"",
+        "\"The uploaded file exceeds the upload_max_filesize directive\"",
+        "\"504 Gateway Timeout\"",
+        "Or simply: a blank white screen"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 1: Increase PHP Limits (The Quick Fix)"
+    },
+    {
+      "type": "paragraph",
+      "text": "The fastest solution is to increase PHP's limits. This works for moderately large files (up to ~100MB), but shared hosting providers often block these changes."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "For cPanel Users"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Log into cPanel",
+        "Find \"Select PHP Version\" or \"MultiPHP INI Editor\"",
+        "Increase these values:\n   - max_execution_time = 300\n   - max_input_time = 300\n   - memory_limit = 512M\n   - post_max_size = 512M\n   - upload_max_filesize = 512M",
+        "Save and restart PHP"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "For XAMPP/MAMP Users"
+    },
+    {
+      "type": "paragraph",
+      "text": "Edit your php.ini file:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "# Windows: C:\\xampp\\php\\php.ini\n# Mac: /Applications/MAMP/bin/php/php8.x.x/conf/php.ini\n\nmax_execution_time = 300\nmax_input_time = 300\nmemory_limit = 512M\npost_max_size = 512M\nupload_max_filesize = 512M"
+    },
+    {
+      "type": "paragraph",
+      "text": "Then restart Apache."
+    },
+    {
+      "type": "callout",
+      "variant": "note",
+      "text": "**Note:** On shared hosting, you may not have access to php.ini. Try creating a php.ini or .user.ini file in your public_html folder with these values. If that doesn't work, contact your host or use Method 2 below."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 2: Split Your SQL File (RECOMMENDED)"
+    },
+    {
+      "type": "paragraph",
+      "text": "For files over 100MB — or when you can't change PHP limits — splitting your SQL file is the most reliable solution. Instead of one massive import, you get several smaller files that import quickly and reliably."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "How to Split Your SQL File"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Go to [SQLSplit](/)",
+        "Upload your .sql or .gz file",
+        "Choose your split method:\n   - **By Lines:** 10,000 lines per file (good for most cases)\n   - **By Size:** 10MB per file (matches phpMyAdmin limits)",
+        "Download the split files",
+        "Import each file into phpMyAdmin, one at a time"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Why This Works"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Each small file imports in seconds, not minutes",
+        "No timeout risk",
+        "If one chunk fails, you don't lose everything",
+        "Works on any host, even restrictive shared hosting"
+      ]
+    },
+    {
+      "type": "callout",
+      "variant": "highlight",
+      "text": "**Privacy Note:** SQLSplit runs entirely in your browser. Your database never leaves your computer — we don't have a server that processes your files. This is crucial when working with sensitive data."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 3: Use the MySQL Command Line"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you have SSH access to your server, the command line is the fastest and most reliable method. No file size limits, no timeouts."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Import via Command Line"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u username -p database_name < your_file.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "You'll be prompted for your password. Then wait — large imports can take minutes or hours, but they won't time out."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "For Compressed Files"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# For .gz files\ngunzip < your_file.sql.gz | mysql -u username -p database_name\n\n# For .zip files\nunzip -p your_file.sql.zip | mysql -u username -p database_name"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Pros and Cons"
+    },
+    {
+      "type": "table",
+      "headers": ["Pros", "Cons"],
+      "rows": [
+        ["No file size limits", "Requires SSH access"],
+        ["No timeouts", "Command line knowledge needed"],
+        ["Fastest method", "No progress bar"]
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 4: BigDump.php (Not Recommended)"
+    },
+    {
+      "type": "paragraph",
+      "text": "You might find tutorials recommending BigDump.php — a PHP script that imports large SQL files in chunks. While it works, we don't recommend it for security reasons:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Last updated in 2015 (10 years ago)",
+        "No longer maintained",
+        "Potential security vulnerabilities",
+        "Requires uploading the script to your server"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Use one of the other three methods instead."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "FAQ"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "What size is too big for phpMyAdmin?"
+    },
+    {
+      "type": "paragraph",
+      "text": "It depends on your server configuration, but generally:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "**Under 10MB:** Usually works fine",
+        "**10-50MB:** May need PHP limit increases",
+        "**50-500MB:** Split the file or use command line",
+        "**Over 500MB:** Command line strongly recommended"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Will splitting my SQL file break my database?"
+    },
+    {
+      "type": "paragraph",
+      "text": "No — if you use a proper SQL splitter. SQLSplit preserves your database structure, including headers (SET statements, character sets) and footers. Each chunk is a valid SQL file that can be imported independently."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "How long should a database import take?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Rough estimates:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "10MB: 30 seconds - 2 minutes",
+        "100MB: 2-10 minutes",
+        "1GB: 10-60 minutes",
+        "10GB: 1-6 hours"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Factors affecting speed: server CPU, disk I/O, network speed, number of indexes, and INSERT statement complexity."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Can I resume a failed import?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Not easily with phpMyAdmin. That's why splitting is recommended — if chunk 5 of 10 fails, you only need to re-import that one chunk, not start over."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Summary: Which Method Should You Choose?"
+    },
+    {
+      "type": "table",
+      "headers": ["Your Situation", "Recommended Method"],
+      "rows": [
+        ["Small file (<10MB), full server access", "Method 1: Increase PHP limits"],
+        ["Medium file (10-500MB), no SSH", "Method 2: Split with SQLSplit"],
+        ["Large file (>500MB), SSH available", "Method 3: Command line"],
+        ["Shared hosting, no configuration access", "Method 2: Split with SQLSplit"]
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Ready to fix your import?",
+      "text": "Try SQLSplit free — no signup required, works in your browser, handles files up to 2GB.",
+      "buttonText": "Split Your SQL File Now",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "What size is too big for phpMyAdmin?",
+      "answer": "Under 10MB usually works fine. 10-50MB may need PHP limit increases. 50-500MB should be split or use command line. Over 500MB strongly recommends command line."
+    },
+    {
+      "question": "Will splitting my SQL file break my database?",
+      "answer": "No — if you use a proper SQL splitter. SQLSplit preserves your database structure, including headers and footers. Each chunk is a valid SQL file."
+    },
+    {
+      "question": "How long should a database import take?",
+      "answer": "10MB: 30 seconds - 2 minutes. 100MB: 2-10 minutes. 1GB: 10-60 minutes. 10GB: 1-6 hours. Speed depends on server CPU, disk I/O, and network."
+    },
+    {
+      "question": "Can I resume a failed import?",
+      "answer": "Not easily with phpMyAdmin. That is why splitting is recommended — if chunk 5 of 10 fails, you only need to re-import that one chunk."
+    }
+  ]
+}

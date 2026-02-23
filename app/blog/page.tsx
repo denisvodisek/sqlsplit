@@ -1,49 +1,16 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { getAllPosts } from '@/lib/posts'
 
 export const metadata: Metadata = {
   title: 'Blog — SQLSplit',
   description: 'Tutorials and guides for SQL database management, migration, and optimization.',
 }
 
-interface Post {
-  slug: string
-  title: string
-  excerpt: string
-  date: string
-  readTime: string
-  category: string
-}
-
-const posts: Post[] = [
-  {
-    slug: 'fix-phpmyadmin-import-timeout',
-    title: 'How to Fix phpMyAdmin Import Timeout (The Complete Guide)',
-    excerpt: 'Learn why phpMyAdmin times out and 4 proven methods to fix it, including splitting large SQL files.',
-    date: '2025-02-23',
-    readTime: '12 min read',
-    category: 'Troubleshooting',
-  },
-  {
-    slug: 'mysql-command-line-vs-phpmyadmin',
-    title: 'MySQL Command Line Import vs phpMyAdmin: Which is Better?',
-    excerpt: 'A detailed comparison of importing MySQL databases via command line versus phpMyAdmin.',
-    date: '2025-02-20',
-    readTime: '8 min read',
-    category: 'Comparison',
-  },
-  {
-    slug: 'wordpress-database-migration-guide',
-    title: 'WordPress Database Migration: The Definitive 2025 Guide',
-    excerpt: 'Everything you need to know about migrating WordPress databases without breaking your site.',
-    date: '2025-02-15',
-    readTime: '15 min read',
-    category: 'WordPress',
-  },
-]
-
 export default function BlogPage() {
+  const posts = getAllPosts()
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b">
@@ -51,13 +18,9 @@ export default function BlogPage() {
           <Link href="/" className="text-xl font-bold">
             SQLSplit
           </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
-              Tools
-            </Link>
-            <Link href="/blog" className="text-sm font-medium">
-              Blog
-            </Link>
+          <nav className="hidden md:flex items-center gap-6">
+            <a href="/" className="text-sm text-muted-foreground hover:text-foreground">Tools</a>
+            <a href="/blog" className="text-sm font-medium">Blog</a>
           </nav>
         </div>
       </header>
@@ -84,7 +47,14 @@ export default function BlogPage() {
                     <CardTitle className="text-xl">{post.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">{post.excerpt}</p>
+                    <p className="text-muted-foreground">{post.description}</p>
+                    <div className="flex gap-2 mt-4">
+                      {post.tags.map((tag) => (
+                        <span key={tag} className="text-xs bg-muted px-2 py-1 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
