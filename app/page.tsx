@@ -1,3 +1,5 @@
+'use client'
+
 import { SQLSplitter } from '@/lib/sqlsplitter'
 import { SplitOptions } from '@/types'
 import { FileUpload } from '@/components/FileUpload'
