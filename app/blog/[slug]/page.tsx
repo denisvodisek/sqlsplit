@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Sidebar } from '@/components/Sidebar'
+import { generateArticleSchema, generateBreadcrumbSchema, generateFAQSchema } from '@/lib/schema'
 
 // Article content components defined first
 function PhpMyAdminTimeoutContent() {
@@ -261,6 +262,7 @@ unzip -p your_file.sql.zip | mysql -u username -p database_name`}</code></pre>
 interface Post {
   slug: string
   title: string
+  description: string
   date: string
   readTime: string
   author: string
@@ -271,11 +273,35 @@ const posts: Record<string, Post> = {
   'fix-phpmyadmin-import-timeout': {
     slug: 'fix-phpmyadmin-import-timeout',
     title: 'How to Fix phpMyAdmin Import Timeout (The Complete Guide)',
+    description: 'Learn why phpMyAdmin times out and 4 proven methods to fix it, including splitting large SQL files.',
     date: '2025-02-23',
     readTime: '12 min read',
     author: 'SQLSplit Team',
     component: PhpMyAdminTimeoutContent,
   },
+}
+
+// Generate metadata for each post
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = posts[params.slug]
+  
+  if (!post) {
+    return {
+      title: 'Not Found',
+    }
+  }
+
+  return {
+    title: `${post.title} — SQLSplit Blog`,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author],
+    },
+  }
 }
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
@@ -287,45 +313,116 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   const ContentComponent = post.component
 
+  // Generate schemas
+  const articleSchema = generateArticleSchema({
+    title: post.title,
+    description: post.description,
+    slug: post.slug,
+    datePublished: post.date,
+    author: post.author,
+  })
+
+  const breadcrumbSchema = generateBreadcrumbSchema({
+    items: [
+      { name: 'Home', url: 'https://sqlsplit.com/' },
+      { name: 'Blog', url: 'https://sqlsplit.com/blog' },
+      { name: post.title, url: `https://sqlsplit.com/blog/${post.slug}` },
+    ],
+  })
+
+  const faqSchema = generateFAQSchema({
+    questions: [
+      {
+        question: 'What size is too big for phpMyAdmin?',
+        answer: 'Under 10MB usually works fine. 10-50MB may need PHP limit increases. 50-500MB should be split or use command line. Over 500MB strongly recommends command line.',
+      },
+      {
+        question: 'Will splitting my SQL file break my database?',
+        answer: 'No — if you use a proper SQL splitter. SQLSplit preserves your database structure, including headers and footers. Each chunk is a valid SQL file.',
+      },
+      {
+        question: 'How long should a database import take?',
+        answer: '10MB: 30 seconds - 2 minutes. 100MB: 2-10 minutes. 1GB: 10-60 minutes. 10GB: 1-6 hours. Speed depends on server CPU, disk I/O, and network.',
+      },
+      {
+        question: 'Can I resume a failed import?',
+        answer: 'Not easily with phpMyAdmin. That is why splitting is recommended — if chunk 5 of 10 fails, you only need to re-import that one chunk.',
+      },
+    ],
+  })
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="text-xl font-bold">
-            SQLSplit
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
-              Tools
-            </Link>
-            <Link href="/blog" className="text-sm font-medium">
-              Blog
-            </Link>
-          </nav>
-        </div>
-      </header>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-3">
-          <article className="lg:col-span-2 max-w-none">
-            <div className="mb-8">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                <Link href="/blog" className="hover:text-foreground">Blog</Link>
-                <span>/</span>
-                <span>{post.date}</span>
-                <span>•</span>
-                <span>{post.readTime}</span>
+      <div className="min-h-screen bg-background">
+        <header className="border-b">
+          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <Link href="/" className="text-xl font-bold">
+              SQLSplit
+            </Link>
+            <nav className="flex items-center gap-6">
+              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
+                Tools
+              </Link>
+              <Link href="/blog" className="text-sm font-medium">
+                Blog
+              </Link>
+            </nav>
+          </div>
+        </header>
+
+        <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-3">
+            <article className="lg:col-span-2 max-w-none">
+              <nav aria-label="Breadcrumb" className="mb-4">
+                <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <li>
+                    <Link href="/" className="hover:text-foreground">Home</Link>
+                  </li>
+                  <li>/</li>
+                  <li>
+                    <Link href="/blog" className="hover:text-foreground">Blog</Link>
+                  </li>
+                  <li>/</li>
+                  <li aria-current="page" className="text-foreground">{post.title}</li>
+                </ol>
+              </nav>
+
+              <div className="mb-8">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                  <time dateTime={post.date}>{post.date}</time>
+                  <span>•</span>
+                  <span>{post.readTime}</span>
+                </div>
+                <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+                <p className="text-muted-foreground">By {post.author}</p>
               </div>
-              <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-              <p className="text-muted-foreground">By {post.author}</p>
-            </div>
 
-            <ContentComponent />
-          </article>
+              <ContentComponent />
+            </article>
 
-          <Sidebar />
-        </div>
-      </main>
-    </div>
+            <Sidebar />
+          </div>
+        </main>
+      </div>
+    </>
   )
 }
