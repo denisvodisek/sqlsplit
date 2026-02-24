@@ -1,0 +1,49 @@
+{
+  "slug": "cli-import-order",
+  "title": "Import Order Matters: How to Load Split SQL Files",
+  "description": "Split dumps must be imported in the right order. Here’s the safest sequence.",
+  "date": "2024-04-07",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["import order", "CLI", "SQL", "split"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "If you import split files out of order, you can hit missing table or foreign key errors."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Safe import sequence"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Import schema or first chunk",
+        "Load remaining chunks in order",
+        "Validate counts after import"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **Foreign Key Errors During Import?**"
+    },
+    {
+      "type": "cta",
+      "title": "Split with order in mind",
+      "text": "Keep your chunks aligned for clean imports.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I merge chunks later?",
+      "answer": "Yes, but it’s usually easier to import in order."
+    }
+  ]
+}

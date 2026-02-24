@@ -1,0 +1,58 @@
+{
+  "slug": "split-sql-file-windows",
+  "title": "How to Split a Large SQL File on Windows",
+  "description": "Windows tools are limited for huge dumps. Here are the safest ways to split without breaking SQL.",
+  "date": "2024-03-11",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["Windows", "split", "SQL", "mysqldump"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Notepad won’t open a 2GB dump, and naive split tools break multi‑line INSERTs. Here’s a safe approach."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Use a browser‑based splitter"
+    },
+    {
+      "type": "paragraph",
+      "text": "Upload nothing—process locally. SQLSplit keeps statements intact and outputs clean chunks."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Optional: CLI method"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u root -p db_name < part_1.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Split a mysqldump File Into Smaller Parts**."
+    },
+    {
+      "type": "cta",
+      "title": "Split safely on Windows",
+      "text": "Use a splitter that respects SQL structure.",
+      "buttonText": "Split with SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I just use a file splitter?",
+      "answer": "No. It can cut SQL statements and corrupt your import."
+    },
+    {
+      "question": "Does SQLSplit work offline?",
+      "answer": "Yes. It runs in your browser with no upload."
+    }
+  ]
+}

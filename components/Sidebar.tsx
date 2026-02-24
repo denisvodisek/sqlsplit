@@ -1,65 +1,78 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AdUnit } from '@/components/AdUnit'
+import { ArrowSquareOut, Sparkle } from 'phosphor-react'
 
 export function Sidebar() {
   return (
     <div className="space-y-6">
-      <Card className="sticky top-24">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-xs font-normal text-muted-foreground">Advertisement</CardTitle>
+      {/* Ad Unit */}
+      <Card className="sticky top-24 overflow-hidden">
+        <CardHeader className="pb-2 border-b border-border/50 bg-card/50">
+          <CardTitle className="text-xs font-normal text-muted-foreground">Sponsored</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ins
-            className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-4524750683541633"
-            data-ad-slot="7285338195"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
+        <CardContent className="p-4">
+          <AdUnit slot="7285338195" format="auto" />
         </CardContent>
       </Card>
 
+      {/* Related Tools */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Related Tools</CardTitle>
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-2">
+            <Sparkle className="h-4 w-4 text-muted-foreground" weight="duotone" />
+            <CardTitle className="text-sm font-medium">Related Tools</CardTitle>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-2">
-          {['SQL Formatter', 'CSV to SQL', 'SQL Validator'].map((tool) => (
+        <CardContent className="space-y-2 pt-0">
+          {[
+            { name: 'SQL Formatter', desc: 'Beautify SQL queries' },
+            { name: 'CSV to SQL', desc: 'Convert CSV to INSERT' },
+            { name: 'SQL Validator', desc: 'Check SQL syntax' },
+          ].map((tool) => (
             <a
-              key={tool}
+              key={tool.name}
               href="#"
-              className="block rounded-lg bg-muted p-3 text-sm font-medium hover:bg-muted/80"
+              className="flex items-center justify-between rounded-xl bg-accent/50 p-3 text-sm hover:bg-accent transition-colors group"
             >
-              {tool}
-              <span className="ml-2 text-xs text-muted-foreground">Coming soon</span>
+              <div>
+                <span className="font-medium">{tool.name}</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">{tool.desc}</span>
+              </div>
+              <span className="text-[10px] text-muted-foreground px-2 py-1 rounded-full bg-background border border-border">
+                Soon
+              </span>
             </a>
           ))}
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Recommended Hosting</CardTitle>
+      {/* Hosting Recommendation */}
+      <Card className="overflow-hidden">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-sm font-medium">Recommended Hosting</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-0">
           <a
             href="https://www.cloudways.com/en/?id=XXXXXX"
             target="_blank"
             rel="noopener noreferrer"
-            className="block group"
+            className="flex items-center gap-3 group"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white font-bold">
-                C
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold text-lg shadow-lg shadow-blue-500/25">
+              C
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-1">
+                <span className="font-medium group-hover:text-primary transition-colors">Cloudways</span>
+                <ArrowSquareOut className="h-3 w-3 text-muted-foreground" weight="duotone" />
               </div>
-              <div>
-                <p className="font-medium group-hover:text-primary">Cloudways</p>
-                <p className="text-xs text-muted-foreground">Managed Cloud Hosting</p>
-              </div>
+              <p className="text-xs text-muted-foreground">Managed Cloud Hosting</p>
             </div>
           </a>
 
-          <p className="text-xs text-muted-foreground">Affiliate links — we earn a commission if you purchase.</p>
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            Affiliate link — we may earn a commission if you make a purchase.
+          </p>
         </CardContent>
       </Card>
     </div>

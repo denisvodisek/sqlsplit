@@ -1,0 +1,54 @@
+{
+  "slug": "wp-cli-import-large-db",
+  "title": "Import a Large WordPress Database with WP‑CLI",
+  "description": "WP‑CLI is often the fastest way to import huge WordPress dumps. Here’s the safest workflow.",
+  "date": "2024-03-15",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "WordPress",
+  "tags": ["WordPress", "WP-CLI", "import", "database"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "If phpMyAdmin fails, WP‑CLI can import large databases without a browser timeout."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Recommended workflow"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Split the dump into 20–50MB chunks",
+        "Import with WP‑CLI in order",
+        "Run search‑replace after migration"
+      ]
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "wp db import dump_part_1.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **WordPress Database Too Large to Import?**"
+    },
+    {
+      "type": "cta",
+      "title": "Make WordPress imports painless",
+      "text": "Split your database before WP‑CLI import.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is WP‑CLI faster than phpMyAdmin?",
+      "answer": "Yes. It runs on the server without browser timeouts."
+    }
+  ]
+}

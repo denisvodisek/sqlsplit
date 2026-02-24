@@ -1,0 +1,20 @@
+{
+  "slug": "mysql-error-2006",
+  "title": "MySQL Error 2006: Server Has Gone Away",
+  "description": "Your import dies mid‑way because the server drops the connection or hits packet limits.",
+  "causes": [
+    "Huge INSERT statements",
+    "max_allowed_packet too low",
+    "phpMyAdmin timeout on shared hosting"
+  ],
+  "fixes": [
+    "Split the dump into smaller chunks",
+    "Import sequentially to reduce per‑request time",
+    "Use CLI import if available"
+  ],
+  "related": [
+    "mysql-import-error-2006",
+    "mysql-max-allowed-packet",
+    "phpmyadmin-import-timeout"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "slug": "cpanel-ssh-import",
+  "title": "Import Large SQL Files in cPanel via SSH",
+  "description": "If cPanel phpMyAdmin fails, SSH + MySQL CLI is the most reliable path.",
+  "date": "2024-03-24",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["cPanel", "SSH", "MySQL", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "SSH access lets you bypass upload limits and timeouts entirely."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Steps"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Split the dump into 20–50MB chunks",
+        "Upload the files via SFTP",
+        "Import with MySQL CLI"
+      ]
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u user -p db_name < dump_part_1.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Import Large SQL Files in cPanel (When phpMyAdmin Fails)**."
+    },
+    {
+      "type": "cta",
+      "title": "Prep your SQL for SSH import",
+      "text": "Split large dumps into manageable chunks.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do all cPanel hosts allow SSH?",
+      "answer": "No. Many shared plans disable it."
+    }
+  ]
+}

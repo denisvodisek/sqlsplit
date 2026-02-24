@@ -1,0 +1,19 @@
+{
+  "slug": "max-allowed-packet",
+  "title": "max_allowed_packet Error",
+  "description": "MySQL rejects a statement that is larger than the configured packet size.",
+  "causes": [
+    "Oversized INSERT statements",
+    "Large blobs in a single statement"
+  ],
+  "fixes": [
+    "Split the dump into smaller chunks",
+    "Reduce statement size by splitting",
+    "Import in order"
+  ],
+  "related": [
+    "mysql-max-allowed-packet",
+    "mysql-import-error-1153-packet-too-large",
+    "big-insert-statements-split"
+  ]
+}

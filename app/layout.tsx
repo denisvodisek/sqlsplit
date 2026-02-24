@@ -1,28 +1,29 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import './globals.css'
 import { generateOrganizationSchema, generateWebApplicationSchema } from '@/lib/schema'
+import { CursorGlow } from '@/components/CursorGlow'
 
-const inter = Inter({ subsets: ['latin'] })
+const manrope = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'SQLSplit — Split Large SQL Files Online',
-  description: 'Split large SQL dumps into manageable chunks. Browser-based, 100% private, no uploads.',
+  title: 'SQLSplit — Split Large SQL Files for Import',
+  description: 'Split large SQL database dumps into smaller files. Fix phpMyAdmin timeouts and MySQL import errors. Free, runs in your browser, no upload needed.',
   metadataBase: new URL('https://sqlsplit.com'),
-  keywords: ['SQL splitter', 'database migration', 'phpMyAdmin timeout', 'MySQL import', 'SQL file split'],
+  keywords: ['split SQL file', 'phpMyAdmin timeout', 'MySQL import error', 'large SQL file', 'database migration', 'split mysqldump'],
   authors: [{ name: 'SQLSplit' }],
   openGraph: {
-    title: 'SQLSplit — Split Large SQL Files Online',
-    description: 'Split large SQL dumps into manageable chunks. Browser-based, 100% private.',
+    title: 'SQLSplit — Split Large SQL Files for Import',
+    description: 'Split large SQL database dumps into smaller files. Fix phpMyAdmin timeouts and import errors.',
     url: 'https://sqlsplit.com',
     siteName: 'SQLSplit',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'SQLSplit — Split Large SQL Files Online',
-    description: 'Split large SQL dumps into manageable chunks. Browser-based, 100% private.',
+    card: 'summary',
+    title: 'SQLSplit — Split Large SQL Files',
+    description: 'Fix phpMyAdmin timeouts. Split your SQL dump into importable chunks.',
   },
   robots: {
     index: true,
@@ -39,11 +40,11 @@ export default function RootLayout({
   const webAppSchema = generateWebApplicationSchema()
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+        <link rel="canonical" href="https://sqlsplit.com" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4524750683541633" crossOrigin="anonymous"></script>
         
         <script
@@ -59,7 +60,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${manrope.variable}`}>
+        <CursorGlow />
+        {children}
+      </body>
     </html>
   )
 }

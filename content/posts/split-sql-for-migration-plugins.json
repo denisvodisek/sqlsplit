@@ -1,0 +1,49 @@
+{
+  "slug": "split-sql-for-migration-plugins",
+  "title": "Split SQL Dumps for Migration Plugins (When They Fail)",
+  "description": "Migration plugins can choke on large SQL files. Split them to keep migrations reliable.",
+  "date": "2024-04-02",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "WordPress",
+  "tags": ["WordPress", "migration", "SQL", "plugins"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Plugins often have hidden size limits. Splitting keeps migrations predictable."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When to split"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Exports larger than 100MB",
+        "Repeated import failures",
+        "Shared hosting environments"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **WordPress Database Too Large to Import?**"
+    },
+    {
+      "type": "cta",
+      "title": "Keep migrations reliable",
+      "text": "Split large WordPress SQL dumps before import.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do plugins support partial imports?",
+      "answer": "Some do, but many fail silently. Splitting is safer."
+    }
+  ]
+}

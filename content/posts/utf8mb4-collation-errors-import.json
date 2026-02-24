@@ -1,0 +1,49 @@
+{
+  "slug": "utf8mb4-collation-errors-import",
+  "title": "utf8mb4 Collation Errors During Import (Fix Guide)",
+  "description": "Seeing collation errors during import? Here’s how to fix mismatched character sets safely.",
+  "date": "2024-03-19",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL", "utf8mb4", "collation", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Collation errors mean your target database doesn’t support the dump’s character set."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Quick fixes"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Create the database with utf8mb4",
+        "Update collation in the dump",
+        "Import in smaller chunks to isolate issues"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Splitting helps you pinpoint the failing statements. See: **How to Split a mysqldump File Into Smaller Parts**."
+    },
+    {
+      "type": "cta",
+      "title": "Isolate failing statements",
+      "text": "Split the dump and find the exact collation conflict.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do I need to edit the whole dump?",
+      "answer": "Sometimes only a few tables use the conflicting collation."
+    }
+  ]
+}

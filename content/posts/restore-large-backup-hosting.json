@@ -1,0 +1,49 @@
+{
+  "slug": "restore-large-backup-hosting",
+  "title": "Restoring Large Database Backups on Shared Hosting",
+  "description": "Shared hosting limits make restores painful. Here’s the most reliable workflow.",
+  "date": "2024-03-28",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["hosting", "backup", "restore", "MySQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Shared hosts have low upload and execution limits. A single large dump almost always fails."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Reliable restore workflow"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Split the dump into 10–20MB chunks",
+        "Import via phpMyAdmin in sequence",
+        "Verify tables after import"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **phpMyAdmin Upload Limit Too Small?**"
+    },
+    {
+      "type": "cta",
+      "title": "Restore without limits",
+      "text": "Split large backups into small, safe chunks.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is there a size limit for phpMyAdmin?",
+      "answer": "Yes. It varies by host and is often very low."
+    }
+  ]
+}

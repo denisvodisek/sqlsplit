@@ -1,0 +1,44 @@
+{
+  "slug": "adminer-import-timeout",
+  "title": "Adminer Import Timeout? Fixes That Actually Work",
+  "description": "Adminer is lighter than phpMyAdmin, but imports can still time out. Here’s how to fix it.",
+  "date": "2024-03-16",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["Adminer", "import", "timeout", "MySQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Adminer is great for quick tasks, but large imports still hit execution limits."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Best fix: split the dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "Smaller chunks complete within time limits and reduce server load."
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **How to Fix phpMyAdmin Import Timeout Errors**."
+    },
+    {
+      "type": "cta",
+      "title": "Avoid Adminer timeouts",
+      "text": "Split large SQL files into smaller parts.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is Adminer better than phpMyAdmin for big imports?",
+      "answer": "It’s lighter, but the same size limits still apply."
+    }
+  ]
+}

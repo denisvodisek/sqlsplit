@@ -1,0 +1,62 @@
+{
+  "slug": "phpmyadmin-upload-limit",
+  "title": "phpMyAdmin Upload Limit Too Small? Here’s What Actually Works",
+  "description": "Stuck with a 2MB or 50MB upload cap? Use these practical options without server access.",
+  "date": "2024-03-09",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["phpMyAdmin", "upload limit", "import", "hosting"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Many hosts cap phpMyAdmin uploads at 2–50MB. If your dump is bigger, uploads fail before import even starts."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Best workaround: split the dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split your SQL file into smaller chunks that fit the limit. Import the first chunk (schema) and then the rest."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Other options"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Use MySQL CLI if you have SSH",
+        "Ask host support to import it",
+        "Use a migration plugin (WordPress)"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **How to Import Large SQL Files in cPanel**."
+    },
+    {
+      "type": "cta",
+      "title": "Bypass upload limits",
+      "text": "Split your file into upload‑friendly chunks.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I raise the upload limit myself?",
+      "answer": "Usually no, unless you control the server settings."
+    },
+    {
+      "question": "What chunk size should I use?",
+      "answer": "Use 10–20MB for phpMyAdmin on shared hosting."
+    }
+  ]
+}

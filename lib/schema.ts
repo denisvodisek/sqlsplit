@@ -1,5 +1,3 @@
-import type { Metadata } from 'next'
-
 interface ArticleSchemaProps {
   title: string
   description: string
@@ -47,45 +45,30 @@ export function generateArticleSchema({
   }
 }
 
-interface WebApplicationSchemaProps {
-  name: string
-  description: string
-  applicationCategory: string
-  operatingSystem: string
-  offers?: {
-    price: string
-    priceCurrency: string
-  }
-}
-
-export function generateWebApplicationSchema({
-  name = 'SQLSplit',
-  description = 'Free online tool to split large SQL files into manageable chunks',
-  applicationCategory = 'DeveloperApplication',
-  operatingSystem = 'Web Browser',
-  offers = { price: '0', priceCurrency: 'USD' },
-}: Partial<WebApplicationSchemaProps> = {}) {
+export function generateWebApplicationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: name,
-    description: description,
+    name: 'SQLSplit',
+    description: 'Split large SQL database dumps into smaller files for import. Fixes phpMyAdmin timeouts and MySQL max_allowed_packet errors.',
     url: 'https://sqlsplit.com',
-    applicationCategory: applicationCategory,
-    operatingSystem: operatingSystem,
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Web Browser',
     offers: {
       '@type': 'Offer',
-      ...offers,
+      price: '0',
+      priceCurrency: 'USD',
     },
     featureList: [
-      'Split SQL files by line count or file size',
-      'Support for .sql and .gz files',
-      '100% private - no file uploads',
-      'Intelligent splitting logic',
-      'Download all chunks as ZIP',
+      'Split SQL files by line count',
+      'Split SQL files by file size',
+      'Support for .sql and .gz compressed files',
+      'Preserves SQL headers and footers',
+      'Keeps multi-line statements intact',
+      'Download individual files or ZIP archive',
+      'Runs entirely in browser - no upload',
     ],
-    browserRequirements: 'Requires JavaScript. Requires HTML5.',
-    softwareVersion: '2.0',
+    browserRequirements: 'Requires JavaScript',
   }
 }
 
@@ -132,8 +115,35 @@ export function generateOrganizationSchema() {
     name: 'SQLSplit',
     url: 'https://sqlsplit.com',
     logo: 'https://sqlsplit.com/favicon.png',
+    description: 'Free tool for splitting large SQL files',
     sameAs: [
       'https://github.com/denisvodisek/sqlsplit',
+    ],
+  }
+}
+
+export function generateHowToSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Split a Large SQL File',
+    description: 'Split a large SQL database dump into smaller files that can be imported through phpMyAdmin or other tools with size limits.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        name: 'Upload your SQL file',
+        text: 'Drag and drop your .sql or .sql.gz file onto the upload area. The file is processed in your browser and never uploaded to any server.',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Choose split method',
+        text: 'Select whether to split by line count (e.g., 10,000 lines per file) or by file size (e.g., 10MB per file).',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Download split files',
+        text: 'Download individual SQL files or get all files as a ZIP archive. Import each file in order to your database.',
+      },
     ],
   }
 }

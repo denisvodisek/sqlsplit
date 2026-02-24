@@ -1,0 +1,146 @@
+{
+  "slug": "import-large-sql-file-cpanel",
+  "title": "How to Import Large SQL Files in cPanel (When phpMyAdmin Fails)",
+  "description": "Your hosting's phpMyAdmin keeps timing out. Here are the actual ways to get that big database imported.",
+  "date": "2024-02-01",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["cPanel", "phpMyAdmin", "import", "hosting"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "You have a cPanel hosting account, a big SQL file, and phpMyAdmin that keeps dying. Here's how to actually get your database imported."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 1: Split and import through phpMyAdmin"
+    },
+    {
+      "type": "paragraph",
+      "text": "The simplest approach that works on any cPanel host. Break your SQL file into chunks small enough for phpMyAdmin to handle."
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Split your SQL file into 10MB chunks (or smaller if your host is slow)",
+        "Go to phpMyAdmin, select your database",
+        "Import the first chunk",
+        "Repeat for each remaining chunk"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Yes, it's manual. But it works reliably when nothing else does."
+    },
+    {
+      "type": "cta",
+      "title": "Split your SQL file",
+      "text": "Break it into phpMyAdmin-friendly chunks.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 2: Use cPanel's MySQL import (if available)"
+    },
+    {
+      "type": "paragraph",
+      "text": "Some cPanel setups have a separate MySQL import tool under 'MySQL Databases' that handles larger files better than phpMyAdmin. Look for an 'Import' button there."
+    },
+    {
+      "type": "paragraph",
+      "text": "This bypasses PHP limitations and talks directly to MySQL. Not all hosts enable it though."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 3: SSH and command line"
+    },
+    {
+      "type": "paragraph",
+      "text": "If your cPanel has SSH access enabled (check under 'Terminal' or 'SSH Access'):"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Upload your SQL file via File Manager first, then:\nmysql -u cpanel_username -p database_name < /home/username/yourfile.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Your MySQL username in cPanel is usually your cPanel username with a prefix like 'cpanel_'. Check under 'MySQL Databases' for the exact name."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 4: Remote MySQL connection"
+    },
+    {
+      "type": "paragraph",
+      "text": "Some hosts let you connect to MySQL remotely. In cPanel, look for 'Remote MySQL' and add your IP address. Then from your local machine:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -h yoursite.com -u cpanel_username -p database_name < local_file.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "This can be slow over the internet but handles any file size."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What usually works"
+    },
+    {
+      "type": "paragraph",
+      "text": "In my experience with various shared hosts (SiteGround, Bluehost, Hostinger, GoDaddy, etc.):"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Under 50MB: phpMyAdmin usually works",
+        "50-200MB: Split into 10MB chunks, import each",
+        "Over 200MB: Need SSH or ask your host to import it"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "If you're moving a big WordPress or Magento database, splitting is usually your best bet unless you have SSH access."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Tip: Import order matters"
+    },
+    {
+      "type": "paragraph",
+      "text": "When importing split files, do them in order (part_1, part_2, etc.). SQL files often have table creation before data insertion, and foreign key constraints need tables to exist first."
+    },
+    {
+      "type": "paragraph",
+      "text": "Good splitting tools keep table definitions in the first chunk and maintain statement integrity across chunks."
+    }
+  ],
+  "faq": [
+    {
+      "question": "What's the maximum file size for phpMyAdmin import in cPanel?",
+      "answer": "It varies by host, but typically 50MB to 100MB. The practical limit is lower due to PHP execution timeouts, usually around 30-50MB for reliable imports."
+    },
+    {
+      "question": "Can I import SQL files through cPanel File Manager?",
+      "answer": "File Manager is for uploading files, not importing to MySQL. After uploading, you need to use phpMyAdmin, SSH, or the MySQL import tool to actually import the data."
+    },
+    {
+      "question": "Why is my database import so slow on shared hosting?",
+      "answer": "Shared hosting has limited CPU and memory allocated to your account. Large imports compete with PHP limits and other users on the server. Splitting into smaller chunks and importing sequentially is more reliable than one large import."
+    }
+  ]
+}

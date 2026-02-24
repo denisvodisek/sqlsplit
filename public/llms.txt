@@ -1,0 +1,62 @@
+# SQLSplit
+
+## What this site is
+SQLSplit is a browser-based tool that splits large SQL dump files into smaller chunks for reliable import. It runs fully client-side and never uploads files.
+
+## Primary actions
+- Split .sql or .sql.gz files by line count or target file size
+- Download split parts individually or as a ZIP
+
+## Key pages
+- https://sqlsplit.com/
+- https://sqlsplit.com/blog
+- https://sqlsplit.com/blog/errors
+- https://sqlsplit.com/blog/topic/phpmyadmin
+- https://sqlsplit.com/blog/topic/wordpress
+- https://sqlsplit.com/blog/topic/hosting
+- https://sqlsplit.com/blog/error/mysql-error-2006
+- https://sqlsplit.com/blog/error/mysql-error-2013
+- https://sqlsplit.com/blog/error/phpmyadmin-timeout
+- https://sqlsplit.com/blog/error/max-allowed-packet
+- https://sqlsplit.com/blog/phpmyadmin-import-timeout
+- https://sqlsplit.com/blog/mysql-max-allowed-packet
+- https://sqlsplit.com/blog/import-large-sql-file-cpanel
+- https://sqlsplit.com/blog/split-mysqldump-file
+- https://sqlsplit.com/blog/wordpress-database-too-large
+- https://sqlsplit.com/blog/mysql-import-error-2006
+- https://sqlsplit.com/blog/mysql-import-error-1153-packet-too-large
+- https://sqlsplit.com/blog/mysql-import-error-2013-lost-connection
+- https://sqlsplit.com/blog/phpmyadmin-upload-limit
+- https://sqlsplit.com/blog/split-sql-file-windows
+- https://sqlsplit.com/blog/split-sql-file-mac
+- https://sqlsplit.com/blog/split-sql-file-linux
+- https://sqlsplit.com/blog/mariadb-import-large
+- https://sqlsplit.com/blog/wp-cli-import-large-db
+- https://sqlsplit.com/blog/adminer-import-timeout
+- https://sqlsplit.com/blog/big-insert-statements-split
+- https://sqlsplit.com/blog/utf8mb4-collation-errors-import
+- https://sqlsplit.com/blog/foreign-key-checks-import
+- https://sqlsplit.com/blog/innodb-log-file-size-import
+- https://sqlsplit.com/blog/mysql-cli-import-large
+- https://sqlsplit.com/blog/phpmyadmin-max-execution-time
+- https://sqlsplit.com/blog/cpanel-ssh-import
+- https://sqlsplit.com/blog/import-large-sql-file-godaddy
+- https://sqlsplit.com/blog/import-large-sql-file-bluehost
+- https://sqlsplit.com/blog/import-large-sql-file-hostgator
+- https://sqlsplit.com/blog/aws-rds-import-large-dump
+- https://sqlsplit.com/blog/mysql-workbench-import-large
+- https://sqlsplit.com/blog/gzip-vs-zip-sql-dump
+- https://sqlsplit.com/blog/restore-large-backup-hosting
+- https://sqlsplit.com/blog/export-mysqldump-best-practices
+- https://sqlsplit.com/blog/split-sql-for-migration-plugins
+- https://sqlsplit.com/blog/sql-import-hangs
+- https://sqlsplit.com/blog/split-sql-by-size-vs-lines
+- https://sqlsplit.com/blog/repair-corrupted-sql-dump
+- https://sqlsplit.com/blog/cli-import-order
+
+## Data handling
+- Files are processed locally in the browser
+- No uploads or server storage
+
+## Contact
+- https://github.com/denisvodisek/sqlsplit

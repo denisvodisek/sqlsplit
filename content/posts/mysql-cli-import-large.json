@@ -1,0 +1,45 @@
+{
+  "slug": "mysql-cli-import-large",
+  "title": "Import Large SQL Files with MySQL CLI (No Timeouts)",
+  "description": "Browser imports fail? The MySQL CLI is faster and more reliable for big dumps.",
+  "date": "2024-03-22",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["MySQL", "CLI", "import", "hosting"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "The CLI bypasses phpMyAdmin limits and runs directly on the server."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Basic command"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u db_user -p db_name < dump_part_1.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump first so each import completes quickly. Related: **How to Import Large SQL Files in cPanel**."
+    },
+    {
+      "type": "cta",
+      "title": "Prep for CLI import",
+      "text": "Split your dump into predictable chunks.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do I need SSH access?",
+      "answer": "Yes. CLI import runs on the server."
+    }
+  ]
+}

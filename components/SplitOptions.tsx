@@ -1,8 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-import { Input } from '@/components/ui/input'
-
 interface SplitOptionsProps {
   mode: 'lines' | 'size'
   onModeChange: (mode: 'lines' | 'size') => void
@@ -25,58 +22,78 @@ export function SplitOptions({
   onOutputPrefixChange,
 }: SplitOptionsProps) {
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-2 rounded-lg bg-muted p-1">
-        <button
-          onClick={() => onModeChange('lines')}
-          className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-            mode === 'lines' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          By Lines
-        </button>
-        <button
-          onClick={() => onModeChange('size')}
-          className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-            mode === 'size' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          By Size
-        </button>
+    <div className="space-y-5">
+      {/* Mode Toggle */}
+      <div>
+        <label className="text-sm font-medium mb-3 block">Split by</label>
+        <div className="inline-flex rounded-lg bg-black/5 p-1 border border-black/10">
+          <button
+            onClick={() => onModeChange('lines')}
+            className={`px-4 py-2 text-sm rounded-md transition-all ${
+              mode === 'lines'
+                ? 'bg-white text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            Lines
+          </button>
+          <button
+            onClick={() => onModeChange('size')}
+            className={`px-4 py-2 text-sm rounded-md transition-all ${
+              mode === 'size'
+                ? 'bg-white text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            File size
+          </button>
+        </div>
       </div>
 
+      {/* Value Input */}
       {mode === 'lines' ? (
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Lines per file</label>
-          <Input
+        <div>
+          <label className="text-sm font-medium mb-2 block">Lines per file</label>
+          <input
             type="number"
             value={lineCount}
             onChange={(e) => onLineCountChange(parseInt(e.target.value) || 1000)}
             min={1000}
+            className="w-[180px] h-10 px-3 rounded-lg bg-white border border-black/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-black/20 focus:bg-white transition-colors"
           />
-          <p className="text-xs text-muted-foreground">Minimum 1,000 lines. Recommended: 10,000 for most imports.</p>
+          <p className="text-xs text-muted-foreground mt-1.5">
+            10,000 lines works for most setups
+          </p>
         </div>
       ) : (
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Size per file (MB)</label>
-          <Input
+        <div>
+          <label className="text-sm font-medium mb-2 block">MB per file</label>
+          <input
             type="number"
             value={sizeMB}
             onChange={(e) => onSizeMBChange(parseInt(e.target.value) || 1)}
             min={1}
+            className="w-[180px] h-10 px-3 rounded-lg bg-white border border-black/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-black/20 focus:bg-white transition-colors"
           />
-          <p className="text-xs text-muted-foreground">Recommended: 10MB for phpMyAdmin, 50MB for command line.</p>
+          <p className="text-xs text-muted-foreground mt-1.5">
+            10MB for phpMyAdmin, 50MB for CLI
+          </p>
         </div>
       )}
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Output filename prefix</label>
-        <Input
-          type="text"
-          value={outputPrefix}
-          onChange={(e) => onOutputPrefixChange(e.target.value)}
-          placeholder="my_database_dump"
-        />
+      {/* Output Prefix */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">Output filename</label>
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            value={outputPrefix}
+            onChange={(e) => onOutputPrefixChange(e.target.value)}
+            placeholder="database"
+            className="w-[180px] h-10 px-3 rounded-lg bg-white border border-black/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-black/20 focus:bg-white transition-colors"
+          />
+          <span className="text-sm text-muted-foreground">_part_1.sql</span>
+        </div>
       </div>
     </div>
   )

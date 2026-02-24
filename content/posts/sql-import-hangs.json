@@ -1,0 +1,44 @@
+{
+  "slug": "sql-import-hangs",
+  "title": "SQL Import Hanging or Stuck? Here’s the Fix",
+  "description": "Imports that freeze mid‑way are usually caused by big statements or timeouts. Split the dump.",
+  "date": "2024-03-29",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["import", "hang", "MySQL", "phpMyAdmin"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "If the import progress bar stops moving, you’re likely hitting execution limits or oversized queries."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fastest fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump and re‑import in smaller chunks. This reduces runtime per request."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **phpMyAdmin max_execution_time: Fix Import Timeouts**."
+    },
+    {
+      "type": "cta",
+      "title": "Unstick your import",
+      "text": "Split big SQL files and try again.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Should I wait longer?",
+      "answer": "If it’s been stuck for minutes, it likely won’t finish."
+    }
+  ]
+}

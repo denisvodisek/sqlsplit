@@ -1,8 +1,5 @@
 'use client'
 
-import { Download, FileCode, Archive } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import JSZip from 'jszip'
 
 interface SplitResultsProps {
@@ -37,40 +34,52 @@ export function SplitResults({ results, outputPrefix }: SplitResultsProps) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${outputPrefix}_all_parts.zip`
+    a.download = `${outputPrefix}_split.zip`
     a.click()
     URL.revokeObjectURL(url)
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Download your files</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          {results.map((content, index) => (
-            <div key={index} className="flex items-center justify-between rounded-lg border bg-muted p-3">
-              <div className="flex items-center gap-3">
-                <FileCode className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="font-medium">{outputPrefix}_part_{index + 1}.sql</p>
-                  <p className="text-sm text-muted-foreground">{formatSize(content)}</p>
-                </div>
-              </div>
-              <Button variant="secondary" size="sm" onClick={() => downloadFile(index)}>
-                <Download className="mr-2 h-4 w-4" />
-                Download
-              </Button>
-            </div>
-          ))}
+    <>
+      <div className="px-6 py-4 border-b border-black/10 bg-emerald-500/10">
+        <div className="flex items-center gap-2">
+          <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <svg className="w-3 h-3 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="font-medium">
+            Done — {results.length} file{results.length > 1 ? 's' : ''} ready
+          </p>
         </div>
+      </div>
+      
+      <div className="divide-y divide-black/5 max-h-[280px] overflow-y-auto">
+        {results.map((content, index) => (
+          <div key={index} className="flex items-center justify-between px-6 py-3 hover:bg-black/5 transition-colors">
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-muted-foreground w-5">{index + 1}</span>
+              <span className="text-sm font-mono">{outputPrefix}_part_{index + 1}.sql</span>
+              <span className="text-xs text-muted-foreground">{formatSize(content)}</span>
+            </div>
+            <button 
+              onClick={() => downloadFile(index)}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Download
+            </button>
+          </div>
+        ))}
+      </div>
 
-        <Button onClick={downloadAll} variant="outline" className="w-full">
-          <Archive className="mr-2 h-4 w-4" />
-          Download All as ZIP
-        </Button>
-      </CardContent>
-    </Card>
+      <div className="px-6 py-4 border-t border-black/10">
+        <button
+          onClick={downloadAll}
+          className="w-full h-10 rounded-lg border border-black/10 bg-black/5 hover:bg-black/10 text-sm font-medium transition-colors"
+        >
+          Download all as ZIP
+        </button>
+      </div>
+    </>
   )
 }

@@ -1,0 +1,49 @@
+{
+  "slug": "aws-rds-import-large-dump",
+  "title": "Importing Large SQL Dumps into AWS RDS",
+  "description": "RDS imports can be slow and error-prone. Here’s how to make large dumps manageable.",
+  "date": "2024-03-25",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["AWS", "RDS", "MySQL", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Large dumps into RDS can trigger timeouts or fail on oversized statements."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Make it reliable"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split the dump into smaller files",
+        "Import sequentially",
+        "Monitor for failures early"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **MySQL Error 2013: Lost Connection During Query**."
+    },
+    {
+      "type": "cta",
+      "title": "Prep dumps for RDS",
+      "text": "Split large SQL files before import.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I upload a single giant dump?",
+      "answer": "It often fails. Smaller chunks are more reliable."
+    }
+  ]
+}

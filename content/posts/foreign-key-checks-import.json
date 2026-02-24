@@ -1,0 +1,49 @@
+{
+  "slug": "foreign-key-checks-import",
+  "title": "Foreign Key Errors During Import? How to Fix Them",
+  "description": "Foreign key constraint errors often happen when imports are interrupted or out of order.",
+  "date": "2024-03-20",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL", "foreign key", "import", "error"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Foreign key constraint errors occur when referenced rows don’t exist yet or imports are incomplete."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What to check"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Import schema first",
+        "Load data in order",
+        "Avoid partial imports"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Splitting helps you keep imports sequential and stable. Related: **How to Import Large SQL Files in cPanel**."
+    },
+    {
+      "type": "cta",
+      "title": "Import in order",
+      "text": "Split the dump to preserve table dependencies.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Should I disable foreign key checks?",
+      "answer": "Only temporarily and only if you understand the implications."
+    }
+  ]
+}

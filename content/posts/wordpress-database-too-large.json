@@ -1,0 +1,166 @@
+{
+  "slug": "wordpress-database-too-large",
+  "title": "WordPress Database Too Large to Import? Here's What to Do",
+  "description": "Migrating WordPress to new hosting but the database export is too big. Practical solutions that actually work.",
+  "date": "2024-02-15",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "WordPress",
+  "tags": ["WordPress", "migration", "database", "hosting"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Moving WordPress to a new host. The database export is 500MB. The new host's phpMyAdmin times out at 50MB. Classic."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why WordPress databases get so big"
+    },
+    {
+      "type": "paragraph",
+      "text": "A few common culprits:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "**Post revisions** — WordPress keeps every saved version of every post",
+        "**wp_options autoload** — Plugins dump data here and never clean up",
+        "**Spam comments** — Even deleted ones can linger",
+        "**Action Scheduler / WooCommerce logs** — Transaction logs that grow forever",
+        "**Big plugins** — Some caching or SEO plugins store tons of data"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Before you migrate: Clean up"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you still have access to the old site, run some cleanup first:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "-- Delete post revisions (careful with this)\nDELETE FROM wp_posts WHERE post_type = 'revision';\n\n-- Delete trashed posts\nDELETE FROM wp_posts WHERE post_status = 'trash';\n\n-- Delete spam and trashed comments  \nDELETE FROM wp_comments WHERE comment_approved = 'spam' OR comment_approved = 'trash';\n\n-- Clean up orphaned postmeta\nDELETE pm FROM wp_postmeta pm LEFT JOIN wp_posts p ON pm.post_id = p.ID WHERE p.ID IS NULL;"
+    },
+    {
+      "type": "paragraph",
+      "text": "Or use a plugin like WP-Optimize to do this through the admin interface."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 1: Split the SQL file"
+    },
+    {
+      "type": "paragraph",
+      "text": "Already have the export and can't access the old site? Split it into chunks."
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Split your SQL file into 10-20MB chunks",
+        "Import the first chunk (this has table structures)",
+        "Import remaining chunks in order"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Split your WordPress database export",
+      "text": "Break it into phpMyAdmin-friendly pieces.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 2: Use a migration plugin"
+    },
+    {
+      "type": "paragraph",
+      "text": "Plugins like All-in-One WP Migration or Duplicator handle large databases better because they:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split exports automatically",
+        "Can exclude large tables (like post revisions)",
+        "Have their own import process that bypasses phpMyAdmin"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The free versions have size limits though. All-in-One caps at 512MB unless you buy the extension."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 3: SSH import"
+    },
+    {
+      "type": "paragraph",
+      "text": "If your new host has SSH:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Upload the SQL file via SFTP first\nmysql -u db_user -p database_name < wordpress_backup.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "No size limits, no timeout issues."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Option 4: Ask your host"
+    },
+    {
+      "type": "paragraph",
+      "text": "Seriously. Many hosts will import a large database for you if you ask support. They can do it directly on the server. Some even have special tools for WordPress migrations."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "After import: Update URLs"
+    },
+    {
+      "type": "paragraph",
+      "text": "Don't forget — if you're changing domains, you need to update URLs in the database. The old domain is hardcoded in wp_options, wp_posts, and wp_postmeta."
+    },
+    {
+      "type": "paragraph",
+      "text": "Use WP-CLI if available:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "wp search-replace 'oldsite.com' 'newsite.com' --all-tables"
+    },
+    {
+      "type": "paragraph",
+      "text": "Or a plugin like Better Search Replace."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why is my WordPress database so large?",
+      "answer": "Common causes: post revisions (WordPress saves every edit), spam comments, plugin data in wp_options, WooCommerce logs, and caching plugin data. A typical blog shouldn't exceed 100MB without something unusual."
+    },
+    {
+      "question": "Can I delete WordPress post revisions?",
+      "answer": "Yes. Post revisions are safe to delete — they're just old versions of your content. You can delete them via SQL, plugins like WP-Optimize, or add define('WP_POST_REVISIONS', 3) to wp-config.php to limit future revisions."
+    },
+    {
+      "question": "What's the easiest way to migrate a large WordPress site?",
+      "answer": "If you have SSH access on the new host, use command line mysql import — no size limits. Otherwise, split the SQL file into chunks or use a migration plugin that handles large databases."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "phpmyadmin-max-execution-time",
+  "title": "phpMyAdmin max_execution_time: Fix Import Timeouts",
+  "description": "When PHP hits max_execution_time, imports stop. Use this workaround without server access.",
+  "date": "2024-03-23",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["phpMyAdmin", "timeout", "PHP", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "max_execution_time kills long‑running imports in phpMyAdmin. The fastest fix is smaller chunks."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix without touching php.ini"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split your SQL file into smaller parts",
+        "Import sequentially",
+        "Verify schema first"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **How to Fix phpMyAdmin Import Timeout Errors**."
+    },
+    {
+      "type": "cta",
+      "title": "Beat phpMyAdmin timeouts",
+      "text": "Split your dump into smaller, reliable imports.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I change max_execution_time?",
+      "answer": "Only if you control server settings. Otherwise splitting is the best option."
+    }
+  ]
+}

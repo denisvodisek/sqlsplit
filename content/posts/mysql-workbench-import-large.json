@@ -1,0 +1,44 @@
+{
+  "slug": "mysql-workbench-import-large",
+  "title": "MySQL Workbench Import Too Slow? Do This Instead",
+  "description": "Workbench can hang on large dumps. Here’s a more reliable import flow.",
+  "date": "2024-03-26",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL Workbench", "import", "slow", "dump"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Workbench is fine for small dumps, but large files often hang or fail."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Better approach"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump and use CLI import for reliability."
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **Import Large SQL Files with MySQL CLI**."
+    },
+    {
+      "type": "cta",
+      "title": "Fix Workbench imports",
+      "text": "Split big dumps and switch to CLI.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why does Workbench hang?",
+      "answer": "It struggles with very large files and long-running imports."
+    }
+  ]
+}
