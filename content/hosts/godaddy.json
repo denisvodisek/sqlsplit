@@ -1,0 +1,20 @@
+{
+  "slug": "godaddy",
+  "title": "GoDaddy SQL Import Guide",
+  "description": "GoDaddy shared hosting limits make large imports fail without splitting.",
+  "limits": [
+    "Low upload limits",
+    "phpMyAdmin timeouts",
+    "Limited or no SSH"
+  ],
+  "bestFixes": [
+    "Split into 10–20MB parts",
+    "Import sequentially",
+    "Ask support for direct import"
+  ],
+  "related": [
+    "import-large-sql-file-godaddy",
+    "phpmyadmin-upload-limit",
+    "phpmyadmin-import-timeout"
+  ]
+}

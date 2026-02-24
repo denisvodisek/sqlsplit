@@ -18,6 +18,7 @@ import { Progress } from '@/components/ui/progress'
 import { useState, useCallback } from 'react'
 import pako from 'pako'
 import Link from 'next/link'
+import { generateFAQSchema } from '@/lib/schema'
 import {
   Globe,
   Gear,
@@ -260,8 +261,14 @@ export default function Home() {
     await handleSplit(demoFile)
   }
 
+  const faqSchema = generateFAQSchema({ questions: homeFaq })
+
   return (
     <div className="min-h-screen relative z-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <AnimatedBackground />
 
       {/* Header */}

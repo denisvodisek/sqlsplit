@@ -1,0 +1,20 @@
+{
+  "slug": "hostgator",
+  "title": "HostGator SQL Import Guide",
+  "description": "HostGator shared plans often fail on large SQL imports.",
+  "limits": [
+    "Low upload limits",
+    "phpMyAdmin timeouts",
+    "Limited resources on shared hosting"
+  ],
+  "bestFixes": [
+    "Split into 10–20MB chunks",
+    "Import sequentially",
+    "Use CLI if SSH is available"
+  ],
+  "related": [
+    "import-large-sql-file-hostgator",
+    "phpmyadmin-upload-limit",
+    "sql-import-hangs"
+  ]
+}

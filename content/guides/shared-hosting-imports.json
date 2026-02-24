@@ -1,0 +1,15 @@
+{
+  "slug": "shared-hosting-imports",
+  "title": "Import Large SQL Files on Shared Hosting",
+  "description": "Shared hosting has tight limits. This workflow avoids timeouts and upload caps.",
+  "bullets": [
+    "Split dumps into 10–20MB parts",
+    "Import sequentially via phpMyAdmin",
+    "Use SSH + CLI if your host allows it"
+  ],
+  "related": [
+    "import-large-sql-file-cpanel",
+    "cpanel-ssh-import",
+    "restore-large-backup-hosting"
+  ]
+}

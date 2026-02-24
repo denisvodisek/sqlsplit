@@ -1,0 +1,20 @@
+{
+  "slug": "siteground",
+  "title": "SiteGround SQL Import Guide",
+  "description": "SiteGround import limits make large dumps unreliable without splitting.",
+  "limits": [
+    "Upload caps on shared hosting",
+    "Execution timeouts",
+    "Large statements can fail"
+  ],
+  "bestFixes": [
+    "Split into smaller files",
+    "Import via phpMyAdmin in order",
+    "Use SSH + CLI on higher plans"
+  ],
+  "related": [
+    "import-large-sql-file-cpanel",
+    "phpmyadmin-import-timeout",
+    "mysql-cli-import-large"
+  ]
+}

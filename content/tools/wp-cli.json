@@ -1,0 +1,19 @@
+{
+  "slug": "wp-cli",
+  "title": "WP‑CLI Database Import Guide",
+  "description": "WP‑CLI runs on the server and handles large WordPress imports better than phpMyAdmin.",
+  "bestFor": [
+    "Large WordPress databases",
+    "Migrations on managed hosts",
+    "Repeatable imports"
+  ],
+  "limits": [
+    "Requires WP‑CLI access",
+    "Needs SSH or host support"
+  ],
+  "related": [
+    "wp-cli-import-large-db",
+    "wordpress-database-too-large",
+    "split-sql-for-migration-plugins"
+  ]
+}

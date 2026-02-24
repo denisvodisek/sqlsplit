@@ -1,0 +1,19 @@
+{
+  "slug": "adminer",
+  "title": "Adminer Import Guide",
+  "description": "Adminer is lightweight, but large imports still hit limits.",
+  "bestFor": [
+    "Quick admin tasks",
+    "Smaller SQL dumps",
+    "Low‑resource hosting"
+  ],
+  "limits": [
+    "Execution timeouts on large dumps",
+    "Upload limits on shared hosting"
+  ],
+  "related": [
+    "adminer-import-timeout",
+    "phpmyadmin-import-timeout",
+    "phpmyadmin-upload-limit"
+  ]
+}

@@ -10,6 +10,22 @@ SQLSplit is a browser-based tool that splits large SQL dump files into smaller c
 ## Key pages
 - https://sqlsplit.com/
 - https://sqlsplit.com/blog
+- https://sqlsplit.com/blog/guides
+- https://sqlsplit.com/blog/guides/phpmyadmin-import-timeouts
+- https://sqlsplit.com/blog/guides/mysql-import-errors
+- https://sqlsplit.com/blog/guides/wordpress-migrations
+- https://sqlsplit.com/blog/guides/shared-hosting-imports
+- https://sqlsplit.com/blog/tools
+- https://sqlsplit.com/blog/tool/phpmyadmin
+- https://sqlsplit.com/blog/tool/adminer
+- https://sqlsplit.com/blog/tool/mysql-cli
+- https://sqlsplit.com/blog/tool/wp-cli
+- https://sqlsplit.com/blog/tool/mysql-workbench
+- https://sqlsplit.com/blog/hosts
+- https://sqlsplit.com/blog/host/godaddy
+- https://sqlsplit.com/blog/host/bluehost
+- https://sqlsplit.com/blog/host/hostgator
+- https://sqlsplit.com/blog/host/siteground
 - https://sqlsplit.com/blog/errors
 - https://sqlsplit.com/blog/topic/phpmyadmin
 - https://sqlsplit.com/blog/topic/wordpress

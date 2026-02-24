@@ -1,0 +1,20 @@
+{
+  "slug": "bluehost",
+  "title": "Bluehost SQL Import Guide",
+  "description": "Bluehost phpMyAdmin limits are strict for big SQL dumps.",
+  "limits": [
+    "Upload caps on shared hosting",
+    "Execution timeouts",
+    "Large inserts can fail"
+  ],
+  "bestFixes": [
+    "Split into smaller chunks",
+    "Import in order",
+    "Use SSH if available"
+  ],
+  "related": [
+    "import-large-sql-file-bluehost",
+    "phpmyadmin-import-timeout",
+    "mysql-cli-import-large"
+  ]
+}

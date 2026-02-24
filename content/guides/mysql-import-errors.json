@@ -1,0 +1,17 @@
+{
+  "slug": "mysql-import-errors",
+  "title": "MySQL Import Errors: The Practical Fix Guide",
+  "description": "A focused guide to the most common MySQL import failures and how to fix them fast.",
+  "bullets": [
+    "Reduce statement size with splitting",
+    "Avoid max_allowed_packet crashes",
+    "Use CLI when available for reliability",
+    "Import in order to avoid foreign key issues"
+  ],
+  "related": [
+    "mysql-import-error-2006",
+    "mysql-import-error-2013-lost-connection",
+    "mysql-max-allowed-packet",
+    "foreign-key-checks-import"
+  ]
+}

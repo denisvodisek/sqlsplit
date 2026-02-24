@@ -1,0 +1,19 @@
+{
+  "slug": "mysql-cli",
+  "title": "MySQL CLI Import Guide",
+  "description": "The most reliable way to import large SQL dumps when you have SSH access.",
+  "bestFor": [
+    "Very large dumps",
+    "No browser timeouts",
+    "Automated imports"
+  ],
+  "limits": [
+    "Requires SSH access",
+    "Still benefits from smaller chunks"
+  ],
+  "related": [
+    "mysql-cli-import-large",
+    "cli-import-order",
+    "split-sql-by-size-vs-lines"
+  ]
+}

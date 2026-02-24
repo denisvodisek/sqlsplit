@@ -1,0 +1,19 @@
+{
+  "slug": "mysql-workbench",
+  "title": "MySQL Workbench Import Guide",
+  "description": "Workbench is fine for small dumps but often hangs on large files.",
+  "bestFor": [
+    "Small imports",
+    "Local development databases",
+    "Quick schema previews"
+  ],
+  "limits": [
+    "Can hang on large files",
+    "Slow for big INSERT statements"
+  ],
+  "related": [
+    "mysql-workbench-import-large",
+    "mysql-cli-import-large",
+    "big-insert-statements-split"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "wordpress-migrations",
+  "title": "WordPress Database Migration: Big Dumps, Zero Failures",
+  "description": "Move WordPress databases safely even when the export is hundreds of MB.",
+  "bullets": [
+    "Split the SQL file before import",
+    "Use WP‑CLI for large dumps when possible",
+    "Import in order and verify URLs after migration"
+  ],
+  "related": [
+    "wordpress-database-too-large",
+    "wp-cli-import-large-db",
+    "split-sql-for-migration-plugins"
+  ]
+}

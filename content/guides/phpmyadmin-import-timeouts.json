@@ -1,0 +1,17 @@
+{
+  "slug": "phpmyadmin-import-timeouts",
+  "title": "Fix phpMyAdmin Import Timeouts (Without Server Access)",
+  "description": "The fastest, most reliable workflow to import large SQL files in phpMyAdmin.",
+  "bullets": [
+    "Split the dump into 10–20MB chunks",
+    "Import the schema or first chunk first",
+    "Load remaining chunks in order",
+    "Use smaller chunks if errors persist"
+  ],
+  "related": [
+    "phpmyadmin-import-timeout",
+    "phpmyadmin-upload-limit",
+    "phpmyadmin-max-execution-time",
+    "sql-import-hangs"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "phpmyadmin",
+  "title": "phpMyAdmin Import Guide",
+  "description": "phpMyAdmin is convenient but fragile for large dumps. Here’s the safe workflow.",
+  "bestFor": [
+    "Small to medium imports",
+    "Shared hosting environments",
+    "Quick database restores"
+  ],
+  "limits": [
+    "Low upload limits (often 2–50MB)",
+    "max_execution_time timeouts",
+    "Large INSERT statements can fail"
+  ],
+  "related": [
+    "phpmyadmin-import-timeout",
+    "phpmyadmin-upload-limit",
+    "phpmyadmin-max-execution-time"
+  ]
+}
