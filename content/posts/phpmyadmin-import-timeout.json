@@ -1,0 +1,142 @@
+{
+  "slug": "phpmyadmin-import-timeout",
+  "title": "How to Fix phpMyAdmin Import Timeout Errors",
+  "description": "Getting 'Script timeout passed' when importing SQL files? Here's how to actually fix it without touching server settings.",
+  "date": "2024-01-15",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["phpMyAdmin", "MySQL", "timeout", "import"],
+  "featured": true,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "You're trying to import a database backup through phpMyAdmin and it just dies. 'Script timeout passed, if you want to finish import, please resubmit the same file and import will resume.' Sound familiar?"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why this happens"
+    },
+    {
+      "type": "paragraph",
+      "text": "phpMyAdmin runs as a PHP script. PHP has execution time limits (usually 30-300 seconds). When your import takes longer than that limit, PHP kills the script."
+    },
+    {
+      "type": "paragraph",
+      "text": "Most shared hosting providers set this low to prevent runaway scripts from hogging server resources. And they usually won't let you change it."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The solutions (from easiest to hardest)"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1. Split the file (works on any hosting)"
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the most reliable fix. Break your big SQL file into smaller chunks, then import each one. Each import finishes before the timeout hits."
+    },
+    {
+      "type": "paragraph",
+      "text": "You can use SQLSplit to do this in your browser — just drop your file in and choose how many lines per chunk. 10,000 lines usually works well for phpMyAdmin."
+    },
+    {
+      "type": "cta",
+      "title": "Split your SQL file now",
+      "text": "No upload needed — runs entirely in your browser.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2. Use the command line (if you have SSH access)"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you have SSH access to your server, skip phpMyAdmin entirely:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u username -p database_name < your_file.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "This runs directly on the server with no PHP timeout. It's faster too."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "3. Increase PHP limits (if you control the server)"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you have access to php.ini or .htaccess, you can bump up the limits:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "max_execution_time = 600\nmax_input_time = 600\nmemory_limit = 512M\npost_max_size = 256M\nupload_max_filesize = 256M"
+    },
+    {
+      "type": "paragraph",
+      "text": "But on shared hosting, these are usually locked down. That's why splitting the file is often your only option."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How big is too big?"
+    },
+    {
+      "type": "paragraph",
+      "text": "There's no exact number, but as a rule of thumb:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Under 10MB: Usually imports fine",
+        "10-50MB: Might timeout on slow hosts",
+        "50-200MB: Will almost certainly timeout",
+        "Over 200MB: Don't even try phpMyAdmin"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "If you're dealing with files over 200MB, use command line import or split into many small chunks."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The 'resume' feature doesn't always work"
+    },
+    {
+      "type": "paragraph",
+      "text": "phpMyAdmin claims it can resume imports. In practice, this is flaky. It works by tracking which line it reached, but if your SQL has transactions or foreign key constraints, a partial import can leave your database in a broken state."
+    },
+    {
+      "type": "paragraph",
+      "text": "Splitting the file properly — so each chunk is a complete, valid SQL file — is more reliable than trusting the resume feature."
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I increase phpMyAdmin timeout?",
+      "answer": "You need to increase PHP's max_execution_time in php.ini or .htaccess. On shared hosting, this is often not possible. The alternative is to split your SQL file into smaller chunks."
+    },
+    {
+      "question": "Can phpMyAdmin import large files?",
+      "answer": "phpMyAdmin struggles with files over 50MB due to PHP execution limits and upload size restrictions. For large imports, use command line MySQL or split the file first."
+    },
+    {
+      "question": "Why does phpMyAdmin keep timing out?",
+      "answer": "PHP has a max_execution_time setting that kills scripts running too long. Large SQL imports exceed this limit. Split your file into smaller chunks or use command line import."
+    }
+  ]
+}

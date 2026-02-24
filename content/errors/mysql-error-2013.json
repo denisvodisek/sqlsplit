@@ -1,0 +1,20 @@
+{
+  "slug": "mysql-error-2013",
+  "title": "MySQL Error 2013: Lost Connection During Query",
+  "description": "The connection drops while importing a large or slow statement.",
+  "causes": [
+    "Long‑running INSERT statements",
+    "Server timeouts on shared hosting",
+    "Large dump imported via phpMyAdmin"
+  ],
+  "fixes": [
+    "Split the dump into smaller parts",
+    "Import via CLI or WP‑CLI when possible",
+    "Reduce statement size by splitting"
+  ],
+  "related": [
+    "mysql-import-error-2013-lost-connection",
+    "phpmyadmin-max-execution-time",
+    "mysql-cli-import-large"
+  ]
+}

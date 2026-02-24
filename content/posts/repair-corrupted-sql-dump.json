@@ -1,0 +1,49 @@
+{
+  "slug": "repair-corrupted-sql-dump",
+  "title": "How to Repair a Corrupted SQL Dump",
+  "description": "Corrupted dumps cause import errors and random failures. Here’s how to recover what you can.",
+  "date": "2024-04-03",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["SQL", "corruption", "import", "backup"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Corrupted dumps often show invalid SQL or gzip errors. Recovery depends on where the damage is."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Practical steps"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Re‑download or re‑export if possible",
+        "Split the dump to isolate the broken section",
+        "Import the valid parts"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **MySQL Error 2006: Server Has Gone Away**."
+    },
+    {
+      "type": "cta",
+      "title": "Recover what you can",
+      "text": "Split the dump to isolate corruption.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can SQLSplit fix corrupted dumps?",
+      "answer": "It can help isolate the broken part so you can import the rest."
+    }
+  ]
+}

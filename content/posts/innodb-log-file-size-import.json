@@ -1,0 +1,44 @@
+{
+  "slug": "innodb-log-file-size-import",
+  "title": "InnoDB Log File Size Errors During Import",
+  "description": "Large imports can exceed InnoDB log capacity. Here’s how to reduce the load.",
+  "date": "2024-03-21",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["InnoDB", "MySQL", "import", "error"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "If InnoDB log files are too small, big imports can stall or fail under heavy write load."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What you can do without server access"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump into smaller chunks so each import generates less log activity."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **MySQL Error 2006: Server Has Gone Away**."
+    },
+    {
+      "type": "cta",
+      "title": "Reduce import load",
+      "text": "Split large dumps into smaller, safer batches.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I change InnoDB log file size?",
+      "answer": "Only if you control the server configuration."
+    }
+  ]
+}

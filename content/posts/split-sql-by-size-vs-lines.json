@@ -1,0 +1,53 @@
+{
+  "slug": "split-sql-by-size-vs-lines",
+  "title": "Split SQL by Size vs Lines: Which Is Better?",
+  "description": "Both methods work, but each is better for different import tools and limits.",
+  "date": "2024-03-30",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["split", "lines", "size", "SQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "You can split by lines or by file size. The right choice depends on your import target."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When to split by size"
+    },
+    {
+      "type": "paragraph",
+      "text": "phpMyAdmin and shared hosting have strict upload limits. Size‑based splits are safest."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When to split by lines"
+    },
+    {
+      "type": "paragraph",
+      "text": "Line‑based splits are useful for predictable chunk sizes in CLI imports."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Split a mysqldump File Into Smaller Parts**."
+    },
+    {
+      "type": "cta",
+      "title": "Choose the right split mode",
+      "text": "Use size for phpMyAdmin, lines for CLI.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Does SQLSplit preserve SQL structure in both modes?",
+      "answer": "Yes. It keeps statements intact either way."
+    }
+  ]
+}

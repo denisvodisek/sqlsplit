@@ -1,0 +1,44 @@
+{
+  "slug": "import-large-sql-file-godaddy",
+  "title": "Importing Large SQL Files on GoDaddy Hosting",
+  "description": "GoDaddy phpMyAdmin limits are low. Here’s how to get big imports done.",
+  "date": "2024-04-04",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["GoDaddy", "hosting", "phpMyAdmin", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "GoDaddy’s phpMyAdmin upload caps make large imports painful."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Workaround"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump into smaller files and import sequentially."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **phpMyAdmin Upload Limit Too Small?**"
+    },
+    {
+      "type": "cta",
+      "title": "Import on GoDaddy",
+      "text": "Split your dump and bypass upload caps.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Does GoDaddy allow SSH?",
+      "answer": "Some plans do, many shared plans do not."
+    }
+  ]
+}

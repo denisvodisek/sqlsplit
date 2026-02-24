@@ -1,0 +1,58 @@
+{
+  "slug": "big-insert-statements-split",
+  "title": "Huge INSERT Statements Breaking Imports? Split Them Safely",
+  "description": "Large INSERT blocks cause packet errors and timeouts. Here’s how to split a dump without damage.",
+  "date": "2024-03-18",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["INSERT", "MySQL", "import", "split"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "A single INSERT can contain thousands of rows. If it’s too big, imports fail with packet errors."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why this hurts"
+    },
+    {
+      "type": "paragraph",
+      "text": "max_allowed_packet and timeouts are triggered by oversized statements."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split by size or line count",
+        "Import the schema chunk first",
+        "Then import data chunks in order"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **MySQL max_allowed_packet Error: What It Means and How to Fix It**."
+    },
+    {
+      "type": "cta",
+      "title": "Split big INSERTs",
+      "text": "Keep your import stable by reducing statement size.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I split inside an INSERT safely?",
+      "answer": "Only if the splitter is SQL‑aware. Otherwise you’ll corrupt the statement."
+    }
+  ]
+}

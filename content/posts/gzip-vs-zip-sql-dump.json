@@ -1,0 +1,44 @@
+{
+  "slug": "gzip-vs-zip-sql-dump",
+  "title": "Gzip vs Zip for SQL Dumps: Which One Should You Use?",
+  "description": "Gzip is standard for database dumps. Zip is fine too, but here’s what to expect.",
+  "date": "2024-03-27",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["gzip", "zip", "SQL", "backup"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Most dump tools output gzip because it’s fast and stream-friendly. Zip is more common for multi-file bundles."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Recommendation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Use .sql.gz for big dumps. It compresses well and is easy to stream or split after decompress."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Split a mysqldump File Into Smaller Parts**."
+    },
+    {
+      "type": "cta",
+      "title": "Split .sql.gz files",
+      "text": "Drop the compressed dump and split it in your browser.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can SQLSplit handle .sql.gz?",
+      "answer": "Yes. It decompresses and splits automatically."
+    }
+  ]
+}

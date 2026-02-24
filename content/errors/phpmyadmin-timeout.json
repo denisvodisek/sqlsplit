@@ -1,0 +1,20 @@
+{
+  "slug": "phpmyadmin-timeout",
+  "title": "phpMyAdmin Import Timeout",
+  "description": "phpMyAdmin times out when the import takes too long or the file is too big.",
+  "causes": [
+    "max_execution_time reached",
+    "Upload size limits on shared hosting",
+    "Large dumps with huge INSERTs"
+  ],
+  "fixes": [
+    "Split the dump into 10–20MB parts",
+    "Import sequentially",
+    "Use CLI import if available"
+  ],
+  "related": [
+    "phpmyadmin-import-timeout",
+    "phpmyadmin-upload-limit",
+    "phpmyadmin-max-execution-time"
+  ]
+}

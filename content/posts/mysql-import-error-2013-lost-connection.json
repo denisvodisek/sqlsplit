@@ -1,0 +1,62 @@
+{
+  "slug": "mysql-import-error-2013-lost-connection",
+  "title": "MySQL Error 2013: Lost Connection During Query (Import Fix)",
+  "description": "Imports failing with ERROR 2013? The connection is dropping mid‑query. Here's how to stabilize it.",
+  "date": "2024-03-07",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL", "error 2013", "import", "timeout"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "ERROR 2013 means MySQL dropped the connection while processing a long or heavy query."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Common triggers"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Huge INSERT statements",
+        "Slow shared hosting",
+        "phpMyAdmin timeouts"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fastest fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump into smaller chunks and import them sequentially. This reduces query time per request."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Fix phpMyAdmin Import Timeout Errors** and **MySQL Error 2006: Server Has Gone Away**."
+    },
+    {
+      "type": "cta",
+      "title": "Avoid connection drops",
+      "text": "Split your dump into smaller, safer files.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is Error 2013 the same as Error 2006?",
+      "answer": "They’re related. Both indicate the connection died during a heavy query."
+    },
+    {
+      "question": "Will CLI import help?",
+      "answer": "Yes. MySQL CLI is more resilient, but splitting still helps."
+    }
+  ]
+}

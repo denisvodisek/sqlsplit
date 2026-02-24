@@ -1,0 +1,54 @@
+{
+  "slug": "split-sql-file-linux",
+  "title": "How to Split a Large SQL File on Linux (Without Corrupting It)",
+  "description": "Linux has powerful CLI tools, but naive splits break SQL. Here’s the safe method.",
+  "date": "2024-03-13",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["Linux", "split", "SQL", "CLI"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "If you split a SQL dump by bytes or lines blindly, you risk broken statements and failed imports."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Use a SQL‑aware splitter"
+    },
+    {
+      "type": "paragraph",
+      "text": "SQLSplit preserves statement boundaries and output order for reliable imports."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Import in sequence"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u user -p db_name < dump_part_1.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Split a mysqldump File Into Smaller Parts**."
+    },
+    {
+      "type": "cta",
+      "title": "Split big dumps on Linux",
+      "text": "Keep SQL valid, avoid import failures.",
+      "buttonText": "Split with SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I use `split -b` safely?",
+      "answer": "No. It can cut INSERT statements and break the import."
+    }
+  ]
+}

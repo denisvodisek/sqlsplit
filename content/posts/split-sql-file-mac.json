@@ -1,0 +1,57 @@
+{
+  "slug": "split-sql-file-mac",
+  "title": "How to Split a Large SQL File on macOS",
+  "description": "macOS has built‑in tools, but SQL dumps need structure‑aware splitting. Here’s the right way.",
+  "date": "2024-03-12",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["macOS", "split", "SQL", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Large SQL dumps can’t be split with simple `split` commands if you want valid imports."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Structure‑aware splitting"
+    },
+    {
+      "type": "paragraph",
+      "text": "Use a splitter that keeps CREATE TABLE statements and multi‑line INSERTs intact."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Recommended size"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "10–20MB for phpMyAdmin",
+        "50MB+ if importing via CLI"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **How to Import Large SQL Files in cPanel**."
+    },
+    {
+      "type": "cta",
+      "title": "Split on macOS safely",
+      "text": "Break large dumps without breaking SQL.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is the macOS `split` command safe?",
+      "answer": "No. It splits by bytes and can cut statements in half."
+    }
+  ]
+}

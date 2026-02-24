@@ -1,0 +1,44 @@
+{
+  "slug": "import-large-sql-file-bluehost",
+  "title": "Import Large SQL Files on Bluehost",
+  "description": "Bluehost’s phpMyAdmin limits can block big imports. Use this proven workflow.",
+  "date": "2024-04-05",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["Bluehost", "phpMyAdmin", "import", "hosting"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Large dumps often exceed Bluehost’s upload and execution limits."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Best fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split the dump into 10–20MB parts and import sequentially."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Import Large SQL Files in cPanel**."
+    },
+    {
+      "type": "cta",
+      "title": "Import on Bluehost",
+      "text": "Split big SQL files and avoid timeouts.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can support import the dump for me?",
+      "answer": "Sometimes, yes. It’s worth asking."
+    }
+  ]
+}

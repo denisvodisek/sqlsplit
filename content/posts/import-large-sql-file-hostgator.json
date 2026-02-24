@@ -1,0 +1,44 @@
+{
+  "slug": "import-large-sql-file-hostgator",
+  "title": "Import Large SQL Files on HostGator",
+  "description": "HostGator phpMyAdmin limits are low. Split the dump for reliable imports.",
+  "date": "2024-04-06",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["HostGator", "phpMyAdmin", "import", "hosting"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Large SQL files often fail on HostGator’s shared hosting limits."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Best workaround"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split into 10–20MB chunks and import one by one."
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **phpMyAdmin Upload Limit Too Small?**"
+    },
+    {
+      "type": "cta",
+      "title": "Import on HostGator",
+      "text": "Split large dumps into safe chunks.",
+      "buttonText": "Split SQL file",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "What if the import still fails?",
+      "answer": "Try smaller chunks or use CLI if SSH is available."
+    }
+  ]
+}

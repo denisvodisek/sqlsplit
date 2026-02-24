@@ -1,0 +1,137 @@
+{
+  "slug": "mysql-import-error-2006",
+  "title": "MySQL Error 2006: Server Has Gone Away (During Import)",
+  "description": "Your import dies with 'MySQL server has gone away'. Here's what's happening and how to fix it.",
+  "date": "2024-02-20",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL", "error", "import", "timeout"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Importing a SQL file and it fails partway through with 'ERROR 2006 (HY000): MySQL server has gone away'. Your import is dead, your database is half-populated."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What this error actually means"
+    },
+    {
+      "type": "paragraph",
+      "text": "MySQL closed the connection. This usually happens because:"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "**Packet too large** — A single query exceeded max_allowed_packet",
+        "**Connection timeout** — The query took too long (wait_timeout)",
+        "**Server crashed** — Less common, but possible with huge queries"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "During imports, it's almost always #1 or #2."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix for max_allowed_packet"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you can change MySQL settings:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SET GLOBAL max_allowed_packet=512*1024*1024;"
+    },
+    {
+      "type": "paragraph",
+      "text": "Or add to my.cnf and restart MySQL:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "[mysqld]\nmax_allowed_packet=512M"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix for wait_timeout"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SET GLOBAL wait_timeout=28800;\nSET GLOBAL interactive_timeout=28800;"
+    },
+    {
+      "type": "paragraph",
+      "text": "This sets 8-hour timeouts. Overkill for most imports, but it won't hurt."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Can't change MySQL settings?"
+    },
+    {
+      "type": "paragraph",
+      "text": "On shared hosting, you probably can't. Your options:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split the SQL file into smaller chunks",
+        "Re-export with smaller INSERT statements (--skip-extended-insert)",
+        "Ask your host to import it for you"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Split your SQL file",
+      "text": "Avoid the 'server gone away' error with smaller chunks.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Recovering from a partial import"
+    },
+    {
+      "type": "paragraph",
+      "text": "If the import died halfway, your database is probably in a bad state. You have two options:"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "**Drop all tables and start over** — Safest. DROP DATABASE, CREATE DATABASE, try again.",
+        "**Figure out where it stopped** — Harder. You'd need to check which tables have data and resume from there."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For a clean import, starting over with properly split files is usually less painful than debugging a partial import."
+    }
+  ],
+  "faq": [
+    {
+      "question": "What causes 'MySQL server has gone away' during import?",
+      "answer": "Usually a query that's too large (exceeds max_allowed_packet) or takes too long (exceeds wait_timeout). MySQL closes the connection when limits are exceeded."
+    },
+    {
+      "question": "How do I increase MySQL packet size?",
+      "answer": "Run SET GLOBAL max_allowed_packet=512*1024*1024; in MySQL, or add max_allowed_packet=512M to my.cnf under [mysqld]. You need server access to change these settings."
+    },
+    {
+      "question": "Can I resume a failed MySQL import?",
+      "answer": "MySQL doesn't have built-in resume. You'd need to manually find where it stopped and import remaining data. For large files, it's often easier to drop everything and start fresh with split files."
+    }
+  ]
+}

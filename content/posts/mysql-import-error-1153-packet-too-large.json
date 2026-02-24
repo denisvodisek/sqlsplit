@@ -1,0 +1,62 @@
+{
+  "slug": "mysql-import-error-1153-packet-too-large",
+  "title": "MySQL Error 1153: Got a Packet Bigger Than 'max_allowed_packet'",
+  "description": "Your import fails with ERROR 1153. Here's why it happens and how to fix it without server access.",
+  "date": "2024-03-05",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL", "max_allowed_packet", "import", "error"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "ERROR 1153 means MySQL received a statement larger than it allows. Imports die mid‑way, often on big INSERT blocks."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why this happens"
+    },
+    {
+      "type": "paragraph",
+      "text": "MySQL limits the size of a single statement. Large dumps often contain huge INSERT statements that exceed max_allowed_packet."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix without server access"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split the dump into smaller files",
+        "Import chunks in order",
+        "Keep table structure chunk first"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Splitting reduces statement size and avoids packet limits. See also: **MySQL max_allowed_packet Error: What It Means and How to Fix It**."
+    },
+    {
+      "type": "cta",
+      "title": "Split your SQL dump",
+      "text": "Break huge INSERTs into safe chunks.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do I need server access to fix Error 1153?",
+      "answer": "No. Splitting the dump avoids oversized statements without changing server settings."
+    },
+    {
+      "question": "What size should I aim for?",
+      "answer": "Start with 10–20MB chunks for phpMyAdmin or shared hosting."
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "slug": "split-mysqldump-file",
+  "title": "How to Split a mysqldump File Into Smaller Parts",
+  "description": "Your mysqldump is too big to handle. Here's how to break it into importable chunks without breaking the SQL.",
+  "date": "2024-02-10",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["mysqldump", "split", "backup", "MySQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "mysqldump creates one big file. That's great for backups, not so great when you need to actually restore it somewhere with size limits."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The naive approach (and why it breaks)"
+    },
+    {
+      "type": "paragraph",
+      "text": "You might think to just use the Unix split command:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "split -l 10000 dump.sql chunk_"
+    },
+    {
+      "type": "paragraph",
+      "text": "This splits by line count. The problem? SQL statements can span multiple lines. You'll end up with files that have half an INSERT statement at the end and the other half at the start of the next file. Neither will import."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What proper splitting needs to do"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Keep multi-line statements together",
+        "Preserve the header (SET statements, charset settings)",
+        "Include the header in each chunk so they're independently importable",
+        "Not break in the middle of a transaction"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 1: Use a SQL-aware splitter"
+    },
+    {
+      "type": "paragraph",
+      "text": "Tools that understand SQL structure will split at statement boundaries, not arbitrary line counts."
+    },
+    {
+      "type": "cta",
+      "title": "Split your mysqldump",
+      "text": "Splits at SQL statement boundaries, keeps headers intact.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 2: Export tables separately"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you still have access to the source database, export each table as a separate file:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Export just the schema\nmysqldump --no-data database_name > schema.sql\n\n# Export each table's data separately\nmysqldump --no-create-info database_name table1 > table1_data.sql\nmysqldump --no-create-info database_name table2 > table2_data.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Import schema first, then data files in any order."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 3: Use --where for really big tables"
+    },
+    {
+      "type": "paragraph",
+      "text": "If one table is the problem (like a huge logs table), split it by rows:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump database_name big_table --where=\"id < 1000000\" > big_table_1.sql\nmysqldump database_name big_table --where=\"id >= 1000000 AND id < 2000000\" > big_table_2.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What about gzip compressed dumps?"
+    },
+    {
+      "type": "paragraph",
+      "text": "If your dump is compressed (.sql.gz), you need to either:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Decompress first: gunzip dump.sql.gz",
+        "Use a tool that handles .gz files directly"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "SQLSplit handles .gz files — drop them in and it decompresses automatically before splitting."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Choosing split size"
+    },
+    {
+      "type": "paragraph",
+      "text": "Rule of thumb:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "phpMyAdmin: 10MB or 10,000 lines per chunk",
+        "Command line import on shared host: 50MB per chunk",
+        "Command line on dedicated server: Often don't need to split at all"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "When in doubt, go smaller. More chunks means more imports, but each import is more likely to succeed."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I use the Linux split command for SQL files?",
+      "answer": "Not reliably. The split command divides by lines or bytes without understanding SQL syntax. This often breaks statements in the middle, creating invalid SQL files."
+    },
+    {
+      "question": "How do I split a mysqldump by table?",
+      "answer": "Use mysqldump with specific table names: mysqldump database_name table1 table2 > partial.sql. Or export with --no-create-info for data-only dumps of each table."
+    },
+    {
+      "question": "What's the best way to split a multi-gigabyte mysqldump?",
+      "answer": "For very large dumps, export tables separately from the source if possible. If you only have the dump file, use a SQL-aware splitter that preserves statement boundaries and includes headers in each chunk."
+    }
+  ]
+}

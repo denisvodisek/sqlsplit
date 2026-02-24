@@ -1,0 +1,49 @@
+{
+  "slug": "export-mysqldump-best-practices",
+  "title": "mysqldump Best Practices for Large Databases",
+  "description": "Create dumps that are easier to import: options, size tips, and safer workflows.",
+  "date": "2024-04-01",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["mysqldump", "backup", "MySQL", "export"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "The way you export a dump affects how easy it is to import. Small changes help a lot."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Practical tips"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Use gzip to reduce size",
+        "Avoid single giant INSERTs",
+        "Test import on a staging DB"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Related: **How to Split a mysqldump File Into Smaller Parts**."
+    },
+    {
+      "type": "cta",
+      "title": "Make imports painless",
+      "text": "Split big dumps before moving them.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Should I compress mysqldump output?",
+      "answer": "Yes. .sql.gz is smaller and easier to transfer."
+    }
+  ]
+}

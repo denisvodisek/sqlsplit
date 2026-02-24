@@ -1,0 +1,49 @@
+{
+  "slug": "mariadb-import-large",
+  "title": "Importing Large MariaDB Dumps Without Timeouts",
+  "description": "MariaDB imports failing or timing out? Split the dump and import in order.",
+  "date": "2024-03-14",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["MariaDB", "import", "phpMyAdmin", "SQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "MariaDB behaves like MySQL during imports — big dumps can trigger timeouts and packet limits."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Best approach"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split the dump into 10–20MB parts",
+        "Import the schema chunk first",
+        "Load remaining chunks in order"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "See also: **How to Fix phpMyAdmin Import Timeout Errors**."
+    },
+    {
+      "type": "cta",
+      "title": "Split MariaDB dumps",
+      "text": "Make large imports reliable again.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Does SQLSplit work for MariaDB?",
+      "answer": "Yes. MariaDB uses the same SQL dump format as MySQL."
+    }
+  ]
+}

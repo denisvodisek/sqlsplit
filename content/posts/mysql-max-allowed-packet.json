@@ -1,0 +1,137 @@
+{
+  "slug": "mysql-max-allowed-packet",
+  "title": "MySQL max_allowed_packet Error: What It Means and How to Fix It",
+  "description": "Getting 'Got a packet bigger than max_allowed_packet bytes'? Here's what's actually happening and your options.",
+  "date": "2024-01-20",
+  "readTime": "3 min read",
+  "author": "SQLSplit",
+  "category": "Troubleshooting",
+  "tags": ["MySQL", "max_allowed_packet", "error", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "You're importing a SQL dump and MySQL throws: 'Got a packet bigger than max_allowed_packet bytes'. The import dies. Now what?"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What this error means"
+    },
+    {
+      "type": "paragraph",
+      "text": "MySQL has a limit on how big a single query can be. The default is usually 4MB or 16MB. If your SQL dump has an INSERT statement larger than this limit, MySQL rejects it."
+    },
+    {
+      "type": "paragraph",
+      "text": "This commonly happens when:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "You have tables with BLOB/TEXT columns containing large data",
+        "mysqldump used extended-insert (multiple rows per INSERT)",
+        "A single table row is just really big"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 1: Increase the limit (if you can)"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you have access to my.cnf or can run MySQL commands:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SET GLOBAL max_allowed_packet=256*1024*1024;"
+    },
+    {
+      "type": "paragraph",
+      "text": "Or in my.cnf:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "[mysqld]\nmax_allowed_packet=256M"
+    },
+    {
+      "type": "paragraph",
+      "text": "Then restart MySQL. But on shared hosting, you probably can't do this."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 2: Re-export with smaller inserts"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you still have access to the source database, export again with these flags:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --skip-extended-insert --single-transaction database_name > dump.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "The --skip-extended-insert flag creates one INSERT per row instead of combining them. The file will be bigger, but each query stays small."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 3: Split the existing dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "Don't have access to the source database? You can split the dump file into smaller chunks. Each chunk stays under the packet limit."
+    },
+    {
+      "type": "paragraph",
+      "text": "Try splitting by size (like 10MB per file) rather than by lines — this directly targets the packet size issue."
+    },
+    {
+      "type": "cta",
+      "title": "Split your SQL dump",
+      "text": "Break it into smaller files that won't hit the packet limit.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Checking your current limit"
+    },
+    {
+      "type": "paragraph",
+      "text": "To see what your server's limit is:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SHOW VARIABLES LIKE 'max_allowed_packet';"
+    },
+    {
+      "type": "paragraph",
+      "text": "If it shows something like 4194304, that's 4MB. Most SQL dumps with real data exceed this quickly."
+    }
+  ],
+  "faq": [
+    {
+      "question": "What is max_allowed_packet in MySQL?",
+      "answer": "It's the maximum size of a single SQL statement MySQL will accept. The default is usually 4MB or 16MB. Large INSERT statements in database dumps often exceed this."
+    },
+    {
+      "question": "How do I increase max_allowed_packet on shared hosting?",
+      "answer": "On shared hosting, you usually can't change MySQL settings. Your options are to re-export with smaller inserts or split the SQL file into smaller chunks."
+    },
+    {
+      "question": "Why does mysqldump create such large INSERT statements?",
+      "answer": "By default, mysqldump uses 'extended insert' which combines multiple rows into one INSERT for better performance. Use --skip-extended-insert for smaller statements."
+    }
+  ]
+}
