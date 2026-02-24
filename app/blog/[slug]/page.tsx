@@ -185,7 +185,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="mt-6">
             <div className="glass rounded-xl p-4">
               <p className="text-xs text-muted-foreground/60 mb-2">Advertisement</p>
-              <AdUnit slot="9876543210" format="horizontal" />
+              <AdUnit slot="6564476404" format="auto" />
             </div>
           </div>
         </main>

@@ -317,6 +317,12 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Above-the-fold Ad */}
+        <div className="glass rounded-xl p-4 mb-10">
+          <p className="text-xs text-muted-foreground/60 mb-2">Advertisement</p>
+          <AdUnit slot="7285338195" format="auto" />
+        </div>
+
         {/* Main Tool Card */}
         <div className="glass rounded-2xl p-6 sm:p-8 space-y-6">
           <FileUpload
@@ -383,7 +389,7 @@ export default function Home() {
             {/* Ad after successful action */}
             <div className="glass rounded-xl p-4">
               <p className="text-xs text-muted-foreground/60 mb-2">Advertisement</p>
-              <AdUnit slot="1234567890" format="horizontal" />
+              <AdUnit slot="6564476404" format="auto" />
             </div>
           </div>
         )}

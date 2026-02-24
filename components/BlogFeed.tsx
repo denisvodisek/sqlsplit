@@ -59,7 +59,7 @@ export function BlogFeed({ posts }: BlogFeedProps) {
             {(index + 1) % 3 === 0 && index < filteredPosts.length - 1 && (
               <div className="glass rounded-xl p-4 mt-4">
                 <p className="text-xs text-muted-foreground/60 mb-2">Advertisement</p>
-                <AdUnit slot="5678901234" format="fluid" layout="in-article" />
+                <AdUnit slot="7285338195" format="auto" />
               </div>
             )}
           </div>
@@ -69,7 +69,7 @@ export function BlogFeed({ posts }: BlogFeedProps) {
       <div className="mt-10">
         <div className="glass rounded-xl p-4">
           <p className="text-xs text-muted-foreground/60 mb-2">Advertisement</p>
-          <AdUnit slot="2345678901" format="horizontal" />
+          <AdUnit slot="6564476404" format="auto" />
         </div>
       </div>
     </>
