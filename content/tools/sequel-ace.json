@@ -1,0 +1,19 @@
+{
+  "slug": "sequel-ace",
+  "title": "Sequel Ace Import Guide",
+  "description": "Sequel Ace is the maintained successor to Sequel Pro for macOS. Use File → Import for large dumps.",
+  "bestFor": [
+    "Native macOS MySQL/MariaDB management",
+    "Free, open-source alternative to paid GUIs",
+    "Importing via File → Import with UTF-8"
+  ],
+  "limits": [
+    "Pasting large dumps into a query window hangs it",
+    "Multi-GB imports are more reliable via the CLI"
+  ],
+  "related": [
+    "tableplus-sequel-ace-import-large",
+    "split-sql-file-mac",
+    "mysql-cli-import-large"
+  ]
+}

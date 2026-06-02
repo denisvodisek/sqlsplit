@@ -1,0 +1,114 @@
+{
+  "slug": "reduce-sql-dump-file-size",
+  "title": "How to Make a mysqldump File Smaller",
+  "description": "Before you fight import limits, shrink the dump. Compression, dropping logs, schema-only exports, and the flags that cut file size the most.",
+  "date": "2026-04-24",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["mysqldump", "backup", "compression", "MySQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Sometimes the best fix for an oversized dump is to make it not oversized. A few export choices can cut a dump by 70–90% before it ever touches an import limit."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "1. Compress it (the biggest single win)"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump database_name | gzip > dump.sql.gz"
+    },
+    {
+      "type": "paragraph",
+      "text": "SQL is extremely compressible — text, repeated keywords, repeated structure. gzip routinely shrinks a dump to 10–20% of its original size. Most import tools (CLI, Cloud SQL, even SQLSplit) read .gz directly."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "2. Skip the data you don't need"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cache, session, and log tables are often the bulk of a database and rarely worth migrating. Exclude their data while keeping their structure:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump database_name \\\n  --ignore-table=database_name.wp_actionscheduler_logs \\\n  --ignore-table=database_name.sessions \\\n  > dump.sql\n\n# Or dump structure-only for heavy tables, data for the rest:\nmysqldump --no-data database_name big_log_table > schema_only.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "3. Use extended inserts (smaller and faster)"
+    },
+    {
+      "type": "paragraph",
+      "text": "Extended inserts pack many rows per statement, which shrinks the file and speeds up import. It's on by default, but make sure it isn't disabled:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --extended-insert --quick database_name > dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "4. Drop binary log / GTID noise"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --skip-comments --set-gtid-purged=OFF \\\n  --no-tablespaces database_name > dump.sql"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "--skip-comments removes the verbose header/footer comments",
+        "--set-gtid-purged=OFF avoids GTID statements that also cause import privilege errors",
+        "--no-tablespaces avoids PROCESS-privilege warnings on managed hosts"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "5. Separate schema from data"
+    },
+    {
+      "type": "paragraph",
+      "text": "Two smaller files are easier to handle than one big one — and you can import schema once, then load data in pieces:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --no-data db > schema.sql\nmysqldump --no-create-info db > data.sql"
+    },
+    {
+      "type": "cta",
+      "title": "Still too big after shrinking?",
+      "text": "Split the remaining dump into importable chunks — works on .sql and .sql.gz alike.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I reduce the size of a mysqldump file?",
+      "answer": "Compress it with gzip (often a 5–10x reduction), exclude bulky log/cache/session table data with --ignore-table, ensure --extended-insert is on, and strip comments and GTID statements. Separating schema from data also makes the pieces easier to handle."
+    },
+    {
+      "question": "Can I import a gzipped SQL dump without decompressing it?",
+      "answer": "Yes. The MySQL CLI can read it via a pipe (gunzip < dump.sql.gz | mysql ...), Cloud SQL imports .gz natively, and tools like SQLSplit accept .gz directly. Keeping it compressed saves a lot of disk and transfer time."
+    },
+    {
+      "question": "Which mysqldump options make the dump smallest?",
+      "answer": "--extended-insert (packs rows), piping through gzip (biggest win), --ignore-table for log/cache tables, --skip-comments, and --no-data for tables you only need the structure of."
+    }
+  ]
+}

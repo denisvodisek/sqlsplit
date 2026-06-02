@@ -1,0 +1,20 @@
+{
+  "slug": "dreamhost",
+  "title": "DreamHost SQL Import Guide",
+  "description": "DreamHost's phpMyAdmin times out on large dumps, but SSH access makes the CLI the better route.",
+  "limits": [
+    "phpMyAdmin import timeouts on large files",
+    "Upload size limits in the web interface",
+    "Remote database host adds latency to imports"
+  ],
+  "bestFixes": [
+    "Use SSH and import with the mysql command line",
+    "Reference the database hostname, not localhost",
+    "Split the dump if you must use phpMyAdmin"
+  ],
+  "related": [
+    "mysql-cli-import-large",
+    "phpmyadmin-import-timeout",
+    "restore-large-backup-hosting"
+  ]
+}

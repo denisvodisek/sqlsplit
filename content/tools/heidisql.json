@@ -1,0 +1,19 @@
+{
+  "slug": "heidisql",
+  "title": "HeidiSQL Import Guide",
+  "description": "HeidiSQL is a popular free Windows client. Use 'Load SQL file' in batch mode for large dumps.",
+  "bestFor": [
+    "Free MySQL/MariaDB management on Windows",
+    "Quick table edits and exports",
+    "Running a .sql file via File → Load SQL file"
+  ],
+  "limits": [
+    "Loading a huge file into the query tab can hang",
+    "Run in batch mode rather than opening in the editor"
+  ],
+  "related": [
+    "split-sql-file-windows",
+    "mysql-cli-import-large",
+    "speed-up-mysql-import"
+  ]
+}

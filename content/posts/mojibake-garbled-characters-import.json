@@ -1,0 +1,95 @@
+{
+  "slug": "mojibake-garbled-characters-import",
+  "title": "Fixing Garbled Characters (Mojibake) After a SQL Import",
+  "description": "Your imported data shows Ã© instead of é, or â€™ instead of an apostrophe. The double-encoding problem explained, with a real fix.",
+  "date": "2026-05-04",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Errors",
+  "tags": ["MySQL", "utf8mb4", "charset", "mojibake", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "After importing, your text is full of Ã©, â€™, and Ã¼ where accented letters and quotes should be. This is mojibake — and it's a character-set mismatch between export, dump, and import, not corrupted data. Your bytes are usually fine; they're just being interpreted with the wrong charset."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "How it happens"
+    },
+    {
+      "type": "paragraph",
+      "text": "The classic case: UTF-8 data was exported while the connection thought it was latin1, so the bytes got tagged wrong. On import, MySQL re-encodes them and you get double-encoded garbage. The data is technically present — it's been run through the wrong decoder."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Prevention: set the charset on both ends"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Export\nmysqldump --default-character-set=utf8mb4 db > dump.sql\n\n# Import\nmysql --default-character-set=utf8mb4 db < dump.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Make sure the dump itself declares the right charset near the top — look for SET NAMES utf8mb4 or /*!40101 SET NAMES utf8mb4 */."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fixing data that's already mojibake"
+    },
+    {
+      "type": "paragraph",
+      "text": "If the data is already imported and garbled, the reliable repair is a round-trip: dump it as latin1 (which preserves the raw bytes), then re-import declaring utf8mb4."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Dump the garbled DB telling MySQL the bytes are latin1\nmysqldump --default-character-set=latin1 --skip-set-charset \\\n  broken_db > recover.sql\n\n# Rewrite the charset declaration to utf8mb4\nsed -i 's/SET NAMES latin1/SET NAMES utf8mb4/' recover.sql\n\n# Re-import as utf8mb4\nmysql --default-character-set=utf8mb4 fixed_db < recover.sql"
+    },
+    {
+      "type": "callout",
+      "title": "Back up before you attempt the round-trip",
+      "text": "Charset repairs can make things worse if the data is triple-encoded or mixed. Always work on a copy and verify a few rows before committing to the fixed database."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Check what you actually have"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SHOW VARIABLES LIKE 'character_set%';\nSHOW CREATE TABLE your_table;  -- check the table's declared charset"
+    },
+    {
+      "type": "paragraph",
+      "text": "Aim for utf8mb4 everywhere — client, connection, results, database, and table. Plain utf8 in MySQL is only 3 bytes and can't store emoji or some characters, which is its own source of corruption."
+    },
+    {
+      "type": "cta",
+      "title": "Editing a large dump's charset?",
+      "text": "Split it first so your SET NAMES find-and-replace runs on smaller, faster files.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why does my imported data show Ã© instead of é?",
+      "answer": "It's mojibake — a character-set mismatch. UTF-8 bytes were interpreted as latin1 somewhere between export and import, causing double-encoding. Set --default-character-set=utf8mb4 on both mysqldump and mysql to prevent it."
+    },
+    {
+      "question": "How do I fix already-garbled characters in MySQL?",
+      "answer": "Do a charset round-trip: dump the broken database with --default-character-set=latin1 --skip-set-charset to preserve raw bytes, change SET NAMES latin1 to utf8mb4 in the dump, then re-import as utf8mb4. Always work on a backup copy."
+    },
+    {
+      "question": "Should I use utf8 or utf8mb4 in MySQL?",
+      "answer": "Always utf8mb4. MySQL's 'utf8' is a legacy 3-byte encoding that can't store emoji or all Unicode characters. utf8mb4 is true 4-byte UTF-8 and avoids a whole class of corruption."
+    }
+  ]
+}

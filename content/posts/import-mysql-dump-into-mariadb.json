@@ -1,0 +1,102 @@
+{
+  "slug": "import-mysql-dump-into-mariadb",
+  "title": "Importing a MySQL Dump Into MariaDB (and Vice Versa)",
+  "description": "MySQL and MariaDB look interchangeable until you import across them. The exact incompatibilities and how to clear each one.",
+  "date": "2026-05-12",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["MariaDB", "MySQL", "migration", "import", "collation"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "MariaDB started as a MySQL fork, so most dumps move across without a hitch. The friction is almost entirely about version-specific features that crept in after the fork — here's the short list that actually causes import failures."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "MySQL 8 → MariaDB: the usual blockers"
+    },
+    {
+      "type": "table",
+      "headers": ["Symptom", "Cause", "Fix"],
+      "rows": [
+        ["Unknown collation utf8mb4_0900_ai_ci", "MySQL 8 default collation", "Replace with utf8mb4_unicode_ci"],
+        ["Error near 'VISIBLE'/'INVISIBLE'", "MySQL 8 invisible indexes", "Strip the keyword"],
+        ["Functional index errors", "MySQL 8 expression indexes", "Remove or rewrite the index"],
+        ["caching_sha2_password issues", "MySQL 8 auth in user dumps", "Don't dump mysql.user; recreate users"]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The collation issue is by far the most common. One sed pass usually clears the import:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g' dump.sql\nmysql -u user -p target_db < dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "MariaDB → MySQL: watch these"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "MariaDB-specific engines (Aria, ColumnStore) — MySQL will reject the ENGINE clause; convert to InnoDB",
+        "PAGE_CHECKSUM / TRANSACTIONAL table options — strip them",
+        "JSON stored as LONGTEXT in older MariaDB — usually imports fine, but indexes may differ",
+        "Sequences (MariaDB 10.3+) — MySQL has no equivalent; convert to AUTO_INCREMENT"
+      ]
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Force everything to InnoDB on the way in\nsed -i 's/ENGINE=Aria/ENGINE=InnoDB/g' dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The clean approach: export for the target"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you still have the source server, exporting with the destination in mind saves all the post-processing. Keep the dump portable:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --no-tablespaces --skip-add-locks \\\n  --default-character-set=utf8mb4 \\\n  database_name > dump.sql"
+    },
+    {
+      "type": "callout",
+      "title": "Never dump the mysql system database",
+      "text": "User accounts, privileges, and auth plugins differ between the two. Migrate schema + data only, then recreate users on the target with CREATE USER / GRANT."
+    },
+    {
+      "type": "cta",
+      "title": "Cross-engine migration of a big database?",
+      "text": "Split the dump so you can apply find-and-replace fixes per chunk and re-run only the parts that fail.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Can I import a MySQL dump directly into MariaDB?",
+      "answer": "Usually yes. The main exception is MySQL 8 dumps, which often use the utf8mb4_0900_ai_ci collation and other MySQL-8-only features MariaDB doesn't recognise. Replace the collation and strip VISIBLE/INVISIBLE index keywords first."
+    },
+    {
+      "question": "What breaks when importing MariaDB into MySQL?",
+      "answer": "MariaDB-specific storage engines (Aria, ColumnStore), table options like PAGE_CHECKSUM, and sequences. Convert engines to InnoDB and remove unsupported options before importing into MySQL."
+    },
+    {
+      "question": "Should I dump user accounts when migrating between MySQL and MariaDB?",
+      "answer": "No. Authentication plugins and the mysql system tables differ between them. Migrate only your application schema and data, then recreate users with CREATE USER and GRANT on the target."
+    }
+  ]
+}

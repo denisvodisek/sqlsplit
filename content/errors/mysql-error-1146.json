@@ -1,0 +1,20 @@
+{
+  "slug": "mysql-error-1146",
+  "title": "MySQL Error 1146: Table Doesn't Exist",
+  "description": "INSERTs ran before the table was created — an ordering problem, usually from importing split chunks out of sequence.",
+  "causes": [
+    "Split chunks imported in the wrong order",
+    "Foreign keys referencing not-yet-created tables",
+    "Table name casing differences across operating systems"
+  ],
+  "fixes": [
+    "Import split files in their numbered order",
+    "Wrap the import in SET FOREIGN_KEY_CHECKS = 0",
+    "Set lower_case_table_names consistently on the target"
+  ],
+  "related": [
+    "mysql-error-1146-table-doesnt-exist-import",
+    "foreign-key-checks-import",
+    "cli-import-order"
+  ]
+}

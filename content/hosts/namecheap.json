@@ -1,0 +1,20 @@
+{
+  "slug": "namecheap",
+  "title": "Namecheap SQL Import Guide",
+  "description": "Namecheap shared hosting uses cPanel with conservative PHP limits that block large dumps.",
+  "limits": [
+    "phpMyAdmin upload cap on shared plans",
+    "PHP execution timeouts",
+    "Entry-process and resource caps on busy imports"
+  ],
+  "bestFixes": [
+    "Split the dump into small chunks and import in order",
+    "Use SSH + the mysql CLI on plans that allow it",
+    "Raise PHP limits via the MultiPHP INI Editor where available"
+  ],
+  "related": [
+    "import-large-sql-file-cpanel",
+    "phpmyadmin-import-timeout",
+    "mysql-cli-import-large"
+  ]
+}

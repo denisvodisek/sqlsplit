@@ -1,0 +1,98 @@
+{
+  "slug": "import-sql-file-mamp",
+  "title": "Import a Large SQL File in MAMP / MAMP PRO",
+  "description": "MAMP bundles its own PHP and MySQL with their own limits. Here's how to import a big database without the phpMyAdmin upload error.",
+  "date": "2026-05-26",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["MAMP", "phpMyAdmin", "localhost", "MySQL", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "MAMP runs its own isolated PHP and MySQL stack. That's why editing your system php.ini does nothing — MAMP ignores it. You have to edit MAMP's copy, or go around phpMyAdmin entirely."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Edit the right php.ini"
+    },
+    {
+      "type": "paragraph",
+      "text": "MAMP picks a php.ini based on the PHP version selected in its preferences. The file lives at:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "text": "/Applications/MAMP/bin/php/php{VERSION}/conf/php.ini"
+    },
+    {
+      "type": "paragraph",
+      "text": "Match {VERSION} to the PHP version shown in MAMP → Preferences → PHP. Then raise:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "upload_max_filesize = 512M\npost_max_size = 512M\nmax_execution_time = 600\nmemory_limit = 1024M"
+    },
+    {
+      "type": "paragraph",
+      "text": "Stop and restart the servers from the MAMP window. In MAMP PRO you can edit php.ini directly under File → Edit Template → PHP."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Import from the command line instead"
+    },
+    {
+      "type": "paragraph",
+      "text": "MAMP's mysql client is the most reliable route for big files. The socket and binary live inside the MAMP folder:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "/Applications/MAMP/Library/bin/mysql -u root -p \\\n  --socket=/Applications/MAMP/tmp/mysql/mysql.sock \\\n  your_database < ~/dump.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "The default MAMP MySQL user is root with password root. The --socket flag matters — MAMP's MySQL listens on its own socket, not the system default, so plain `mysql` from Homebrew won't connect to it."
+    },
+    {
+      "type": "callout",
+      "title": "ERROR 2002 (HY000): Can't connect to local MySQL server",
+      "text": "You're hitting the system MySQL socket instead of MAMP's. Always pass --socket=/Applications/MAMP/tmp/mysql/mysql.sock, or add --host=127.0.0.1 --port=8889 to use MAMP's TCP port."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Or split and import in chunks"
+    },
+    {
+      "type": "paragraph",
+      "text": "Don't want to touch config files or the terminal? Split the dump below MAMP's upload cap and feed the chunks through phpMyAdmin one at a time."
+    },
+    {
+      "type": "cta",
+      "title": "Make a MAMP-friendly set of chunks",
+      "text": "Split at statement boundaries so every piece imports cleanly through phpMyAdmin.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why doesn't editing php.ini change MAMP's upload limit?",
+      "answer": "MAMP uses its own bundled PHP with a php.ini inside /Applications/MAMP/bin/php/php{VERSION}/conf/. Editing the macOS system php.ini has no effect. Edit MAMP's copy for the version selected in preferences, then restart the servers."
+    },
+    {
+      "question": "What is the default MAMP MySQL username and password?",
+      "answer": "Both username and password are 'root'. MySQL runs on port 8889 by default and uses the socket at /Applications/MAMP/tmp/mysql/mysql.sock."
+    },
+    {
+      "question": "How do I connect to MAMP MySQL from the terminal?",
+      "answer": "Use MAMP's own client at /Applications/MAMP/Library/bin/mysql and pass --socket=/Applications/MAMP/tmp/mysql/mysql.sock, or connect over TCP with --host=127.0.0.1 --port=8889."
+    }
+  ]
+}

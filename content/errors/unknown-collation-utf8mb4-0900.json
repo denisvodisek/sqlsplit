@@ -1,0 +1,20 @@
+{
+  "slug": "unknown-collation-utf8mb4-0900",
+  "title": "Unknown Collation: utf8mb4_0900_ai_ci",
+  "description": "A MySQL 8 dump won't import into MariaDB or MySQL 5.7 because they don't recognise the utf8mb4_0900_ai_ci collation.",
+  "causes": [
+    "Exported from MySQL 8 (0900 = Unicode 9.0 collation)",
+    "Importing into MariaDB or MySQL 5.7",
+    "Target server has no matching collation name"
+  ],
+  "fixes": [
+    "Replace utf8mb4_0900_ai_ci with utf8mb4_unicode_ci",
+    "Re-export with a compatible default character set",
+    "Convert MyISAM tables to InnoDB if 'key too long' follows"
+  ],
+  "related": [
+    "unknown-collation-utf8mb4-0900-import",
+    "import-mysql-dump-into-mariadb",
+    "utf8mb4-collation-errors-import"
+  ]
+}

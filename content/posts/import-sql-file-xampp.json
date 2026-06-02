@@ -1,0 +1,109 @@
+{
+  "slug": "import-sql-file-xampp",
+  "title": "How to Import a Large SQL File in XAMPP (Without the Timeout)",
+  "description": "XAMPP's phpMyAdmin chokes on big dumps. Here's how to raise the limits or skip phpMyAdmin entirely with the MySQL command line.",
+  "date": "2026-05-28",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["XAMPP", "phpMyAdmin", "localhost", "MySQL", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "XAMPP is the fastest way to get MySQL running locally — until you try to import a database that's bigger than a few megabytes. phpMyAdmin throws an upload error, or the import just stops halfway. There are two clean fixes."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 1: Raise XAMPP's PHP limits"
+    },
+    {
+      "type": "paragraph",
+      "text": "The default phpMyAdmin upload cap in XAMPP is usually 40MB. Open php.ini (XAMPP Control Panel → Apache → Config → php.ini) and bump these values:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "upload_max_filesize = 512M\npost_max_size = 512M\nmax_execution_time = 600\nmax_input_time = 600\nmemory_limit = 1024M"
+    },
+    {
+      "type": "paragraph",
+      "text": "Restart Apache from the XAMPP Control Panel for the changes to take effect. phpMyAdmin's upload limit on its import screen should now show the new number."
+    },
+    {
+      "type": "callout",
+      "title": "Still capped at 40MB after editing?",
+      "text": "You almost certainly edited the wrong php.ini. XAMPP ships several. The one that matters is the one Apache loads — check phpinfo() for 'Loaded Configuration File' to find the exact path."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 2: Skip phpMyAdmin, use the MySQL CLI"
+    },
+    {
+      "type": "paragraph",
+      "text": "For anything over ~100MB, the command line is faster and won't time out. XAMPP bundles the mysql client. Open a terminal in your XAMPP install:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Windows\ncd C:\\xampp\\mysql\\bin\nmysql -u root -p your_database < C:\\path\\to\\dump.sql\n\n# macOS\n/Applications/XAMPP/xamppfiles/bin/mysql -u root -p your_database < ~/dump.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "The default XAMPP root password is empty — just press Enter when prompted. Create the database first if it doesn't exist:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "CREATE DATABASE your_database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 3: Split the file first"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you're stuck with phpMyAdmin (no terminal access, locked-down machine), split the dump into chunks under the upload limit and import them in order. Each chunk keeps the SQL header so it imports cleanly on its own."
+    },
+    {
+      "type": "cta",
+      "title": "Split your dump for XAMPP",
+      "text": "Break it into 30MB chunks that import one by one — no php.ini editing required.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Which fix should you use?"
+    },
+    {
+      "type": "table",
+      "headers": ["Situation", "Best approach"],
+      "rows": [
+        ["File under 100MB", "Raise php.ini limits, use phpMyAdmin"],
+        ["File over 100MB", "MySQL CLI — fastest, no timeouts"],
+        ["No terminal / locked machine", "Split into chunks, import in order"],
+        ["Import keeps dying mid-way", "CLI, or split + import sequentially"]
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why does XAMPP phpMyAdmin say my file is too large?",
+      "answer": "phpMyAdmin's upload size is limited by PHP's upload_max_filesize and post_max_size settings. Raise both in XAMPP's php.ini and restart Apache, or import via the MySQL command line which has no upload limit."
+    },
+    {
+      "question": "What's the XAMPP MySQL root password?",
+      "answer": "By default it's empty. When mysql prompts for a password, just press Enter. If you set one during setup, use that instead."
+    },
+    {
+      "question": "Is the command line faster than phpMyAdmin in XAMPP?",
+      "answer": "Yes, significantly. The CLI streams the file directly into MySQL without PHP's memory and execution-time limits, so large imports finish faster and won't time out."
+    }
+  ]
+}

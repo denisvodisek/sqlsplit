@@ -1,0 +1,76 @@
+{
+  "slug": "mysql-error-1146-table-doesnt-exist-import",
+  "title": "MySQL Error 1146 'Table Doesn't Exist' During Import",
+  "description": "Error 1146 on import is almost always an ordering problem — the chunk with the data ran before the chunk that creates the table. Here's the fix.",
+  "date": "2026-04-22",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Errors",
+  "tags": ["MySQL", "error 1146", "import", "split", "foreign keys"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Error 1146 — 'Table 'db.something' doesn't exist' — during an import means MySQL tried to INSERT into or reference a table that hasn't been created yet. The data arrived before the structure. There are two usual causes."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cause 1: Chunks imported out of order"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you split a dump and imported the pieces in the wrong sequence, the chunk containing INSERT statements may run before the chunk that contains the matching CREATE TABLE. Split files must be imported in order — part 1, then part 2, then part 3."
+    },
+    {
+      "type": "callout",
+      "title": "Each chunk should keep the header",
+      "text": "A properly split dump repeats the SET/charset header in every chunk and never separates a CREATE TABLE from its INSERTs across a boundary. That's what keeps each piece independently valid — and what naive line-splitting breaks."
+    },
+    {
+      "type": "cta",
+      "title": "Split so each piece is self-contained",
+      "text": "Statement-aware splitting keeps tables and their data together and numbers files for in-order import.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cause 2: Foreign keys referencing not-yet-created tables"
+    },
+    {
+      "type": "paragraph",
+      "text": "Within a single dump, a table with a foreign key may be created before the table it points to. mysqldump normally handles this, but hand-edited or tool-reordered dumps can break it. Disable the check during import:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SET FOREIGN_KEY_CHECKS = 0;\nSOURCE dump.sql;\nSET FOREIGN_KEY_CHECKS = 1;"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cause 3: Case sensitivity across operating systems"
+    },
+    {
+      "type": "paragraph",
+      "text": "Moving from Windows/macOS (case-insensitive) to Linux (case-sensitive) can turn `MyTable` and `mytable` into different tables. If 1146 names a table that 'exists' but with different casing, set lower_case_table_names consistently on the target server before importing."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why do I get 'table doesn't exist' when importing split SQL files?",
+      "answer": "The chunks were imported out of order, so INSERT statements ran before the CREATE TABLE that defines the table. Always import split files in their numbered sequence, and use a splitter that keeps each table together with its data."
+    },
+    {
+      "question": "How do I fix error 1146 caused by foreign keys?",
+      "answer": "Wrap the import in SET FOREIGN_KEY_CHECKS = 0; ... SET FOREIGN_KEY_CHECKS = 1; so MySQL doesn't reject statements that reference tables created later in the dump."
+    },
+    {
+      "question": "Can table name casing cause error 1146?",
+      "answer": "Yes, when migrating from a case-insensitive OS (Windows/macOS) to case-sensitive Linux. Set lower_case_table_names consistently on the target server so table name casing matches the dump."
+    }
+  ]
+}

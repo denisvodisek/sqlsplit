@@ -1,0 +1,20 @@
+{
+  "slug": "cloudways",
+  "title": "Cloudways SQL Import Guide",
+  "description": "Cloudways gives you SSH and a database manager, so large imports don't have to go through the browser.",
+  "limits": [
+    "Browser database manager struggles with big dumps",
+    "PHP limits apply to phpMyAdmin-style imports",
+    "Application-level timeouts on long imports"
+  ],
+  "bestFixes": [
+    "SSH in and import with the mysql CLI",
+    "Use the master credentials from the platform panel",
+    "Split very large dumps for recoverable imports"
+  ],
+  "related": [
+    "mysql-cli-import-large",
+    "restore-large-backup-hosting",
+    "wordpress-database-too-large"
+  ]
+}

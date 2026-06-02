@@ -1,0 +1,16 @@
+{
+  "slug": "fast-imports",
+  "title": "Making Large MySQL Imports Fast",
+  "description": "Turn a multi-hour import into minutes with a handful of settings that actually move the needle.",
+  "bullets": [
+    "Disable key and foreign-key checks during the load",
+    "Wrap the whole import in a single transaction",
+    "Use extended inserts and the mysql CLI, not phpMyAdmin",
+    "Give InnoDB a big buffer pool and log file size"
+  ],
+  "related": [
+    "speed-up-mysql-import",
+    "reduce-sql-dump-file-size",
+    "export-mysqldump-best-practices"
+  ]
+}

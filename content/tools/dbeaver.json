@@ -1,0 +1,19 @@
+{
+  "slug": "dbeaver",
+  "title": "DBeaver Import Guide",
+  "description": "DBeaver is a powerful cross-platform GUI, but big scripts need file mode to avoid running out of memory.",
+  "bestFor": [
+    "Cross-database work (MySQL, Postgres, more)",
+    "Browsing and editing data visually",
+    "Running scripts that fit in memory"
+  ],
+  "limits": [
+    "Editor loads the whole file — freezes on big scripts",
+    "Default Java heap is often too low"
+  ],
+  "related": [
+    "dbeaver-import-large-sql",
+    "mysql-cli-import-large",
+    "speed-up-mysql-import"
+  ]
+}

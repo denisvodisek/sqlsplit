@@ -1,0 +1,20 @@
+{
+  "slug": "wpengine",
+  "title": "WP Engine SQL Import Guide",
+  "description": "WP Engine is managed WordPress hosting where SSH gateway and WP-CLI handle large database imports best.",
+  "limits": [
+    "phpMyAdmin available but capped for big files",
+    "Managed environment restricts some MySQL privileges",
+    "Large imports should run via the SSH gateway"
+  ],
+  "bestFixes": [
+    "Import with WP-CLI over the SSH gateway",
+    "Strip DEFINER clauses that need SUPER privilege",
+    "Split large dumps and run wp search-replace after"
+  ],
+  "related": [
+    "wp-cli-import-large-db",
+    "split-sql-for-migration-plugins",
+    "wordpress-database-too-large"
+  ]
+}

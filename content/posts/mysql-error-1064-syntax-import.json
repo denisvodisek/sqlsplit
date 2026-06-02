@@ -1,0 +1,102 @@
+{
+  "slug": "mysql-error-1064-syntax-import",
+  "title": "MySQL Error 1064 on Import: 'You Have an Error in Your SQL Syntax'",
+  "description": "Error 1064 during an import almost never means your dump is broken. It usually means a version mismatch or a truncated file. Here's how to pin it down.",
+  "date": "2026-05-18",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Errors",
+  "tags": ["MySQL", "error 1064", "import", "MariaDB", "syntax"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Error 1064 — 'You have an error in your SQL syntax' — is MySQL's catch-all parser complaint. On a fresh import it rarely means the dump is genuinely malformed. It almost always points to one of three things."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cause 1: The file was split with a dumb tool"
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the most common one. If you split the dump with `split -l` or a text editor, you cut a statement in half. The first chunk ends mid-INSERT, the next begins mid-INSERT — and both throw 1064. The error message will quote a fragment that obviously isn't a whole statement."
+    },
+    {
+      "type": "cta",
+      "title": "Split at statement boundaries instead",
+      "text": "A SQL-aware split never cuts an INSERT in half, so every chunk parses cleanly.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cause 2: Version mismatch (MySQL 8 → older MySQL/MariaDB)"
+    },
+    {
+      "type": "paragraph",
+      "text": "A dump from MySQL 8 can contain syntax that MariaDB or MySQL 5.7 doesn't understand — new index options, functional defaults, or the /*!80000 ... */ version-gated comments. The error usually quotes the unfamiliar keyword. Fixes:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Re-export with --compatible or target the lower version explicitly",
+        "Strip MySQL-8-only clauses (e.g. VISIBLE/INVISIBLE indexes) from the schema",
+        "Import into the same major version you exported from when possible"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Cause 3: Truncated or partially downloaded file"
+    },
+    {
+      "type": "paragraph",
+      "text": "If the download or transfer was interrupted, the file ends mid-statement. Check that the dump ends cleanly:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "tail -n 5 dump.sql\n# A complete mysqldump ends with lines like:\n# /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n# -- Dump completed on 2026-05-18"
+    },
+    {
+      "type": "paragraph",
+      "text": "No 'Dump completed' line and no trailing semicolon? The file is incomplete — re-download or re-export it."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Pinpoint the exact line"
+    },
+    {
+      "type": "paragraph",
+      "text": "The error reports a line number. Jump straight to it:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "sed -n '12340,12360p' dump.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "Nine times out of ten you'll immediately see a half-statement, a stray character, or a keyword your MySQL version doesn't know."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why do I get error 1064 when importing a SQL dump that worked before?",
+      "answer": "Usually because the file was split with a non-SQL-aware tool that cut a statement in half, or you're importing a newer MySQL dump into an older MySQL/MariaDB version. Split at statement boundaries and match the export/import versions."
+    },
+    {
+      "question": "Does error 1064 mean my SQL file is corrupted?",
+      "answer": "Not necessarily. More often it means a truncated download, a bad split, or version-specific syntax the target server doesn't understand. Check the last lines of the file for a clean 'Dump completed' marker."
+    },
+    {
+      "question": "How do I find which line causes error 1064?",
+      "answer": "The error message includes a line number. Use sed -n 'START,ENDp' dump.sql to view that section. You'll typically see an incomplete statement or unsupported keyword right there."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "slug": "duplicator-large-site-import",
+  "title": "Duplicator: Installing a Large Site When the Database Won't Import",
+  "description": "Duplicator's installer stalls on big databases. How to use the two-stage and table-by-table options, or import the SQL manually.",
+  "date": "2026-05-08",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "WordPress",
+  "tags": ["WordPress", "Duplicator", "migration", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Duplicator packages a whole WordPress site into an archive plus an installer.php. On a big site, the installer's database step is where things hang — it tries to run the entire SQL file inside one PHP request and hits the execution-time wall."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Turn on chunked database install"
+    },
+    {
+      "type": "paragraph",
+      "text": "Duplicator's installer has database options that most people skip past. On the install screen, expand Advanced → Database and look for:"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Query Limit Size — lower it so each PHP request runs fewer statements (avoids timeouts)",
+        "Mode: 'Chunk' rather than 'Single' — processes the SQL in batches across multiple requests",
+        "Charset/Collation — set to match the destination to avoid 1273 collation errors"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Chunk mode is the single most effective fix for a stalling installer on shared hosting."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When the installer still won't finish"
+    },
+    {
+      "type": "paragraph",
+      "text": "If chunk mode isn't enough, do the database step by hand. Duplicator archives are just ZIP files — extract the database.sql inside:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "unzip your-package_archive.zip 'database.sql' -d ./extracted/\n# database.sql is the full dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "Now import that SQL the reliable way — via the command line, or split into chunks for phpMyAdmin — then point the extracted files at the freshly imported database."
+    },
+    {
+      "type": "cta",
+      "title": "Split Duplicator's database.sql",
+      "text": "Pull the SQL out of the archive and import it in importable chunks when the installer gives up.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Common installer errors"
+    },
+    {
+      "type": "table",
+      "headers": ["Error", "Likely fix"],
+      "rows": [
+        ["Installer times out at 'Extracting database'", "Switch to Chunk mode, lower Query Limit Size"],
+        ["Unknown collation utf8mb4_0900_ai_ci", "Set destination charset/collation in installer"],
+        ["MySQL server has gone away", "max_allowed_packet too low; import SQL manually"],
+        ["Out of memory", "Raise PHP memory_limit or import via CLI"]
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why does the Duplicator installer hang on the database step?",
+      "answer": "It tries to run the full SQL file within PHP's execution-time limit. On large sites this times out. Switch the installer to Chunk mode and lower the Query Limit Size so it processes the database in batches across multiple requests."
+    },
+    {
+      "question": "Can I import a Duplicator database manually?",
+      "answer": "Yes. The Duplicator archive is a ZIP containing database.sql. Extract it and import that file via the MySQL command line or by splitting it into chunks for phpMyAdmin, then connect the extracted site files to it."
+    },
+    {
+      "question": "How do I fix a collation error during Duplicator install?",
+      "answer": "Set the target charset and collation explicitly in the installer's Advanced → Database options to match your server (e.g. utf8mb4 / utf8mb4_unicode_ci), which avoids the MySQL-8 utf8mb4_0900_ai_ci mismatch."
+    }
+  ]
+}
