@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sqlsplit.com/sitemap.xml
+Sitemap: https://www.sqlsplit.com/sitemap.xml

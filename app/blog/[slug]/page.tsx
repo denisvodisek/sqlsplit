@@ -22,10 +22,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: `${post.title} — SQLSplit`,
     description: post.description,
+    alternates: { canonical: `/blog/${params.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
       type: 'article',
+      url: `https://www.sqlsplit.com/blog/${params.slug}`,
       publishedTime: post.date,
     },
   }
@@ -48,9 +50,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   const breadcrumbSchema = generateBreadcrumbSchema({
     items: [
-      { name: 'Home', url: 'https://sqlsplit.com/' },
-      { name: 'Blog', url: 'https://sqlsplit.com/blog' },
-      { name: post.title, url: `https://sqlsplit.com/blog/${post.slug}` },
+      { name: 'Home', url: 'https://www.sqlsplit.com/' },
+      { name: 'Blog', url: 'https://www.sqlsplit.com/blog' },
+      { name: post.title, url: `https://www.sqlsplit.com/blog/${post.slug}` },
     ],
   })
 

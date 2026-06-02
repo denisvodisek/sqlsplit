@@ -9,13 +9,16 @@ const manrope = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 
 export const metadata: Metadata = {
   title: 'SQLSplit — Split Large SQL Files for Import',
   description: 'Split large SQL database dumps into smaller files. Fix phpMyAdmin timeouts and MySQL import errors. Free, runs in your browser, no upload needed.',
-  metadataBase: new URL('https://sqlsplit.com'),
+  metadataBase: new URL('https://www.sqlsplit.com'),
+  alternates: {
+    canonical: '/',
+  },
   keywords: ['split SQL file', 'phpMyAdmin timeout', 'MySQL import error', 'large SQL file', 'database migration', 'split mysqldump'],
   authors: [{ name: 'SQLSplit' }],
   openGraph: {
     title: 'SQLSplit — Split Large SQL Files for Import',
     description: 'Split large SQL database dumps into smaller files. Fix phpMyAdmin timeouts and import errors.',
-    url: 'https://sqlsplit.com',
+    url: 'https://www.sqlsplit.com',
     siteName: 'SQLSplit',
     locale: 'en_US',
     type: 'website',
@@ -42,7 +45,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href="https://sqlsplit.com" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4524750683541633" crossOrigin="anonymous"></script>

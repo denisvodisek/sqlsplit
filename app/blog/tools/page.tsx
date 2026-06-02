@@ -6,6 +6,7 @@ import { getAllTools } from '@/lib/tools'
 export const metadata: Metadata = {
   title: 'SQL Import Tools — SQLSplit',
   description: 'Guides for phpMyAdmin, Adminer, WP‑CLI, MySQL CLI, and Workbench.',
+  alternates: { canonical: '/blog/tools' },
 }
 
 export default function ToolsIndexPage() {

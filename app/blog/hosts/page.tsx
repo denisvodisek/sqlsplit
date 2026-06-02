@@ -6,6 +6,7 @@ import { getAllHosts } from '@/lib/hosts'
 export const metadata: Metadata = {
   title: 'SQL Import Hosting Guides — SQLSplit',
   description: 'Host‑specific SQL import workflows and limits.',
+  alternates: { canonical: '/blog/hosts' },
 }
 
 export default function HostsIndexPage() {
