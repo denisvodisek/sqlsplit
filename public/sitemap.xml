@@ -1,186 +1,591 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sqlsplit.com/</loc>
+    <loc>https://www.sqlsplit.com/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog</loc>
+    <loc>https://www.sqlsplit.com/blog</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/guides</loc>
+    <loc>https://www.sqlsplit.com/blog/guides</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/guides/phpmyadmin-import-timeouts</loc>
+    <loc>https://www.sqlsplit.com/blog/tools</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/guides/mysql-import-errors</loc>
+    <loc>https://www.sqlsplit.com/blog/hosts</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/guides/wordpress-migrations</loc>
+    <loc>https://www.sqlsplit.com/blog/errors</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/guides/shared-hosting-imports</loc>
+    <loc>https://www.sqlsplit.com/blog/topic/phpmyadmin</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/tools</loc>
+    <loc>https://www.sqlsplit.com/blog/topic/wordpress</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/tool/phpmyadmin</loc>
+    <loc>https://www.sqlsplit.com/blog/topic/hosting</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/tool/adminer</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/cloud-database-imports</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/tool/mysql-cli</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/fast-imports</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/tool/wp-cli</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/local-development-imports</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/tool/mysql-workbench</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/mysql-import-errors</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/hosts</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/phpmyadmin-import-timeouts</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/host/godaddy</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/shared-hosting-imports</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/host/bluehost</loc>
+    <loc>https://www.sqlsplit.com/blog/guides/wordpress-migrations</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/host/hostgator</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/adminer</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/host/siteground</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/dbeaver</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/errors</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/heidisql</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/topic/phpmyadmin</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/mysql-cli</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/topic/wordpress</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/mysql-workbench</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/topic/hosting</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/phpmyadmin</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/error/mysql-error-2006</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/sequel-ace</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/error/mysql-error-2013</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/tableplus</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/error/phpmyadmin-timeout</loc>
+    <loc>https://www.sqlsplit.com/blog/tool/wp-cli</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/error/max-allowed-packet</loc>
+    <loc>https://www.sqlsplit.com/blog/host/a2hosting</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/phpmyadmin-import-timeout</loc>
+    <loc>https://www.sqlsplit.com/blog/host/bluehost</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mysql-max-allowed-packet</loc>
+    <loc>https://www.sqlsplit.com/blog/host/cloudways</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/import-large-sql-file-cpanel</loc>
+    <loc>https://www.sqlsplit.com/blog/host/dreamhost</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/split-mysqldump-file</loc>
+    <loc>https://www.sqlsplit.com/blog/host/godaddy</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/wordpress-database-too-large</loc>
+    <loc>https://www.sqlsplit.com/blog/host/hostgator</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mysql-import-error-2006</loc>
+    <loc>https://www.sqlsplit.com/blog/host/kinsta</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mysql-import-error-1153-packet-too-large</loc>
+    <loc>https://www.sqlsplit.com/blog/host/namecheap</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mysql-import-error-2013-lost-connection</loc>
+    <loc>https://www.sqlsplit.com/blog/host/siteground</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/phpmyadmin-upload-limit</loc>
+    <loc>https://www.sqlsplit.com/blog/host/wpengine</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/split-sql-file-windows</loc>
+    <loc>https://www.sqlsplit.com/blog/error/max-allowed-packet</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/split-sql-file-mac</loc>
+    <loc>https://www.sqlsplit.com/blog/error/mysql-error-1064</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/split-sql-file-linux</loc>
+    <loc>https://www.sqlsplit.com/blog/error/mysql-error-1146</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mariadb-import-large</loc>
+    <loc>https://www.sqlsplit.com/blog/error/mysql-error-2006</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/wp-cli-import-large-db</loc>
+    <loc>https://www.sqlsplit.com/blog/error/mysql-error-2013</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/adminer-import-timeout</loc>
+    <loc>https://www.sqlsplit.com/blog/error/phpmyadmin-timeout</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/big-insert-statements-split</loc>
+    <loc>https://www.sqlsplit.com/blog/error/super-privilege-definer</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/utf8mb4-collation-errors-import</loc>
+    <loc>https://www.sqlsplit.com/blog/error/unknown-collation-utf8mb4-0900</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/foreign-key-checks-import</loc>
+    <loc>https://www.sqlsplit.com/blog/adminer-import-timeout</loc>
+    <lastmod>2024-03-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/innodb-log-file-size-import</loc>
+    <loc>https://www.sqlsplit.com/blog/all-in-one-wp-migration-import-limit</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mysql-cli-import-large</loc>
+    <loc>https://www.sqlsplit.com/blog/aws-rds-import-large-dump</loc>
+    <lastmod>2024-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/phpmyadmin-max-execution-time</loc>
+    <loc>https://www.sqlsplit.com/blog/best-chunk-size-split-sql</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/cpanel-ssh-import</loc>
+    <loc>https://www.sqlsplit.com/blog/big-insert-statements-split</loc>
+    <lastmod>2024-03-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/import-large-sql-file-godaddy</loc>
+    <loc>https://www.sqlsplit.com/blog/cli-import-order</loc>
+    <lastmod>2024-04-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/import-large-sql-file-bluehost</loc>
+    <loc>https://www.sqlsplit.com/blog/cpanel-ssh-import</loc>
+    <lastmod>2024-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/import-large-sql-file-hostgator</loc>
+    <loc>https://www.sqlsplit.com/blog/dbeaver-import-large-sql</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/aws-rds-import-large-dump</loc>
+    <loc>https://www.sqlsplit.com/blog/docker-mysql-import-large-dump</loc>
+    <lastmod>2026-05-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/mysql-workbench-import-large</loc>
+    <loc>https://www.sqlsplit.com/blog/duplicator-large-site-import</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/gzip-vs-zip-sql-dump</loc>
+    <loc>https://www.sqlsplit.com/blog/export-mysqldump-best-practices</loc>
+    <lastmod>2024-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/restore-large-backup-hosting</loc>
+    <loc>https://www.sqlsplit.com/blog/foreign-key-checks-import</loc>
+    <lastmod>2024-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/export-mysqldump-best-practices</loc>
+    <loc>https://www.sqlsplit.com/blog/gzip-vs-zip-sql-dump</loc>
+    <lastmod>2024-03-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/split-sql-for-migration-plugins</loc>
+    <loc>https://www.sqlsplit.com/blog/import-large-sql-file-bluehost</loc>
+    <lastmod>2024-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/sql-import-hangs</loc>
+    <loc>https://www.sqlsplit.com/blog/import-large-sql-file-cpanel</loc>
+    <lastmod>2024-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/split-sql-by-size-vs-lines</loc>
+    <loc>https://www.sqlsplit.com/blog/import-large-sql-file-godaddy</loc>
+    <lastmod>2024-04-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/repair-corrupted-sql-dump</loc>
+    <loc>https://www.sqlsplit.com/blog/import-large-sql-file-hostgator</loc>
+    <lastmod>2024-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sqlsplit.com/blog/cli-import-order</loc>
+    <loc>https://www.sqlsplit.com/blog/import-mysql-dump-into-mariadb</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/import-sql-digitalocean-managed-database</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/import-sql-file-mamp</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/import-sql-file-xampp</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/import-sql-google-cloud-sql</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/innodb-log-file-size-import</loc>
+    <lastmod>2024-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mariadb-import-large</loc>
+    <lastmod>2024-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mojibake-garbled-characters-import</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-cli-import-large</loc>
+    <lastmod>2024-03-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-definer-error-import</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-error-1064-syntax-import</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-error-1146-table-doesnt-exist-import</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-import-error-1153-packet-too-large</loc>
+    <lastmod>2024-03-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-import-error-2006</loc>
+    <lastmod>2024-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-import-error-2013-lost-connection</loc>
+    <lastmod>2024-03-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-max-allowed-packet</loc>
+    <lastmod>2024-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-source-command-import</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/mysql-workbench-import-large</loc>
+    <lastmod>2024-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/phpmyadmin-import-timeout</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/phpmyadmin-max-execution-time</loc>
+    <lastmod>2024-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/phpmyadmin-no-data-received</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/phpmyadmin-upload-limit</loc>
+    <lastmod>2024-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/reduce-sql-dump-file-size</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/repair-corrupted-sql-dump</loc>
+    <lastmod>2024-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/restore-large-backup-hosting</loc>
+    <lastmod>2024-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/speed-up-mysql-import</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/split-mysqldump-file</loc>
+    <lastmod>2024-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/split-sql-by-size-vs-lines</loc>
+    <lastmod>2024-03-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/split-sql-file-linux</loc>
+    <lastmod>2024-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/split-sql-file-mac</loc>
+    <lastmod>2024-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/split-sql-file-windows</loc>
+    <lastmod>2024-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/split-sql-for-migration-plugins</loc>
+    <lastmod>2024-04-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/sql-import-hangs</loc>
+    <lastmod>2024-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/tableplus-sequel-ace-import-large</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/unknown-collation-utf8mb4-0900-import</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/utf8mb4-collation-errors-import</loc>
+    <lastmod>2024-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/wordpress-database-too-large</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sqlsplit.com/blog/wp-cli-import-large-db</loc>
+    <lastmod>2024-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

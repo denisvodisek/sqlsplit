@@ -1,0 +1,94 @@
+{
+  "slug": "best-chunk-size-split-sql",
+  "title": "What's the Best Chunk Size to Split a SQL File?",
+  "description": "By size or by lines? 10MB or 50MB? The right answer depends on how you're importing. A practical cheat sheet.",
+  "date": "2026-04-20",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["split", "import", "phpMyAdmin", "chunk size"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "There's no single magic number — the ideal chunk size is whatever reliably imports without hitting your environment's limit, with a comfortable margin. Here's how to pick it for your situation."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The cheat sheet"
+    },
+    {
+      "type": "table",
+      "headers": ["Import method", "Recommended chunk", "Why"],
+      "rows": [
+        ["phpMyAdmin (shared host)", "8–10MB", "Stay well under the upload + timeout limits"],
+        ["phpMyAdmin (raised limits)", "20–30MB", "Each request still finishes quickly"],
+        ["Adminer", "10MB", "Similar limits to phpMyAdmin"],
+        ["MySQL CLI (shared host)", "50MB", "No upload limit, but watch timeouts"],
+        ["MySQL CLI (dedicated/VPS)", "Often no split needed", "Streams the whole file fine"],
+        ["Cloud SQL / managed DB", "Per-table or 100MB", "Recoverability matters more than size"]
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "By size or by line count?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Split by file size when the limit you're fighting is an upload cap (phpMyAdmin's 'max file size'). Split by line count when you care about how long each import runs or when statements are roughly uniform. For most people fighting upload limits, split by size."
+    },
+    {
+      "type": "callout",
+      "title": "Leave headroom",
+      "text": "If the cap is 10MB, target 8MB chunks — not 9.9MB. The header repeated in each chunk and slight overhead can push a 'just under' file over the line."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The real rule: smaller is safer"
+    },
+    {
+      "type": "paragraph",
+      "text": "More chunks means more imports, but each one is far more likely to succeed. A failed 200MB import wastes everything; a failed 10MB chunk costs you one quick retry. When in doubt, go smaller."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What never changes"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Split at statement boundaries, never mid-INSERT",
+        "Keep the SET/charset header in every chunk",
+        "Import the chunks in order",
+        "Verify row counts after the last chunk"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Pick a size and split",
+      "text": "Choose by size or by lines, and every chunk stays valid SQL.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "What's the best chunk size for splitting a SQL file?",
+      "answer": "For phpMyAdmin on shared hosting, 8–10MB chunks are safest. With raised limits, 20–30MB works. On the CLI you can go to 50MB or skip splitting entirely on a dedicated server. Always leave headroom under the actual limit."
+    },
+    {
+      "question": "Should I split a SQL file by size or by line count?",
+      "answer": "Split by file size when fighting an upload cap like phpMyAdmin's max file size. Split by line count when you care about how long each import runs. For most upload-limit cases, splitting by size is the right choice."
+    },
+    {
+      "question": "Is it better to use more, smaller chunks or fewer, larger ones?",
+      "answer": "Smaller chunks are safer. A failed large import wastes the whole transfer, while a failed small chunk is a quick retry. Use the smallest size that's still convenient to import in sequence."
+    }
+  ]
+}

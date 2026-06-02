@@ -17,6 +17,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return {
     title: `${tool.title} — SQLSplit`,
     description: tool.description,
+    alternates: { canonical: `/blog/tool/${params.slug}` },
   }
 }
 

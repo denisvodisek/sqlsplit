@@ -1,0 +1,90 @@
+{
+  "slug": "phpmyadmin-no-data-received",
+  "title": "phpMyAdmin 'No Data Received' / Empty Page on Import",
+  "description": "The import screen returns a blank page, ERR_EMPTY_RESPONSE, or 'no data received'. What's crashing and how to get the import through.",
+  "date": "2026-05-06",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Errors",
+  "tags": ["phpMyAdmin", "import", "ERR_EMPTY_RESPONSE", "timeout"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "You hit Go on the import and get a blank page, 'No data received', or ERR_EMPTY_RESPONSE. The request died before PHP could return anything — so there's no error message to read. Here's what actually happened."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What 'no data received' really means"
+    },
+    {
+      "type": "paragraph",
+      "text": "The PHP process handling your import was killed mid-request — by a memory limit, an execution timeout, or the web server's own timeout — before it could send a response. The browser sees the connection close with nothing returned and shows a blank page."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix the three limits, in order"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "memory_limit — a big import can exhaust PHP's RAM. Raise to 512M+",
+        "max_execution_time and max_input_time — raise to 600 so PHP doesn't get killed mid-import",
+        "Web server timeout — Apache's Timeout or Nginx's proxy/fastcgi_read_timeout can cut the request even when PHP is configured generously"
+      ]
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "memory_limit = 512M\nmax_execution_time = 600\nmax_input_time = 600\nupload_max_filesize = 256M\npost_max_size = 256M"
+    },
+    {
+      "type": "callout",
+      "title": "On Nginx the real killer is often the server timeout",
+      "text": "Even with PHP set to 600s, Nginx will return an empty/502 response if fastcgi_read_timeout is the default 60s. Raise it in the server block, then reload Nginx."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The fix that works without touching server config"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you can't edit php.ini or the web server (typical on shared hosting), make each import small enough to finish well inside the limits. Split the dump into chunks and import them one at a time — each request stays short and never gets killed."
+    },
+    {
+      "type": "cta",
+      "title": "Split until each import is quick",
+      "text": "Smaller chunks finish before any timeout fires — no blank pages.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Or use phpMyAdmin's UploadDir"
+    },
+    {
+      "type": "paragraph",
+      "text": "phpMyAdmin can import a file already sitting on the server instead of via HTTP upload. Set $cfg['UploadDir'] in config.inc.php, drop the .sql there via FTP, and it appears in a dropdown on the import screen — sidestepping upload limits entirely."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why does phpMyAdmin show a blank page when I import?",
+      "answer": "The PHP process was killed mid-import by a memory limit, execution timeout, or the web server's own timeout, so no response was returned. Raise memory_limit, max_execution_time, and the Apache/Nginx timeout, or split the file into smaller imports."
+    },
+    {
+      "question": "How do I fix ERR_EMPTY_RESPONSE during a SQL import?",
+      "answer": "It means the server closed the connection before responding, usually a timeout or out-of-memory kill. On Nginx, raise fastcgi_read_timeout; on Apache, raise Timeout. The simplest workaround is importing smaller chunks that finish quickly."
+    },
+    {
+      "question": "Can I import without uploading through the browser in phpMyAdmin?",
+      "answer": "Yes. Set $cfg['UploadDir'] in config.inc.php, upload the .sql file there via FTP, and select it from the dropdown on the import page. This avoids HTTP upload size and timeout limits."
+    }
+  ]
+}

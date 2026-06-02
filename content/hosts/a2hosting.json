@@ -1,0 +1,20 @@
+{
+  "slug": "a2hosting",
+  "title": "A2 Hosting SQL Import Guide",
+  "description": "A2 Hosting runs cPanel with SSH on most plans, so large imports are best done from the command line.",
+  "limits": [
+    "phpMyAdmin upload and timeout limits",
+    "Shared resource caps during heavy imports",
+    "PHP memory limits on entry plans"
+  ],
+  "bestFixes": [
+    "Import via SSH with the mysql CLI",
+    "Use the MultiPHP INI Editor to raise limits",
+    "Split large dumps for phpMyAdmin imports"
+  ],
+  "related": [
+    "import-large-sql-file-cpanel",
+    "cpanel-ssh-import",
+    "mysql-cli-import-large"
+  ]
+}

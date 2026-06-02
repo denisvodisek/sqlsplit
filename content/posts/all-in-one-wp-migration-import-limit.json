@@ -1,0 +1,109 @@
+{
+  "slug": "all-in-one-wp-migration-import-limit",
+  "title": "Getting Past the All-in-One WP Migration Import Limit",
+  "description": "The free plugin caps imports at a few hundred MB. Here's how to lift it for free, and when to skip the plugin and import the database directly.",
+  "date": "2026-05-10",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "WordPress",
+  "tags": ["WordPress", "All-in-One WP Migration", "migration", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "All-in-One WP Migration is great until your export is bigger than the import cap — historically 512MB, often much lower on shared hosting. The plugin nudges you toward a paid extension, but there are free routes."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why the limit exists"
+    },
+    {
+      "type": "paragraph",
+      "text": "The import size is bounded by your server's PHP upload limits, not just the plugin. Even after the plugin's own cap, you'll hit upload_max_filesize and post_max_size. Both need raising."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 1: Raise PHP limits"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "; php.ini or via your host's PHP settings panel\nupload_max_filesize = 1024M\npost_max_size = 1024M\nmax_execution_time = 600\nmemory_limit = 512M"
+    },
+    {
+      "type": "paragraph",
+      "text": "On hosts where you can't edit php.ini, many All-in-One WP Migration versions read a constant. Add to wp-config.php:"
+    },
+    {
+      "type": "code",
+      "language": "php",
+      "text": "define('AI1WM_MAX_FILE_SIZE', 2 << 30); // 2GB"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 2: Skip the upload — drop the file in directly"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you have FTP/SFTP access, you can bypass the browser upload entirely. Place the .wpress export file in:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "text": "wp-content/ai1wm-backups/"
+    },
+    {
+      "type": "paragraph",
+      "text": "Then open the plugin's Backups tab — the file appears there and you can Restore it without ever uploading through the browser. This sidesteps the upload limit completely."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 3: Forget the plugin, import the database directly"
+    },
+    {
+      "type": "paragraph",
+      "text": "For very large sites, the most reliable migration is files + database the old-fashioned way: copy wp-content over FTP, export the database as SQL, and import it directly. The database is the part that hits limits — and that's exactly where splitting helps."
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Export the WordPress database as a .sql dump",
+        "Split it into chunks under your host's import limit",
+        "Import the chunks in order via phpMyAdmin or CLI",
+        "Run a search-replace for the old → new URL afterwards"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Split the WordPress database",
+      "text": "Turn an oversized SQL export into chunks any host will accept.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "callout",
+      "title": "Don't forget the URL search-replace",
+      "text": "After a direct database import, run wp search-replace 'https://old.com' 'https://new.com' --all-tables to fix serialized data safely. A raw SQL find-and-replace will corrupt serialized PHP arrays."
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I increase the All-in-One WP Migration import limit for free?",
+      "answer": "Raise PHP's upload_max_filesize and post_max_size, and add define('AI1WM_MAX_FILE_SIZE', 2 << 30) to wp-config.php. Or skip the upload entirely by placing the .wpress file in wp-content/ai1wm-backups/ and restoring from the Backups tab."
+    },
+    {
+      "question": "Can I import a .wpress file without uploading it through the browser?",
+      "answer": "Yes. Upload the .wpress file via FTP to wp-content/ai1wm-backups/, then open the plugin's Backups tab and click Restore. This avoids the browser upload size limit completely."
+    },
+    {
+      "question": "What's the most reliable way to migrate a very large WordPress site?",
+      "answer": "Copy wp-content via FTP and import the database directly as SQL rather than using a migration plugin. Split the database dump into chunks to get past host import limits, then run wp search-replace for the new URL."
+    }
+  ]
+}

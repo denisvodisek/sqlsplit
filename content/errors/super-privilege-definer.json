@@ -1,0 +1,20 @@
+{
+  "slug": "super-privilege-definer",
+  "title": "Access Denied: You Need SUPER Privilege (DEFINER Error)",
+  "description": "Views, triggers, and routines fail to import because their DEFINER points to a user that doesn't exist on the new server.",
+  "causes": [
+    "Dump contains DEFINER=`user`@`host` clauses",
+    "The original definer account is missing on the target",
+    "Managed/shared hosting doesn't grant SUPER privilege"
+  ],
+  "fixes": [
+    "Strip DEFINER clauses from the dump before importing",
+    "Recreate the original user if you control the server",
+    "Rewrite views with SQL SECURITY INVOKER"
+  ],
+  "related": [
+    "mysql-definer-error-import",
+    "import-sql-digitalocean-managed-database",
+    "import-sql-google-cloud-sql"
+  ]
+}

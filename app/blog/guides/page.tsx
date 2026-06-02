@@ -6,6 +6,7 @@ import { getAllGuides } from '@/lib/guides'
 export const metadata: Metadata = {
   title: 'SQL Import Guides — SQLSplit',
   description: 'Pillar guides for phpMyAdmin, MySQL errors, WordPress migrations, and hosting limits.',
+  alternates: { canonical: '/blog/guides' },
 }
 
 export default function GuidesIndexPage() {

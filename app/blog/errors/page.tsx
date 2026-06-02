@@ -6,6 +6,7 @@ import { getAllErrors } from '@/lib/errors'
 export const metadata: Metadata = {
   title: 'SQL Import Error Guides — SQLSplit',
   description: 'Quick fixes for common SQL import errors like timeouts and packet limits.',
+  alternates: { canonical: '/blog/errors' },
 }
 
 export default function ErrorIndexPage() {

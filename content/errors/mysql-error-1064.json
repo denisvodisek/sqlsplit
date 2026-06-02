@@ -1,0 +1,20 @@
+{
+  "slug": "mysql-error-1064",
+  "title": "MySQL Error 1064: SQL Syntax Error on Import",
+  "description": "The parser rejects a statement — usually a bad split, a version mismatch, or a truncated file rather than a real syntax problem.",
+  "causes": [
+    "File split mid-statement by a non-SQL-aware tool",
+    "MySQL 8 syntax imported into MariaDB or MySQL 5.7",
+    "Truncated or partially downloaded dump"
+  ],
+  "fixes": [
+    "Split at statement boundaries so chunks stay valid",
+    "Match the export and import server versions",
+    "Check the dump ends with a clean 'Dump completed' marker"
+  ],
+  "related": [
+    "mysql-error-1064-syntax-import",
+    "unknown-collation-utf8mb4-0900-import",
+    "repair-corrupted-sql-dump"
+  ]
+}

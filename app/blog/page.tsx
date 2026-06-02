@@ -7,6 +7,7 @@ import { BlogFeed } from '@/components/BlogFeed'
 export const metadata: Metadata = {
   title: 'Blog — SQLSplit',
   description: 'Guides for fixing SQL import errors, phpMyAdmin timeouts, and database migration issues.',
+  alternates: { canonical: '/blog' },
 }
 
 export default function BlogPage() {

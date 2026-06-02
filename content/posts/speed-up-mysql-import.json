@@ -1,0 +1,142 @@
+{
+  "slug": "speed-up-mysql-import",
+  "title": "How to Speed Up a Slow MySQL Import (10x Faster)",
+  "description": "A big import that takes hours can often finish in minutes. The settings that actually move the needle, ranked by impact.",
+  "date": "2026-05-22",
+  "readTime": "6 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["MySQL", "performance", "import", "mysqldump", "InnoDB"],
+  "featured": true,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Importing a large dump shouldn't take all afternoon. Most slow imports are slow for one of a handful of reasons — and the fixes are mechanical. Here they are, ordered by how much time they save."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "1. Disable key checks while importing"
+    },
+    {
+      "type": "paragraph",
+      "text": "Rebuilding indexes and validating foreign keys on every single row is the biggest tax on an import. Turn them off for the duration, then back on:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "SET autocommit = 0;\nSET unique_checks = 0;\nSET foreign_key_checks = 0;\n\nSOURCE dump.sql;\n\nSET foreign_key_checks = 1;\nSET unique_checks = 1;\nCOMMIT;"
+    },
+    {
+      "type": "paragraph",
+      "text": "Wrapping the whole import in a single transaction (autocommit = 0 ... COMMIT) means MySQL flushes to disk once instead of after every statement. On a spinning disk this alone can be a 5–10x win."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "2. Use extended inserts in the dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "One INSERT per row is brutally slow. mysqldump batches rows by default, but if your dump has one row per statement, re-export with:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --extended-insert --quick --single-transaction \\\n  database_name > dump.sql"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "--extended-insert packs many rows into each INSERT (far fewer statements)",
+        "--quick streams rows instead of buffering the whole table in RAM",
+        "--single-transaction gives a consistent snapshot without locking InnoDB tables"
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "3. Raise the InnoDB log buffer and packet size"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you control the server config, these two settings let MySQL chew through big batches without stalling:"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "[mysqld]\ninnodb_buffer_pool_size = 1G        # as much RAM as you can spare\ninnodb_log_file_size = 256M         # bigger = fewer checkpoint flushes\nmax_allowed_packet = 1G\ninnodb_flush_log_at_trx_commit = 2  # temporary, for import speed"
+    },
+    {
+      "type": "callout",
+      "title": "Revert innodb_flush_log_at_trx_commit afterwards",
+      "text": "Setting it to 2 trades a little crash safety for speed. Great during a one-off import, but set it back to 1 for production durability."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "4. Use the CLI, not phpMyAdmin"
+    },
+    {
+      "type": "paragraph",
+      "text": "phpMyAdmin adds PHP memory limits, execution timeouts, and HTTP overhead on top of the actual import. The command line skips all of that:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u user -p database_name < dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "5. Watch progress with pv"
+    },
+    {
+      "type": "paragraph",
+      "text": "A silent terminal makes a slow import feel infinite. Pipe through pv to get a live progress bar and ETA:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "pv dump.sql | mysql -u user -p database_name"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Quick reference"
+    },
+    {
+      "type": "table",
+      "headers": ["Lever", "Typical speedup", "Effort"],
+      "rows": [
+        ["Disable key/FK checks + single transaction", "5–10x", "Low"],
+        ["Extended inserts", "3–5x", "Re-export needed"],
+        ["Bigger InnoDB buffer/log", "2–4x", "Server config"],
+        ["CLI instead of phpMyAdmin", "2x", "Low"]
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Still failing, not just slow?",
+      "text": "If the import dies instead of dragging, split it into chunks so a failure doesn't cost you the whole run.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why is my MySQL import so slow?",
+      "answer": "The usual culprits are per-row index rebuilding, foreign key validation, and committing after every statement. Disabling unique_checks and foreign_key_checks and wrapping the import in a single transaction typically speeds it up 5–10x."
+    },
+    {
+      "question": "Does disabling foreign key checks during import cause problems?",
+      "answer": "No, as long as the dump is internally consistent (which mysqldump output is). You skip per-row validation during the load and re-enable the checks afterward. The constraints still apply to future writes."
+    },
+    {
+      "question": "What is the fastest way to import a large MySQL database?",
+      "answer": "Use the command line (not phpMyAdmin), wrap the import in a single transaction with key checks disabled, ensure the dump uses extended inserts, and give InnoDB a large buffer pool and log file size."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "slug": "dbeaver-import-large-sql",
+  "title": "Running a Large SQL Script in DBeaver Without It Freezing",
+  "description": "DBeaver loads the whole script into the editor by default and runs out of memory. Use Execute SQL Script (file mode) instead — here's how.",
+  "date": "2026-04-28",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tools",
+  "tags": ["DBeaver", "import", "SQL script", "MySQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Open a 500MB .sql file in DBeaver's SQL editor and watch it freeze or throw an OutOfMemoryError. The problem isn't your database — it's that DBeaver tries to load the entire file into the editor first. The fix is to never open it in the editor at all."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Use 'Execute SQL Script' on the file directly"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Right-click your target database/schema in the Database Navigator",
+        "Choose Tools → Execute SQL Script (or SQL Editor → Execute script from file)",
+        "Pick the .sql file from disk",
+        "DBeaver streams the file statement by statement instead of loading it into the editor"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "This streaming mode is the single most important setting for large imports. The editor-based 'Execute Script' (Alt+X on an open file) is what causes the freeze."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Give DBeaver more heap"
+    },
+    {
+      "type": "paragraph",
+      "text": "DBeaver is a Java app with a fixed heap ceiling. Raise it in dbeaver.ini (next to the executable):"
+    },
+    {
+      "type": "code",
+      "language": "ini",
+      "text": "-Xmx2048m"
+    },
+    {
+      "type": "paragraph",
+      "text": "Bump -Xmx to 2048m or higher, save, and restart DBeaver. The default is often too low for big result sets and scripts."
+    },
+    {
+      "type": "callout",
+      "title": "Turn off auto-commit for speed",
+      "text": "In the toolbar, switch the transaction mode to Manual and commit once at the end. Committing after every statement is dramatically slower on a big import."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When the file is genuinely huge"
+    },
+    {
+      "type": "paragraph",
+      "text": "Even in streaming mode, a multi-GB script that fails near the end forces you to start over. Splitting it lets you run and verify each part, and re-run only what failed."
+    },
+    {
+      "type": "cta",
+      "title": "Split before you run",
+      "text": "Feed DBeaver a series of smaller scripts that each finish quickly.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Why does DBeaver freeze when I open a large SQL file?",
+      "answer": "The SQL editor loads the entire file into memory before running it. For large files this exhausts the Java heap. Use Tools → Execute SQL Script on the file directly, which streams it statement by statement instead of opening it in the editor."
+    },
+    {
+      "question": "How do I increase DBeaver's memory?",
+      "answer": "Edit dbeaver.ini and raise the -Xmx value (e.g. -Xmx2048m), then restart DBeaver. This increases the Java heap available for large scripts and result sets."
+    },
+    {
+      "question": "What's the fastest way to import a big script in DBeaver?",
+      "answer": "Use file-based Execute SQL Script, switch the transaction mode to Manual so it commits once at the end, and split very large files so each runs quickly and failures are recoverable."
+    }
+  ]
+}

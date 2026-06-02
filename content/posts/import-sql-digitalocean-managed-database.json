@@ -1,0 +1,86 @@
+{
+  "slug": "import-sql-digitalocean-managed-database",
+  "title": "Importing a Large SQL Dump Into a DigitalOcean Managed Database",
+  "description": "DigitalOcean's managed MySQL requires SSL and blocks SUPER. The exact connection string, the flags that matter, and how to load a big dump.",
+  "date": "2026-04-30",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["DigitalOcean", "managed database", "MySQL", "import", "cloud"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "DigitalOcean Managed Databases don't give you shell access to the server, so you import over the network with the mysql client. Two things differ from a normal import: SSL is mandatory, and you don't have SUPER privilege."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Get the connection details"
+    },
+    {
+      "type": "paragraph",
+      "text": "From the database's Connection Details panel, grab the host, port (usually 25060), user (doadmin), password, and download the CA certificate. Then import:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql --host=db-mysql-xxx.db.ondigitalocean.com \\\n  --port=25060 \\\n  --user=doadmin \\\n  --password=YOUR_PASSWORD \\\n  --ssl-mode=REQUIRED \\\n  --ssl-ca=ca-certificate.crt \\\n  defaultdb < dump.sql"
+    },
+    {
+      "type": "callout",
+      "title": "ERROR 2026 (SSL connection error)",
+      "text": "Managed databases reject non-SSL connections. You must pass --ssl-mode=REQUIRED. If you also get certificate verification errors, point --ssl-ca at the CA certificate you downloaded from the control panel."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Strip DEFINER clauses before importing"
+    },
+    {
+      "type": "paragraph",
+      "text": "Like most managed databases, DigitalOcean doesn't grant SUPER. Dumps that contain DEFINER on views, triggers, or routines will fail with 'access denied; you need SUPER privilege'. Remove them first:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "sed -E 's/DEFINER=`[^`]+`@`[^`]+`//g' dump.sql > dump_clean.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "For large dumps"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Run the import from a Droplet in the same region — network latency to your laptop will make a multi-GB import painfully slow",
+        "Watch net_read_timeout — a slow upload over a home connection can trip it; importing from a co-located Droplet avoids this",
+        "Split the dump so a dropped connection doesn't waste the whole transfer"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Import from chunks over the network",
+      "text": "Smaller files survive flaky connections and let you resume from the chunk that failed.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I import a SQL file into a DigitalOcean Managed Database?",
+      "answer": "Use the mysql client with the connection details from the control panel, and pass --ssl-mode=REQUIRED with --ssl-ca pointing at the downloaded CA certificate: mysql --host=... --port=25060 --user=doadmin -p --ssl-mode=REQUIRED --ssl-ca=ca-certificate.crt defaultdb < dump.sql."
+    },
+    {
+      "question": "Why do I get an SSL connection error importing to DigitalOcean?",
+      "answer": "Managed databases require SSL. Add --ssl-mode=REQUIRED, and if certificate verification fails, supply the CA certificate with --ssl-ca=ca-certificate.crt downloaded from the database's Connection Details."
+    },
+    {
+      "question": "Why does 'you need SUPER privilege' appear on a DigitalOcean import?",
+      "answer": "DigitalOcean doesn't grant SUPER, so DEFINER clauses on views/triggers fail. Strip them with sed -E 's/DEFINER=`[^`]+`@`[^`]+`//g' dump.sql before importing."
+    }
+  ]
+}

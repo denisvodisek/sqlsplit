@@ -1,0 +1,104 @@
+{
+  "slug": "mysql-definer-error-import",
+  "title": "Fixing the MySQL DEFINER Error on Import (Error 1227 / Access Denied)",
+  "description": "Views, triggers, and stored procedures fail to import with 'access denied; you need SUPER privilege'. Here's why, and three ways to fix it.",
+  "date": "2026-05-16",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Errors",
+  "tags": ["MySQL", "DEFINER", "error 1227", "import", "views", "triggers"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Your import dies on a CREATE VIEW or CREATE TRIGGER with: 'Access denied; you need (at least one of) the SUPER privilege(s)'. This is the DEFINER problem, and it's extremely common when moving a database between servers."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why it happens"
+    },
+    {
+      "type": "paragraph",
+      "text": "mysqldump records the user that created each view, trigger, or stored routine as a DEFINER clause:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "CREATE DEFINER=`olduser`@`localhost` VIEW `active_orders` AS ..."
+    },
+    {
+      "type": "paragraph",
+      "text": "On the new server that user often doesn't exist, and only an account with SUPER privilege is allowed to create objects with a DEFINER that isn't itself. On shared/managed hosting you rarely have SUPER, so the import fails."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 1: Strip the DEFINER clauses from the dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "The most portable fix. Remove every DEFINER=... clause so the objects are created as the importing user:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "sed -E 's/DEFINER=`[^`]+`@`[^`]+`//g' dump.sql > dump_nodef.sql\nmysql -u user -p your_database < dump_nodef.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 2: Export without DEFINER in the first place"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you control the export, there's no clean mysqldump flag, but you can pipe the output through sed at dump time:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump database_name | \\\n  sed -E 's/DEFINER=`[^`]+`@`[^`]+`//g' > dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Fix 3: Create the missing user (only if you have control)"
+    },
+    {
+      "type": "paragraph",
+      "text": "On your own server, recreate the original definer account so the DEFINER clauses resolve:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "CREATE USER 'olduser'@'localhost' IDENTIFIED BY 'somepassword';\nGRANT ALL PRIVILEGES ON your_database.* TO 'olduser'@'localhost';"
+    },
+    {
+      "type": "callout",
+      "title": "SQL SECURITY INVOKER vs DEFINER",
+      "text": "Even after the object is created, a view defined with SQL SECURITY DEFINER runs as the (possibly missing) definer at query time. If queries later fail, rewrite the view with SQL SECURITY INVOKER so it runs as whoever queries it."
+    },
+    {
+      "type": "cta",
+      "title": "Clean up a big dump before importing",
+      "text": "Split the file into chunks so you can isolate and re-run just the views/triggers section after stripping DEFINER.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I fix 'access denied; you need SUPER privilege' on import?",
+      "answer": "The dump contains DEFINER clauses pointing to a user that doesn't exist on the new server. Strip them with sed -E 's/DEFINER=`[^`]+`@`[^`]+`//g' before importing, or recreate the original user if you control the server."
+    },
+    {
+      "question": "What does the DEFINER clause do in a MySQL dump?",
+      "answer": "It records which account created a view, trigger, or stored routine, and which account it runs as. When that account is missing on the target server, MySQL refuses to create the object unless you have SUPER privilege."
+    },
+    {
+      "question": "Is it safe to remove DEFINER from a SQL dump?",
+      "answer": "Yes. Removing the DEFINER clause makes the importing user the definer, which is usually what you want when migrating. For views, also consider SQL SECURITY INVOKER so they run as the querying user."
+    }
+  ]
+}

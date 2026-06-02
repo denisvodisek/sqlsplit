@@ -15,7 +15,7 @@ export function generateArticleSchema({
   datePublished,
   dateModified,
   author,
-  image = 'https://sqlsplit.com/og-image.png',
+  image = 'https://www.sqlsplit.com/og-image.png',
 }: ArticleSchemaProps) {
   return {
     '@context': 'https://schema.org',
@@ -28,19 +28,19 @@ export function generateArticleSchema({
     author: {
       '@type': 'Organization',
       name: author,
-      url: 'https://sqlsplit.com',
+      url: 'https://www.sqlsplit.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'SQLSplit',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://sqlsplit.com/favicon.png',
+        url: 'https://www.sqlsplit.com/favicon.png',
       },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://sqlsplit.com/blog/${slug}`,
+      '@id': `https://www.sqlsplit.com/blog/${slug}`,
     },
   }
 }
@@ -51,7 +51,7 @@ export function generateWebApplicationSchema() {
     '@type': 'WebApplication',
     name: 'SQLSplit',
     description: 'Split large SQL database dumps into smaller files for import. Fixes phpMyAdmin timeouts and MySQL max_allowed_packet errors.',
-    url: 'https://sqlsplit.com',
+    url: 'https://www.sqlsplit.com',
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Web Browser',
     offers: {
@@ -113,8 +113,8 @@ export function generateOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'SQLSplit',
-    url: 'https://sqlsplit.com',
-    logo: 'https://sqlsplit.com/favicon.png',
+    url: 'https://www.sqlsplit.com',
+    logo: 'https://www.sqlsplit.com/favicon.png',
     description: 'Free tool for splitting large SQL files',
     sameAs: [
       'https://github.com/denisvodisek/sqlsplit',

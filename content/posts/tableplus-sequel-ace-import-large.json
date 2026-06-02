@@ -1,0 +1,92 @@
+{
+  "slug": "tableplus-sequel-ace-import-large",
+  "title": "Importing a Large SQL File in TablePlus and Sequel Ace (Mac)",
+  "description": "The two most popular Mac database GUIs both stall on big dumps. The import-from-file trick for each, and when to just use the CLI they ship with.",
+  "date": "2026-04-26",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tools",
+  "tags": ["TablePlus", "Sequel Ace", "Mac", "import", "MySQL"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "TablePlus and Sequel Ace are the go-to MySQL GUIs on macOS. Both are happy with everyday queries and both choke when you paste a huge dump into a query tab. The trick is the same in each: import from the file, never paste."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "TablePlus"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Connect to your database and select it",
+        "File → Import → From SQL Dump… (or right-click the database → Import)",
+        "Choose the .sql file — TablePlus streams it rather than loading it into a query editor",
+        "Watch the progress bar; let it finish without switching tabs"
+      ]
+    },
+    {
+      "type": "callout",
+      "title": "Don't paste a big dump into a TablePlus query tab",
+      "text": "Pasting hundreds of MB into the editor will hang the app. Always use File → Import → From SQL Dump so it reads from disk."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Sequel Ace"
+    },
+    {
+      "type": "list",
+      "style": "ordered",
+      "items": [
+        "Select the target database in the sidebar",
+        "File → Import…",
+        "Pick the .sql file and confirm the encoding is UTF-8 (utf8mb4)",
+        "Sequel Ace reads the file directly — leave it running until complete"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Sequel Ace is the maintained successor to Sequel Pro; if you're still on Sequel Pro, the import dialog is the same but it struggles more with very large files and newer MySQL auth."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When the GUI still gives up"
+    },
+    {
+      "type": "paragraph",
+      "text": "For multi-GB dumps, drop to the command line — it's faster and won't run out of app memory:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u root -p your_database < ~/dump.sql"
+    },
+    {
+      "type": "cta",
+      "title": "Or split it for the GUI",
+      "text": "Break the dump into smaller files each GUI can import comfortably, in order.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I import a large SQL file in TablePlus?",
+      "answer": "Use File → Import → From SQL Dump and select the .sql file from disk. Don't paste a large dump into a query tab — that loads it into memory and hangs the app. The import dialog streams the file instead."
+    },
+    {
+      "question": "Why does Sequel Ace freeze on a big import?",
+      "answer": "Pasting the SQL into a query window loads it all into memory. Use File → Import and point it at the file so it reads from disk. For multi-GB dumps, the mysql command line is more reliable."
+    },
+    {
+      "question": "Is Sequel Ace better than Sequel Pro for large imports?",
+      "answer": "Yes. Sequel Ace is the actively maintained successor and handles modern MySQL authentication and larger files better than the now-unmaintained Sequel Pro."
+    }
+  ]
+}

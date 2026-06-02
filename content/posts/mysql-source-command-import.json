@@ -1,0 +1,105 @@
+{
+  "slug": "mysql-source-command-import",
+  "title": "Using the MySQL SOURCE Command to Import a SQL File",
+  "description": "SOURCE vs the < redirect — when to use each, why SOURCE sometimes fails on big files, and how to see errors instead of silent stops.",
+  "date": "2026-05-20",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Tutorial",
+  "tags": ["MySQL", "CLI", "import", "SOURCE"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "SOURCE runs a SQL file from inside the MySQL prompt. It's handy when you're already connected, but it behaves differently from the shell redirect — and that difference bites people on large imports."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The basic SOURCE syntax"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "text": "-- from inside the mysql> prompt\nUSE your_database;\nSOURCE /full/path/to/dump.sql;"
+    },
+    {
+      "type": "callout",
+      "title": "Use an absolute path, no quotes",
+      "text": "SOURCE doesn't understand ~ for your home directory and doesn't want quotes around the path. /Users/you/dump.sql works; \"~/dump.sql\" does not."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "SOURCE vs the < redirect"
+    },
+    {
+      "type": "table",
+      "headers": ["", "SOURCE", "mysql < dump.sql"],
+      "rows": [
+        ["Where you run it", "Inside mysql prompt", "From the shell"],
+        ["Good for", "Interactive, already connected", "Scripts, automation"],
+        ["Memory on huge files", "Can struggle", "Streams efficiently"],
+        ["Stops on error?", "Depends on flags", "Depends on flags"]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "For very large dumps, the shell redirect is usually the safer choice — it streams the file rather than loading it through the interactive client:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u user -p your_database < /path/to/dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why SOURCE 'finishes' but nothing imported"
+    },
+    {
+      "type": "paragraph",
+      "text": "If SOURCE returns to the prompt instantly with no error and no data, the path is wrong — MySQL couldn't open the file. Double-check the absolute path and that the file is readable by the user running mysql."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "See errors instead of silent stops"
+    },
+    {
+      "type": "paragraph",
+      "text": "By default a single bad statement aborts the import. To push through recoverable errors (useful for messy dumps), start mysql with --force:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysql -u user -p --force your_database < dump.sql 2> import_errors.log"
+    },
+    {
+      "type": "paragraph",
+      "text": "Redirecting STDERR to a log file gives you a list of exactly which statements failed, instead of guessing."
+    },
+    {
+      "type": "cta",
+      "title": "Big dump dying mid-SOURCE?",
+      "text": "Split it into smaller files and SOURCE them in order — each one is independently importable.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "What's the difference between SOURCE and mysql < file.sql?",
+      "answer": "SOURCE runs from inside the mysql prompt; the < redirect runs from your shell. For very large files the shell redirect streams more efficiently, while SOURCE is convenient when you're already connected interactively."
+    },
+    {
+      "question": "Why does MySQL SOURCE say 'No such file or directory'?",
+      "answer": "SOURCE needs an absolute path with no quotes and no ~ shortcut. Use the full path like /Users/you/dump.sql and make sure the file is readable by the OS user running the mysql client."
+    },
+    {
+      "question": "How do I make MySQL continue importing after an error?",
+      "answer": "Start the client with --force so it skips failed statements instead of aborting. Redirect STDERR to a log file (2> errors.log) to capture exactly which statements failed."
+    }
+  ]
+}

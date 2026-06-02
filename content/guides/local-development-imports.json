@@ -1,0 +1,16 @@
+{
+  "slug": "local-development-imports",
+  "title": "Importing Databases Into Local Dev Environments (XAMPP, MAMP, Local)",
+  "description": "Get a big production database running on your laptop without fighting bundled PHP limits.",
+  "bullets": [
+    "Each stack ships its own PHP and php.ini — edit the right one",
+    "The bundled mysql CLI beats phpMyAdmin for large dumps",
+    "Match charset to utf8mb4 to avoid garbled characters",
+    "Split the dump when you can't or won't touch config files"
+  ],
+  "related": [
+    "import-sql-file-xampp",
+    "import-sql-file-mamp",
+    "docker-mysql-import-large-dump"
+  ]
+}

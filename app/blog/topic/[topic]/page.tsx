@@ -17,6 +17,7 @@ export function generateMetadata({ params }: { params: { topic: string } }): Met
   return {
     title: `${config.title} Guides — SQLSplit`,
     description: config.description,
+    alternates: { canonical: `/blog/topic/${params.topic}` },
   }
 }
 

@@ -1,0 +1,20 @@
+{
+  "slug": "kinsta",
+  "title": "Kinsta SQL Import Guide",
+  "description": "Kinsta is managed WordPress hosting with SSH and WP-CLI, the fastest path for large database imports.",
+  "limits": [
+    "No traditional cPanel phpMyAdmin workflow",
+    "Browser-based DB tools cap large uploads",
+    "Imports should respect the staging/live separation"
+  ],
+  "bestFixes": [
+    "Use SSH with WP-CLI: wp db import",
+    "Import into staging first, then push live",
+    "Split large dumps so failed imports are recoverable"
+  ],
+  "related": [
+    "wp-cli-import-large-db",
+    "wordpress-database-too-large",
+    "mysql-cli-import-large"
+  ]
+}

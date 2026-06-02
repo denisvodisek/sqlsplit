@@ -1,0 +1,102 @@
+{
+  "slug": "import-sql-google-cloud-sql",
+  "title": "Importing a Large SQL File Into Google Cloud SQL",
+  "description": "Cloud SQL imports from a bucket, not your laptop. The gsutil + gcloud workflow, the permissions gotcha, and how to handle multi-GB dumps.",
+  "date": "2026-05-02",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["Google Cloud SQL", "GCP", "MySQL", "import", "cloud"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Cloud SQL doesn't import from your local disk — it imports from a Google Cloud Storage bucket. Once you know the flow it's reliable even for big dumps, but the service-account permission step trips almost everyone up the first time."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Step 1: Upload the dump to a bucket"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "gsutil cp dump.sql.gz gs://your-bucket/dump.sql.gz"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cloud SQL imports gzipped SQL directly, so keep it compressed — uploads are faster and the import handles .gz natively."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Step 2: Grant the Cloud SQL service account read access"
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the step people miss. Each Cloud SQL instance has its own service account that must be allowed to read the bucket object:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "# Find the instance's service account\nSA=$(gcloud sql instances describe my-instance \\\n  --format='value(serviceAccountEmailAddress)')\n\n# Grant it object read on the bucket\ngsutil iam ch serviceAccount:$SA:objectViewer gs://your-bucket"
+    },
+    {
+      "type": "callout",
+      "title": "Error: the service account does not have access",
+      "text": "If the import fails immediately with a permissions error, this grant is missing or hasn't propagated. Re-run the gsutil iam ch command and wait a minute."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Step 3: Run the import"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "gcloud sql import sql my-instance \\\n  gs://your-bucket/dump.sql.gz \\\n  --database=your_database"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Handling multi-GB dumps"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Cloud SQL runs one import at a time per instance — large imports block other operations, so plan a window",
+        "An import can't be cancelled cleanly once running; a failed huge import means restoring or starting fresh",
+        "Temporarily scale the instance up (more vCPU/RAM) for the import, then scale back down",
+        "Split the dump so a failure costs you one chunk, not the whole multi-hour run"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "De-risk a big Cloud SQL import",
+      "text": "Split the dump into per-table or size-bounded chunks you can import and verify one at a time.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    },
+    {
+      "type": "callout",
+      "title": "Strip DEFINER clauses first",
+      "text": "Cloud SQL doesn't grant SUPER privilege, so dumps containing DEFINER=`user`@`host` on views/triggers will fail. Remove them before uploading."
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I import a SQL file into Google Cloud SQL?",
+      "answer": "Upload the dump to a Cloud Storage bucket with gsutil, grant the instance's service account objectViewer on that bucket, then run gcloud sql import sql INSTANCE gs://bucket/dump.sql.gz --database=DB. Cloud SQL imports from buckets, not local disk."
+    },
+    {
+      "question": "Why does my Cloud SQL import fail with a permissions error?",
+      "answer": "The Cloud SQL instance's service account needs read access to the bucket object. Get the account with gcloud sql instances describe and grant it with gsutil iam ch serviceAccount:SA:objectViewer gs://bucket."
+    },
+    {
+      "question": "Does Cloud SQL accept gzipped SQL dumps?",
+      "answer": "Yes. Cloud SQL imports .sql.gz files directly, so keep your dump compressed for faster uploads. It also accepts plain .sql. Strip any DEFINER clauses first since Cloud SQL has no SUPER privilege."
+    }
+  ]
+}

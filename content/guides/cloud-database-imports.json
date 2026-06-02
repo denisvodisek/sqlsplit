@@ -1,0 +1,16 @@
+{
+  "slug": "cloud-database-imports",
+  "title": "Importing Into Cloud & Managed Databases",
+  "description": "Cloud SQL, RDS, and DigitalOcean managed databases each have their own import quirks — SSL, buckets, and no SUPER privilege.",
+  "bullets": [
+    "Managed databases rarely grant SUPER — strip DEFINER clauses first",
+    "Some platforms import from a bucket, not your local disk",
+    "SSL is often mandatory; pass the CA certificate",
+    "Run the import close to the database to avoid timeouts"
+  ],
+  "related": [
+    "import-sql-google-cloud-sql",
+    "import-sql-digitalocean-managed-database",
+    "aws-rds-import-large-dump"
+  ]
+}

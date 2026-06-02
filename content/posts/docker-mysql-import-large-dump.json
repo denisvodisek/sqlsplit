@@ -1,0 +1,109 @@
+{
+  "slug": "docker-mysql-import-large-dump",
+  "title": "Import a Large SQL Dump Into a Docker MySQL Container",
+  "description": "Three ways to load a big .sql file into a MySQL or MariaDB container — including the entrypoint trick that imports automatically on first run.",
+  "date": "2026-05-24",
+  "readTime": "5 min read",
+  "author": "SQLSplit",
+  "category": "Hosting",
+  "tags": ["Docker", "MySQL", "MariaDB", "import", "DevOps"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Loading a database into a containerised MySQL trips people up because the file lives on the host and MySQL lives in the container. Here are the three reliable patterns."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 1: Pipe the file into the container"
+    },
+    {
+      "type": "paragraph",
+      "text": "The cleanest one-liner. Stream the dump from the host straight into mysql inside the container — no copying required:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "docker exec -i my_mysql sh -c \\\n  'exec mysql -uroot -p\"$MYSQL_ROOT_PASSWORD\" your_database' < dump.sql"
+    },
+    {
+      "type": "paragraph",
+      "text": "The -i flag keeps STDIN open so the redirect works. Using the container's own $MYSQL_ROOT_PASSWORD env var avoids leaking the password into your shell history."
+    },
+    {
+      "type": "callout",
+      "title": "For a .sql.gz dump, decompress on the fly",
+      "text": "gunzip < dump.sql.gz | docker exec -i my_mysql mysql -uroot -psecret your_database — no need to unzip to disk first."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 2: Auto-import on first container start"
+    },
+    {
+      "type": "paragraph",
+      "text": "The official mysql and mariadb images run any .sql, .sql.gz, or .sh file in /docker-entrypoint-initdb.d/ the first time the data directory is empty. Perfect for seeding a dev database:"
+    },
+    {
+      "type": "code",
+      "language": "yaml",
+      "text": "services:\n  db:\n    image: mysql:8.0\n    environment:\n      MYSQL_ROOT_PASSWORD: secret\n      MYSQL_DATABASE: your_database\n    volumes:\n      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql:ro\n      - db_data:/var/lib/mysql\nvolumes:\n  db_data:"
+    },
+    {
+      "type": "callout",
+      "title": "It only runs once",
+      "text": "The init scripts execute only when /var/lib/mysql is empty. If you already have a named volume with data, the dump is ignored. Run `docker compose down -v` to wipe the volume and re-seed."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Method 3: Copy in, then source"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you'd rather have the file inside the container (handy for re-running):"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "docker cp dump.sql my_mysql:/tmp/dump.sql\ndocker exec -it my_mysql mysql -uroot -psecret \\\n  -e \"USE your_database; SOURCE /tmp/dump.sql;\""
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "When the import is huge"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Bump the container's packet limit: add --max_allowed_packet=1G to the command, or set it in a my.cnf mounted into /etc/mysql/conf.d/",
+        "Give Docker Desktop enough memory (Settings → Resources) or InnoDB will crawl",
+        "For multi-GB dumps, split the file so a failed import doesn't mean starting over"
+      ]
+    },
+    {
+      "type": "cta",
+      "title": "Split before you seed",
+      "text": "Smaller chunks import faster into a container and make failures recoverable.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "How do I import a SQL file into a running MySQL Docker container?",
+      "answer": "Pipe it in with docker exec -i: `docker exec -i container_name mysql -uroot -psecret dbname < dump.sql`. The -i flag keeps STDIN open so the file redirect reaches mysql inside the container."
+    },
+    {
+      "question": "Why is my docker-entrypoint-initdb.d script not running?",
+      "answer": "Those scripts only run when MySQL's data directory is empty — i.e. on a fresh volume. If the named volume already has data, the init scripts are skipped. Recreate the container with `docker compose down -v` to reset the volume."
+    },
+    {
+      "question": "How do I import a gzipped dump into Docker MySQL?",
+      "answer": "Decompress on the fly and pipe it in: `gunzip < dump.sql.gz | docker exec -i container mysql -uroot -psecret dbname`. No need to extract the file to disk first."
+    }
+  ]
+}

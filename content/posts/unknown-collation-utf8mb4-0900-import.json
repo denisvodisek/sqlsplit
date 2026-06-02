@@ -1,0 +1,95 @@
+{
+  "slug": "unknown-collation-utf8mb4-0900-import",
+  "title": "Fix 'Unknown collation utf8mb4_0900_ai_ci' When Importing",
+  "description": "A MySQL 8 dump won't import into MariaDB or MySQL 5.7 because of the utf8mb4_0900_ai_ci collation. Here's the find-and-replace that fixes it.",
+  "date": "2026-05-14",
+  "readTime": "4 min read",
+  "author": "SQLSplit",
+  "category": "Errors",
+  "tags": ["MySQL 8", "MariaDB", "collation", "utf8mb4", "import"],
+  "featured": false,
+  "content": [
+    {
+      "type": "paragraph",
+      "variant": "lead",
+      "text": "Error 1273: 'Unknown collation: utf8mb4_0900_ai_ci'. You exported from MySQL 8 and you're importing into MariaDB or MySQL 5.7. That collation is MySQL-8-only — older servers have never heard of it."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What's going on"
+    },
+    {
+      "type": "paragraph",
+      "text": "MySQL 8 made utf8mb4_0900_ai_ci the default collation (the 0900 refers to Unicode 9.0). MariaDB and MySQL 5.7 use utf8mb4_unicode_ci or utf8mb4_general_ci instead. The dump is fine — the target just doesn't recognise the name."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The fix: rewrite the collation in the dump"
+    },
+    {
+      "type": "paragraph",
+      "text": "Replace every MySQL-8 collation reference with one the target understands. Two replacements cover almost every dump:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "sed -i \\\n  -e 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g' \\\n  -e 's/CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci/CHARSET=utf8mb4/g' \\\n  dump.sql"
+    },
+    {
+      "type": "callout",
+      "title": "On macOS, sed needs an extension after -i",
+      "text": "BSD sed (macOS default) wants sed -i '' -e '...'. Or install GNU sed with `brew install gnu-sed` and use gsed."
+    },
+    {
+      "type": "paragraph",
+      "text": "You may also hit other 0900 variants — handle them all in one pass:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "sed -i 's/utf8mb4_0900_[a-z_]*/utf8mb4_unicode_ci/g' dump.sql"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Better: export with compatibility in mind"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you still have the source MySQL 8 server, set the connection collation at dump time so it never writes 0900:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "text": "mysqldump --default-character-set=utf8mb4 \\\n  --set-charset database_name > dump.sql\n# then sed any remaining 0900 references as above"
+    },
+    {
+      "type": "callout",
+      "title": "Watch the related 1071 error",
+      "text": "After fixing the collation you may hit 'Specified key was too long' on older MyISAM tables. Converting the schema to InnoDB with ROW_FORMAT=DYNAMIC usually clears it."
+    },
+    {
+      "type": "cta",
+      "title": "Editing a multi-GB dump?",
+      "text": "Split it first so your find-and-replace runs on manageable chunks instead of one giant file.",
+      "buttonText": "Open SQLSplit",
+      "buttonLink": "/"
+    }
+  ],
+  "faq": [
+    {
+      "question": "What causes 'Unknown collation utf8mb4_0900_ai_ci'?",
+      "answer": "You're importing a MySQL 8 dump into MariaDB or MySQL 5.7. utf8mb4_0900_ai_ci is a MySQL-8-only collation. Replace it with utf8mb4_unicode_ci throughout the dump before importing."
+    },
+    {
+      "question": "How do I convert utf8mb4_0900_ai_ci to a MariaDB-compatible collation?",
+      "answer": "Run a find-and-replace: sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g' dump.sql. Handle any other utf8mb4_0900_* variants the same way."
+    },
+    {
+      "question": "Will changing the collation break my data?",
+      "answer": "No. The character set (utf8mb4) stays the same, so your text is preserved. Only the sorting/comparison rules change slightly, which is harmless for almost every application."
+    }
+  ]
+}

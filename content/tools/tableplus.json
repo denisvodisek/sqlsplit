@@ -1,0 +1,19 @@
+{
+  "slug": "tableplus",
+  "title": "TablePlus Import Guide",
+  "description": "TablePlus is a fast native GUI for Mac and Windows. Import from a dump file rather than pasting into a query tab.",
+  "bestFor": [
+    "Fast everyday queries and editing",
+    "Clean native UI on macOS and Windows",
+    "Importing via File → Import → From SQL Dump"
+  ],
+  "limits": [
+    "Pasting a big dump into a query tab hangs the app",
+    "Very large dumps are still faster via the CLI"
+  ],
+  "related": [
+    "tableplus-sequel-ace-import-large",
+    "mysql-cli-import-large",
+    "split-sql-file-mac"
+  ]
+}
